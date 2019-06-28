@@ -1,6 +1,4 @@
 /* typal types/session.xml externs */
-/** @const */
-var _idio = {}
 /**
  * @interface
  */
@@ -32,6 +30,8 @@ _idio.KoaSession.prototype.save
 _idio.KoaSession.prototype.manuallyCommit
 
 /* typal types/index.xml externs */
+/** @const */
+var _idio = {}
 /**
  * @interface
  */
@@ -67,6 +67,91 @@ _idio.ContextStore.prototype.set
 _idio.ContextStore.prototype.destroy
 /**
  * Configuration passed to `koa-session`.
- * @typedef {{ key: (string|undefined), maxAge: ((string|number)|undefined), overwrite: (boolean|undefined), httpOnly: (boolean|undefined), signed: (boolean|undefined), autoCommit: (boolean|undefined), valid: function(_goa.Context, ?): boolean, beforeSave: function(_goa.Context, _idio.KoaSession): boolean, genid: ((function(): string)|undefined), store: (({ get: !Function, set: !Function, destroy: !Function })|undefined), externalKey: (({ get: !Function, set: !Function })|undefined), ContextStore: (_idio.ContextStore|undefined), prefix: (string|undefined), encode: ((!Function)|undefined), decode: ((!Function)|undefined), rolling: (boolean|undefined), renew: (boolean|undefined) }}
+ * @record
  */
 _idio.KoaSessionConfig
+/**
+ * Cookie key. Default `koa:sess`.
+ * @type {string|undefined}
+ */
+_idio.KoaSessionConfig.prototype.key
+/**
+ * `maxAge` in ms with default of 1 day. Either a number or 'session'. `session` will result in a cookie that expires when session/browser is closed. Warning: If a session cookie is stolen, this cookie will never expire. Default `86400000`.
+ * @type {(string|number)|undefined}
+ */
+_idio.KoaSessionConfig.prototype.maxAge
+/**
+ * Can overwrite or not. Default `true`.
+ * @type {boolean|undefined}
+ */
+_idio.KoaSessionConfig.prototype.overwrite
+/**
+ * httpOnly or not. Default `true`.
+ * @type {boolean|undefined}
+ */
+_idio.KoaSessionConfig.prototype.httpOnly
+/**
+ * Signed or not. Default `true`.
+ * @type {boolean|undefined}
+ */
+_idio.KoaSessionConfig.prototype.signed
+/**
+ * Automatically commit headers. Default `true`.
+ * @type {boolean|undefined}
+ */
+_idio.KoaSessionConfig.prototype.autoCommit
+/**
+ * The validation hook: valid session value before use it.
+ * @type {(function(!_goa.Context, ?): boolean)|undefined}
+ */
+_idio.KoaSessionConfig.prototype.valid
+/**
+ * The hook before save session.
+ * @type {(function(!_goa.Context, !_idio.KoaSession): boolean)|undefined}
+ */
+_idio.KoaSessionConfig.prototype.beforeSave
+/**
+ * The way of generating external session id. Default `uuid-v4`.
+ * @type {(function(!_goa.Context): string)|undefined}
+ */
+_idio.KoaSessionConfig.prototype.genid
+/**
+ * You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
+ * @type {({ get: !Function, set: !Function, destroy: !Function })|undefined}
+ */
+_idio.KoaSessionConfig.prototype.store
+/**
+ * External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.
+ * @type {({ get: !Function, set: !Function })|undefined}
+ */
+_idio.KoaSessionConfig.prototype.externalKey
+/**
+ * If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
+ * @type {(function(new: _idio.ContextStore, !_goa.Context))|undefined}
+ */
+_idio.KoaSessionConfig.prototype.ContextStore
+/**
+ * If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.
+ * @type {string|undefined}
+ */
+_idio.KoaSessionConfig.prototype.prefix
+/**
+ * Use options.encode and options.decode to customize your own encode/decode methods.
+ * @type {(!Function)|undefined}
+ */
+_idio.KoaSessionConfig.prototype.encode
+/**
+ * Use options.encode and options.decode to customize your own encode/decode methods.
+ * @type {(!Function)|undefined}
+ */
+_idio.KoaSessionConfig.prototype.decode
+/**
+ * Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown.
+ * @type {boolean|undefined}
+ */
+_idio.KoaSessionConfig.prototype.rolling
+/**
+ * Renew session when session is nearly expired, so we can always keep user logged in.
+ * @type {boolean|undefined}
+ */
+_idio.KoaSessionConfig.prototype.renew

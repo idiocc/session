@@ -8,7 +8,7 @@ export default class Session {
    * @param {_idio.KoaContextSession} sessionContext
    * @param {_goa.Context} sessionContext.ctx The context.
    * @param {function(): !Promise} sessionContext.commit Commit the session changes or removal.
-   * @param {Object} obj
+   * @param {Object} [obj]
    */
   constructor(sessionContext, obj) {
     this._sessCtx = sessionContext

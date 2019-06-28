@@ -5,24 +5,36 @@ const assert = require('assert');
 const tty = require('tty');
 const util = require('util');
 const _crypto = require('crypto');'use strict';
-var h = tty;
-const {format:k, inspect:m} = util;
+const {randomBytes:h} = _crypto;
+/*
+ keygrip
+ Copyright(c) 2011-2014 Jed Schmidt
+ MIT Licensed
+*/
+/*
+ cookies
+ Copyright(c) 2014 Jed Schmidt, http://jed.is/
+ Copyright(c) 2015-2016 Douglas Christopher Wilson
+ MIT Licensed
+*/
+var k = tty;
+const {format:m, inspect:n} = util;
 /*
 
  Copyright (c) 2016 Zeit, Inc.
  https://npmjs.org/ms
 */
-function n(a) {
+function p(a) {
   var b = {}, c = typeof a;
   if ("string" == c && 0 < a.length) {
-    return p(a);
+    return t(a);
   }
   if ("number" == c && isFinite(a)) {
-    return b.m ? (b = Math.abs(a), a = 864E5 <= b ? t(a, b, 864E5, "day") : 36E5 <= b ? t(a, b, 36E5, "hour") : 6E4 <= b ? t(a, b, 6E4, "minute") : 1000 <= b ? t(a, b, 1000, "second") : a + " ms") : (b = Math.abs(a), a = 864E5 <= b ? Math.round(a / 864E5) + "d" : 36E5 <= b ? Math.round(a / 36E5) + "h" : 6E4 <= b ? Math.round(a / 6E4) + "m" : 1000 <= b ? Math.round(a / 1000) + "s" : a + "ms"), a;
+    return b.m ? (b = Math.abs(a), a = 864E5 <= b ? u(a, b, 864E5, "day") : 36E5 <= b ? u(a, b, 36E5, "hour") : 6E4 <= b ? u(a, b, 6E4, "minute") : 1000 <= b ? u(a, b, 1000, "second") : a + " ms") : (b = Math.abs(a), a = 864E5 <= b ? Math.round(a / 864E5) + "d" : 36E5 <= b ? Math.round(a / 36E5) + "h" : 6E4 <= b ? Math.round(a / 6E4) + "m" : 1000 <= b ? Math.round(a / 1000) + "s" : a + "ms"), a;
   }
   throw Error("val is not a non-empty string or a valid number. val=" + JSON.stringify(a));
 }
-function p(a) {
+function t(a) {
   a = String(a);
   if (!(100 < a.length) && (a = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(a))) {
     var b = parseFloat(a[1]);
@@ -68,49 +80,49 @@ function p(a) {
     }
   }
 }
-function t(a, b, c, d) {
+function u(a, b, c, d) {
   return Math.round(a / c) + " " + d + (b >= 1.5 * c ? "s" : "");
 }
-;const u = Object.keys(process.env).filter(a => /^debug_/i.test(a)).reduce((a, b) => {
+;const w = Object.keys(process.env).filter(a => /^debug_/i.test(a)).reduce((a, b) => {
   const c = b.substring(6).toLowerCase().replace(/_([a-z])/g, (d, e) => e.toUpperCase());
   b = process.env[b];
   /^(yes|on|true|enabled)$/i.test(b) ? b = !0 : /^(no|off|false|disabled)$/i.test(b) ? b = !1 : "null" === b ? b = null : b = Number(b);
   a[c] = b;
   return a;
-}, {}), w = {init:function(a) {
-  a.inspectOpts = Object.assign({}, u);
+}, {}), x = {init:function(a) {
+  a.inspectOpts = Object.assign({}, w);
 }, log:function(...a) {
-  return process.stderr.write(k(...a) + "\n");
+  return process.stderr.write(m(...a) + "\n");
 }, formatArgs:function(a) {
   const {namespace:b, useColors:c, color:d, diff:e} = this;
   if (c) {
     const g = "\u001b[3" + (8 > d ? d : "8;5;" + d), f = `  ${g};1m${b} \u001B[0m`;
     a[0] = f + a[0].split("\n").join("\n" + f);
-    a.push(g + "m+" + n(e) + "\u001b[0m");
+    a.push(g + "m+" + p(e) + "\u001b[0m");
   } else {
-    a[0] = (u.hideDate ? "" : (new Date).toISOString() + " ") + b + " " + a[0];
+    a[0] = (w.hideDate ? "" : (new Date).toISOString() + " ") + b + " " + a[0];
   }
 }, save:function(a) {
   a ? process.env.DEBUG = a : delete process.env.DEBUG;
 }, load:function() {
   return process.env.DEBUG;
 }, useColors:function() {
-  return "colors" in u ? !!u.colors : h.isatty(process.stderr.fd);
-}, colors:[6, 2, 3, 4, 5, 1], inspectOpts:u, formatters:{o:function(a) {
+  return "colors" in w ? !!w.colors : k.isatty(process.stderr.fd);
+}, colors:[6, 2, 3, 4, 5, 1], inspectOpts:w, formatters:{o:function(a) {
   const b = Object.assign({}, this.inspectOpts, {colors:this.useColors});
-  return m(a, b).replace(/\s*\n\s*/g, " ");
+  return n(a, b).replace(/\s*\n\s*/g, " ");
 }, O:function(a) {
   const b = Object.assign({}, this.inspectOpts, {colors:this.useColors});
-  return m(a, b);
+  return n(a, b);
 }}};
-function x(a) {
+function y(a) {
   function b(...f) {
     if (b.enabled) {
       var l = Number(new Date);
       b.diff = l - (g || l);
       b.prev = g;
       g = b.curr = l;
-      f[0] = y(f[0]);
+      f[0] = z(f[0]);
       "string" != typeof f[0] && f.unshift("%O");
       var q = 0;
       f[0] = f[0].replace(/%([a-zA-Z%])/g, (r, v) => {
@@ -131,21 +143,21 @@ function x(a) {
   let g;
   return b;
 }
-function z(a) {
-  const b = x(a);
+function A(a) {
+  const b = y(a);
   "function" == typeof a.init && a.init(b);
   a.b.push(b);
   return b;
 }
-function A(a, b) {
+function B(a, b) {
   let c = 0;
   for (let d = 0; d < b.length; d++) {
     c = (c << 5) - c + b.charCodeAt(d), c |= 0;
   }
   return a.colors[Math.abs(c) % a.colors.length];
 }
-function B(a) {
-  var b = w.load();
+function C(a) {
+  var b = x.load();
   a.save(b);
   a.c = [];
   a.g = [];
@@ -158,7 +170,7 @@ function B(a) {
     b = a.b[c], b.enabled = a.enabled(b.namespace);
   }
 }
-class C {
+class D {
   constructor(a) {
     this.colors = a.colors;
     this.formatArgs = a.formatArgs;
@@ -195,14 +207,14 @@ class C {
     return !1;
   }
 }
-function D() {
-  const a = new C(w);
+function E() {
+  const a = new D(x);
   return function(b) {
-    const c = z(a);
+    const c = A(a);
     c.namespace = b;
-    c.useColors = w.useColors();
+    c.useColors = x.useColors();
     c.enabled = a.enabled(b);
-    c.color = A(a, b);
+    c.color = B(a, b);
     c.destroy = function() {
       a.destroy(this);
     };
@@ -211,17 +223,16 @@ function D() {
       d.log = this.log;
       return d;
     };
-    B(a);
+    C(a);
     return c;
   };
 }
-function y(a) {
+function z(a) {
   return a instanceof Error ? a.stack || a.message : a;
 }
-;var E = assert;
-const {randomBytes:F} = _crypto;
+;var F = assert;
 function G() {
-  return F(16);
+  return h(16);
 }
 ;for (var H = [], I = 0; 256 > I; ++I) {
   H[I] = (I + 256).toString(16).substr(1);
@@ -315,7 +326,7 @@ function O(a) {
   a = JSON.stringify(a);
   return Buffer.from(a).toString("base64");
 }
-;const P = D()("koa-session:context");
+;const P = E()("koa-session:context");
 async function Q(a) {
   P("init from external");
   const {ctx:b, a:c} = a;
@@ -342,7 +353,7 @@ class S {
     this.app = a.app;
     this.a = b;
     this.store = this.a.ContextStore ? new this.a.ContextStore(a) : this.a.store;
-    this.externalKey = this.b = void 0;
+    this.c = this.externalKey = this.b = void 0;
   }
   get() {
     const {b:a, store:b} = this;
@@ -437,7 +448,7 @@ class S {
 
  MIT https://github.com/miguelmota/is-class
 */
-const T = D()("koa-session");
+const T = E()("koa-session");
 function U(a = {}) {
   a.key = a.key || "koa:sess";
   null == a.overwrite && (a.overwrite = !0);
@@ -448,12 +459,12 @@ function U(a = {}) {
   "function" != typeof a.encode && (a.encode = O);
   "function" != typeof a.decode && (a.decode = N);
   var b = a.store;
-  b && (E("function" == typeof b.get, "store.get must be function"), E("function" == typeof b.set, "store.set must be function"), E("function" == typeof b.destroy, "store.destroy must be function"));
+  b && (F("function" == typeof b.get, "store.get must be function"), F("function" == typeof b.set, "store.set must be function"), F("function" == typeof b.destroy, "store.destroy must be function"));
   if (b = a.externalKey) {
-    E("function" == typeof b.get, "externalKey.get must be function"), E("function" == typeof b.set, "externalKey.set must be function");
+    F("function" == typeof b.get, "externalKey.get must be function"), F("function" == typeof b.set, "externalKey.set must be function");
   }
   if (b = a.ContextStore) {
-    E("function" == typeof b && (/^class[\s{]/.test(b.toString()) || /classCallCheck\(/.test(b.toString().replace(/^[^{]*{\s*/, "").replace(/\s*}[^}]*$/, ""))), "ContextStore must be a class"), E("function" == typeof b.prototype.get, "ContextStore.prototype.get must be function"), E("function" == typeof b.prototype.set, "ContextStore.prototype.set must be function"), E("function" == typeof b.prototype.destroy, "ContextStore.prototype.destroy must be function");
+    F("function" == typeof b && (/^class[\s{]/.test(b.toString()) || /classCallCheck\(/.test(b.toString().replace(/^[^{]*{\s*/, "").replace(/\s*}[^}]*$/, ""))), "ContextStore must be a class"), F("function" == typeof b.prototype.get, "ContextStore.prototype.get must be function"), F("function" == typeof b.prototype.set, "ContextStore.prototype.set must be function"), F("function" == typeof b.prototype.destroy, "ContextStore.prototype.destroy must be function");
   }
   a.genid || (a.prefix ? a.genid = () => `${a.prefix}${J()}` : a.genid = J);
   return a;

@@ -32,23 +32,23 @@ export {}
  * @prop {!Function} destroy Destroy session for key.
  */
 /**
- * @typedef {_idio.KoaSessionConfig} KoaSessionConfig Configuration passed to `koa-session`.
+ * @typedef {_idio.KoaSessionConfig} KoaSessionConfig `＠record` Configuration passed to `koa-session`.
  */
 /**
- * @typedef {Object} _idio.KoaSessionConfig Configuration passed to `koa-session`.
+ * @typedef {Object} _idio.KoaSessionConfig `＠record` Configuration passed to `koa-session`.
  * @prop {string} [key="koa:sess"] Cookie key. Default `koa:sess`.
  * @prop {string|number} [maxAge=86400000] `maxAge` in ms with default of 1 day. Either a number or 'session'. `session` will result in a cookie that expires when session/browser is closed. Warning: If a session cookie is stolen, this cookie will never expire. Default `86400000`.
  * @prop {boolean} [overwrite=true] Can overwrite or not. Default `true`.
  * @prop {boolean} [httpOnly=true] httpOnly or not. Default `true`.
  * @prop {boolean} [signed=true] Signed or not. Default `true`.
  * @prop {boolean} [autoCommit=true] Automatically commit headers. Default `true`.
- * @prop {function(_goa.Context, ?): boolean} valid The validation hook: valid session value before use it.
- * @prop {function(_goa.Context, _idio.KoaSession): boolean} beforeSave The hook before save session.
- * @prop {function(): string} [genid="uuid-v4"] The way of generating external session id. Default `uuid-v4`.
+ * @prop {function(!_goa.Context, ?): boolean} [valid] The validation hook: valid session value before use it.
+ * @prop {function(!_goa.Context, !_idio.KoaSession): boolean} [beforeSave] The hook before save session.
+ * @prop {function(!_goa.Context): string} [genid="uuid-v4"] The way of generating external session id. Default `uuid-v4`.
  * @prop {{ get: !Function, set: !Function, destroy: !Function }} [store] You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
  * @prop {{ get: !Function, set: !Function }} [externalKey] External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.
- * @prop {_idio.ContextStore} [ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
- * @prop {string} [prefix] If you want to add prefix for all external session id, it will not work if `options.genid(ctx)` present.
+ * @prop {function(new: _idio.ContextStore, !_goa.Context)} [ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
+ * @prop {string} [prefix] If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.
  * @prop {!Function} [encode] Use options.encode and options.decode to customize your own encode/decode methods.
  * @prop {!Function} [decode] Use options.encode and options.decode to customize your own encode/decode methods.
  * @prop {boolean} [rolling=false] Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. Default `false`.

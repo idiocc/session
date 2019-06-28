@@ -12,36 +12,19 @@ const ONE_DAY = 24 * 60 * 60 * 1000
 export default class ContextSession {
   /**
    * context session constructor
-   * @param {_goa.Context} ctx
-   * @param {_idio.KoaSessionConfig} [opts] Configuration passed to `koa-session`.
-   * @param {string} [opts.key="koa:sess"] Cookie key. Default `koa:sess`.
-   * @param {string|number} [opts.maxAge=86400000] `maxAge` in ms with default of 1 day. Either a number or 'session'. `session` will result in a cookie that expires when session/browser is closed. Warning: If a session cookie is stolen, this cookie will never expire. Default `86400000`.
-   * @param {boolean} [opts.overwrite=true] Can overwrite or not. Default `true`.
-   * @param {boolean} [opts.httpOnly=true] httpOnly or not. Default `true`.
-   * @param {boolean} [opts.signed=true] Signed or not. Default `true`.
-   * @param {boolean} [opts.autoCommit=true] Automatically commit headers. Default `true`.
-   * @param {function(_goa.Context, ?): boolean} opts.valid The validation hook: valid session value before use it.
-   * @param {function(_goa.Context, _idio.KoaSession): boolean} opts.beforeSave The hook before save session.
-   * @param {function(): string} [opts.genid="uuid-v4"] The way of generating external session id. Default `uuid-v4`.
-   * @param {{ get: !Function, set: !Function, destroy: !Function }} [opts.store] You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
-   * @param {{ get: !Function, set: !Function }} [opts.externalKey] External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.
-   * @param {_idio.ContextStore} [opts.ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
-   * @param {string} [opts.prefix] If you want to add prefix for all external session id, it will not work if `options.genid(ctx)` present.
-   * @param {!Function} [opts.encode] Use options.encode and options.decode to customize your own encode/decode methods.
-   * @param {!Function} [opts.decode] Use options.encode and options.decode to customize your own encode/decode methods.
-   * @param {boolean} [opts.rolling=false] Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. Default `false`.
-   * @param {boolean} [opts.renew=false] Renew session when session is nearly expired, so we can always keep user logged in. Default `false`.
+   * @param {!_goa.Context} ctx
+   * @param {!_idio.KoaSessionConfig} [opts] Configuration passed to `koa-session`.
    */
   constructor(ctx, opts = {}) {
     this.ctx = ctx
     this.app = ctx.app
     this.opts = opts
     this.store = this.opts.ContextStore ? new this.opts.ContextStore(ctx) : this.opts.store
-    /** @type {Session|undefined} */
+    /** @type {!Session|undefined} */
     this.session = undefined
-    /** @type {string} */
+    /** @type {string|undefined} */
     this.externalKey = undefined
-    /** @type {number} */
+    /** @type {number|undefined} */
     this.prevHash = undefined
   }
 
@@ -89,7 +72,7 @@ export default class ContextSession {
       externalKey = opts.externalKey.get(ctx)
       debug('get external key from custom %s', externalKey)
     } else {
-      externalKey = ctx.cookies.get(opts.key, opts)
+      externalKey = ctx.cookies.get(/** @type {string} */ (opts.key), /** @type {{signed:boolean}} */(opts))
       debug('get external key from cookie %s', externalKey)
     }
 
@@ -120,7 +103,7 @@ export default class ContextSession {
     debug('init from cookie')
     const { ctx, opts } = this
 
-    const cookie = ctx.cookies.get(opts.key, opts)
+    const cookie = ctx.cookies.get(/** @type {string} */ (opts.key), /** @type {{signed:boolean}} */ (opts))
     if (!cookie) {
       this.create()
       return
@@ -139,7 +122,7 @@ export default class ContextSession {
       debug('decode %j error: %s', cookie, err)
       if (!(err instanceof SyntaxError)) {
         // clean this cookie to ensure next request won't throw again
-        ctx.cookies.set(opts.key, '', opts)
+        ctx.cookies.set(/** @type {string} */ (opts.key), '', /** @type {_goa.CookieAttributes} */ (opts))
         // ctx.onerror will unset all headers, and set those specified in err
         err.headers = {
           'set-cookie': ctx.response.get('set-cookie'),
@@ -165,7 +148,7 @@ export default class ContextSession {
   /**
    * Verify session(expired or )
    * @param {*} value session object
-   * @param {*} key session externalKey(optional)
+   * @param {*} [key] session externalKey(optional)
    */
   valid(value, key) {
     const { ctx } = this
@@ -277,7 +260,7 @@ export default class ContextSession {
     const { opts: { key }, ctx, externalKey, store } = this
 
     if (externalKey) await store.destroy(externalKey)
-    ctx.cookies.set(key, '', this.opts)
+    ctx.cookies.set(/** @type {string} */ (key), '', /** @type {_goa.CookieAttributes} */ (this.opts))
   }
 
   /**
@@ -315,7 +298,7 @@ export default class ContextSession {
       if (optsExternalKey) {
         optsExternalKey.set(this.ctx, externalKey)
       } else {
-        this.ctx.cookies.set(key, externalKey, this.opts)
+        this.ctx.cookies.set(/** @type {string} */ (key), externalKey, /** @type {_goa.CookieAttributes} */ (this.opts))
       }
       return
     }
@@ -325,7 +308,7 @@ export default class ContextSession {
     json = encode(json)
     debug('save %s', json)
 
-    this.ctx.cookies.set(key, json, this.opts)
+    this.ctx.cookies.set(/** @type {string} */ (key), json, /** @type {_goa.CookieAttributes} */ (this.opts))
   }
 }
 
