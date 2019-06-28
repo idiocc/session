@@ -1,32 +1,48 @@
-import { join } from 'path'
-import { debuglog } from 'util'
-
-const LOG = debuglog('@goa/session')
+import Cookie from '@contexts/http/cookies'
+import Goa from '@goa/koa'
+import session from '../../src'
 
 /**
  * A testing context for the package.
  */
-export default class Context {
-  async _init() {
-    LOG('init context')
-  }
+export default class Context extends Cookie {
   /**
-   * Example method.
+   * @param {KoaSessionConfig} options
    */
-  example() {
-    return 'OK'
+  getApp(options, keys = ['a', 'b']) {
+    const app = new Goa()
+    app.keys = keys
+    app.use(session(app, options))
+    this._app = app
+    return app
   }
-  /**
-   * A tagged template that returns the relative path to the fixture.
-   * @param {string} file
-   * @example
-   * fixture`input.txt` // -> test/fixture/input.txt
-   */
-  fixture(file) {
-    const f = file.raw[0]
-    return join('test/fixture', f)
+  makeApp(keys = ['a', 'b']) {
+    const app = new Goa()
+    app.keys = keys
+    this._app = app
+    return app
   }
-  async _destroy() {
-    LOG('destroy context')
+  startApp(plain = true) {
+    const cb = this._app.callback()
+    if (plain)
+      return this.startPlain(cb)
+    return this.start(cb)
+  }
+  get app() {
+    const app = this.getApp()
+    return app
   }
 }
+
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('../../types').KoaSessionConfig} KoaSessionConfig
+ */
+
+/** @typedef {Object<string, Test & TestSuite4>} TestSuite */
+/** @typedef {Object<string, Test & TestSuite3>} TestSuite4 */
+/** @typedef {Object<string, Test & TestSuite2>} TestSuite3 */
+/** @typedef {Object<string, Test & TestSuite1>} TestSuite2 */
+/** @typedef {Object<string, Test & TestSuite0>} TestSuite1 */
+/** @typedef {Object<string, Test>} TestSuite0 */
+/** @typedef {(c: Context)} Test */

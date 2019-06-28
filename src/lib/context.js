@@ -46,14 +46,14 @@ export default class ContextSession {
    * Internal logic of `ctx.session`
    */
   get() {
-    const session = this.session
+    const { session, store } = this
     // already retrieved
     if (session) return session
     // unset
     if (session === false) return null
 
     // cookie session store
-    if (!this.store) this.initFromCookie()
+    if (!store) this.initFromCookie()
     return this.session
   }
 
@@ -242,7 +242,7 @@ export default class ContextSession {
     const { prevHash, session } = this
 
     // force save session when `session._requireSave` set
-    if (session['_requireSave']) return 'force'
+    if (session._requireSave) return 'force'
 
     // do nothing if new and not populated
     const json = session.toJSON()

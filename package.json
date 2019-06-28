@@ -40,6 +40,8 @@
   },
   "homepage": "https://github.com/idiocc/session#readme",
   "devDependencies": {
+    "@contexts/http": "^1.2.8",
+    "@goa/koa": "^1.1.2",
     "@typedefs/goa": "^0.0.2",
     "alamode": "^2.3.4",
     "documentary": "^1.27.3",
