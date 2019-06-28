@@ -68,7 +68,7 @@ export default class Session {
    * Get session maxAge.
    */
   get maxAge() {
-    return this._ctx['sessionOptions']['maxAge']
+    return this._ctx.sessionOptions.maxAge
   }
 
   /**
@@ -76,7 +76,7 @@ export default class Session {
    * @param {number} val
    */
   set maxAge(val) {
-    this._ctx['sessionOptions']['maxAge'] = val
+    this._ctx.sessionOptions.maxAge = val
     // maxAge changed, must save to cookie and store
     this._requireSave = true
   }

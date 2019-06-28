@@ -9,6 +9,11 @@ export {}
  * @prop {boolean} isNew Returns true if the session is new.
  * @prop {boolean} populated Populated flag, which is just a boolean alias of `.length`.
  * @prop {number} maxAge Get/set cookie's maxAge.
+ * @prop {number} _maxAge Private JSON serialisation.
+ * @prop {number} _expire Private JSON serialisation.
+ * @prop {string} _session Private JSON serialisation.
+ * @prop {_idio.KoaContextSession} _sessCtx Private JSON serialisation.
+ * @prop {_goa.Context} _ctx Private JSON serialisation.
  * @prop {function(): void} save Save this session no matter whether it is populated.
  * @prop {function(): Promise} manuallyCommit Session headers are auto committed by default. Use this if autoCommit is set to false.
  */

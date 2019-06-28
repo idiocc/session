@@ -243,7 +243,7 @@ export default class ContextSession {
 
     // save if opts.renew and session will expired
     if (this.opts.renew) {
-      const expire = session['_expire']
+      const expire = session._expire
       const maxAge = session.maxAge
       // renew when session will expired in maxAge / 2
       if (expire && maxAge && expire - Date.now() < maxAge / 2) return 'renew'

@@ -9,6 +9,21 @@
     <prop type="number" name="maxAge">
       Get/set cookie's maxAge.
     </prop>
+    <prop type="number" name="_maxAge">
+      Private JSON serialisation.
+    </prop>
+    <prop type="number" name="_expire">
+      Private JSON serialisation.
+    </prop>
+    <prop type="string" name="_session">
+      Private JSON serialisation.
+    </prop>
+    <prop type="_idio.KoaContextSession" name="_sessCtx">
+      Private JSON serialisation.
+    </prop>
+    <prop type="_goa.Context" name="_ctx">
+      Private JSON serialisation.
+    </prop>
     <prop type="function(): void" name="save">
       Save this session no matter whether it is populated.
     </prop>

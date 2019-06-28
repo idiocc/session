@@ -1,4 +1,6 @@
 /* typal types/session.xml externs */
+/** @const */
+var _idio = {}
 /**
  * @interface
  */
@@ -19,6 +21,31 @@ _idio.KoaSession.prototype.populated
  */
 _idio.KoaSession.prototype.maxAge
 /**
+ * Private JSON serialisation.
+ * @type {number}
+ */
+_idio.KoaSession.prototype._maxAge
+/**
+ * Private JSON serialisation.
+ * @type {number}
+ */
+_idio.KoaSession.prototype._expire
+/**
+ * Private JSON serialisation.
+ * @type {string}
+ */
+_idio.KoaSession.prototype._session
+/**
+ * Private JSON serialisation.
+ * @type {_idio.KoaContextSession}
+ */
+_idio.KoaSession.prototype._sessCtx
+/**
+ * Private JSON serialisation.
+ * @type {_goa.Context}
+ */
+_idio.KoaSession.prototype._ctx
+/**
  * Save this session no matter whether it is populated.
  * @type {function(): void}
  */
@@ -30,8 +57,6 @@ _idio.KoaSession.prototype.save
 _idio.KoaSession.prototype.manuallyCommit
 
 /* typal types/index.xml externs */
-/** @const */
-var _idio = {}
 /**
  * @interface
  */
@@ -155,3 +180,6 @@ _idio.KoaSessionConfig.prototype.rolling
  * @type {boolean|undefined}
  */
 _idio.KoaSessionConfig.prototype.renew
+
+/** @type {_idio.KoaSessionConfig} */
+_goa.Context.prototype.sessionOptions

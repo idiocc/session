@@ -30,7 +30,7 @@ function p(a) {
     return t(a);
   }
   if ("number" == c && isFinite(a)) {
-    return b.m ? (b = Math.abs(a), a = 864E5 <= b ? u(a, b, 864E5, "day") : 36E5 <= b ? u(a, b, 36E5, "hour") : 6E4 <= b ? u(a, b, 6E4, "minute") : 1000 <= b ? u(a, b, 1000, "second") : a + " ms") : (b = Math.abs(a), a = 864E5 <= b ? Math.round(a / 864E5) + "d" : 36E5 <= b ? Math.round(a / 36E5) + "h" : 6E4 <= b ? Math.round(a / 6E4) + "m" : 1000 <= b ? Math.round(a / 1000) + "s" : a + "ms"), a;
+    return b.h ? (b = Math.abs(a), a = 864E5 <= b ? u(a, b, 864E5, "day") : 36E5 <= b ? u(a, b, 36E5, "hour") : 6E4 <= b ? u(a, b, 6E4, "minute") : 1000 <= b ? u(a, b, 1000, "second") : a + " ms") : (b = Math.abs(a), a = 864E5 <= b ? Math.round(a / 864E5) + "d" : 36E5 <= b ? Math.round(a / 36E5) + "h" : 6E4 <= b ? Math.round(a / 6E4) + "m" : 1000 <= b ? Math.round(a / 1000) + "s" : a + "ms"), a;
   }
   throw Error("val is not a non-empty string or a valid number. val=" + JSON.stringify(a));
 }
@@ -160,11 +160,11 @@ function C(a) {
   var b = x.load();
   a.save(b);
   a.c = [];
-  a.g = [];
+  a.f = [];
   let c;
   const d = ("string" == typeof b ? b : "").split(/[\s,]+/), e = d.length;
   for (c = 0; c < e; c++) {
-    d[c] && (b = d[c].replace(/\*/g, ".*?"), "-" == b[0] ? a.g.push(new RegExp("^" + b.substr(1) + "$")) : a.c.push(new RegExp("^" + b + "$")));
+    d[c] && (b = d[c].replace(/\*/g, ".*?"), "-" == b[0] ? a.f.push(new RegExp("^" + b.substr(1) + "$")) : a.c.push(new RegExp("^" + b + "$")));
   }
   for (c = 0; c < a.b.length; c++) {
     b = a.b[c], b.enabled = a.enabled(b.namespace);
@@ -181,7 +181,7 @@ class D {
     this.formatters = a.formatters || {};
     this.b = [];
     this.c = [];
-    this.g = [];
+    this.f = [];
   }
   destroy(a) {
     a = this.b.indexOf(a);
@@ -193,8 +193,8 @@ class D {
     }
     let b, c;
     b = 0;
-    for (c = this.g.length; b < c; b++) {
-      if (this.g[b].test(a)) {
+    for (c = this.f.length; b < c; b++) {
+      if (this.f[b].test(a)) {
         return !1;
       }
     }
@@ -240,7 +240,7 @@ function G() {
 ;function J(a = {}, b = null, c = 0) {
   c = b && c;
   "string" == typeof a && (b = "binary" == a ? Array(16) : null, a = null);
-  const {random:d, s:e = G} = a;
+  const {random:d, i:e = G} = a;
   a = d || e();
   a[6] = a[6] & 15 | 64;
   a[8] = a[8] & 63 | 128;
@@ -254,11 +254,11 @@ function G() {
 }
 ;class K {
   constructor(a, b) {
-    this.j = a;
-    this.f = a.ctx;
+    this._sessCtx = a;
+    this._ctx = a.ctx;
     if (b) {
       for (const c in b) {
-        "_maxAge" == c ? this.f.b.maxAge = b.l : "_session" == c ? this.f.b.maxAge = "session" : this[c] = b[c];
+        "_maxAge" == c ? this._ctx.sessionOptions.maxAge = b._maxAge : "_session" == c ? this._ctx.sessionOptions.maxAge = "session" : this[c] = b[c];
       }
     } else {
       this.isNew = !0;
@@ -281,17 +281,17 @@ function G() {
     return !!this.length;
   }
   get maxAge() {
-    return this.f.sessionOptions.maxAge;
+    return this._ctx.sessionOptions.maxAge;
   }
   set maxAge(a) {
-    this.f.sessionOptions.maxAge = a;
-    this.h = !0;
+    this._ctx.sessionOptions.maxAge = a;
+    this.g = !0;
   }
   save() {
-    this.h = !0;
+    this.g = !0;
   }
   async manuallyCommit() {
-    await this.j.commit();
+    await this._sessCtx.commit();
   }
 }
 ;/*
@@ -341,7 +341,7 @@ async function Q(a) {
 }
 function R(a) {
   const {c:b, b:c} = a;
-  if (c.h) {
+  if (c.g) {
     return "force";
   }
   var d = c.toJSON();
@@ -404,7 +404,7 @@ class S {
     if (!a) {
       return this.emit("missed", {key:b, value:a, ctx:c}), !1;
     }
-    if (a.i && a.i < Date.now()) {
+    if (a._expire && a._expire < Date.now()) {
       return P("expired session"), this.emit("expired", {key:b, value:a, ctx:c}), !1;
     }
     const d = this.a.valid;
