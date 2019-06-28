@@ -27,8 +27,7 @@ If your session store requires data or utilities from context, `opts.ContextStor
 %TYPEDEF types/index.xml ContextStore%
 
 <details>
-<summary>
-_Show an example context store.
+<summary><em>Show an example context store.</em>
 </summary>
 
 %EXAMPLE: test/context/ContextStore%

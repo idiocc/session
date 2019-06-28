@@ -50,8 +50,8 @@ __<a name="type-_idiokoasessionconfig">`_idio.KoaSessionConfig`</a>__: Configura
 | externalKey  | <em>{ get: function(_goa.Context), set: function(_goa.Context, string) }</em>         | External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.                                                                                               | -          |
 | ContextStore | <em>function(new: [_idio.ContextStore](#type-_idiocontextstore), !_goa.Context)</em>  | If your session store requires data or utilities from context, `opts.ContextStore` is also supported.                                                                                                                     | -          |
 | prefix       | <em>string</em>                                                                       | If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.                                                                                                                  | -          |
-| encode       | <em>function(*): string</em>                                                          | Use options.encode and options.decode to customize your own encode/decode methods.                                                                                                                                        | -          |
-| decode       | <em>function(string): *</em>                                                          | Use options.encode and options.decode to customize your own encode/decode methods.                                                                                                                                        | -          |
+| encode       | <em>function(!Object): string</em>                                                    | Use options.encode and options.decode to customize your own encode/decode methods.                                                                                                                                        | -          |
+| decode       | <em>function(string): !Object</em>                                                    | Use options.encode and options.decode to customize your own encode/decode methods.                                                                                                                                        | -          |
 | rolling      | <em>boolean</em>                                                                      | Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown.                                                                        | `false`    |
 | renew        | <em>boolean</em>                                                                      | Renew session when session is nearly expired, so we can always keep user logged in.                                                                                                                                       | `false`    |
 
@@ -105,20 +105,20 @@ app.listen(async function() {
 You have cookies now: { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '21',
   'set-cookie': 
-   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTYxNzg4ODkwODczLCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; httponly' ],
-  date: 'Fri, 28 Jun 2019 06:14:50 GMT',
+   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTYxNzkwNzk4OTQ0LCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; httponly' ],
+  date: 'Fri, 28 Jun 2019 06:46:38 GMT',
   connection: 'close' } 
 
 Welcome back: hello { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '19',
-  date: 'Fri, 28 Jun 2019 06:14:50 GMT',
+  date: 'Fri, 28 Jun 2019 06:46:38 GMT',
   connection: 'close' } 
 
 Bye { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '3',
   'set-cookie': 
-   [ 'koa:sess=; path=/; expires=Sat, 29 Jun 2019 06:14:50 GMT; httponly' ],
-  date: 'Fri, 28 Jun 2019 06:14:50 GMT',
+   [ 'koa:sess=; path=/; expires=Sat, 29 Jun 2019 06:46:38 GMT; httponly' ],
+  date: 'Fri, 28 Jun 2019 06:46:38 GMT',
   connection: 'close' }
 ```
 
@@ -130,11 +130,10 @@ __<a name="type-_idiocontextstore">`_idio.ContextStore`</a>__
 | ------------ | ------------------------------------------------------------- | ----------------------------------------------------------------------- |
 | __get*__     | <em>(key, maxAge, { rolling: boolean }) => Promise<*></em>    | Get session object by key.                                              |
 | __set*__     | <em>(key, sess, maxAge, { rolling, changed }) => Promise</em> | Set session object for key, with a `maxAge` (in ms, or as `'session'`). |
-| __destroy*__ | <em>key</em>                                                  | Destroy session for key.                                                |
+| __destroy*__ | <em>*</em>                                                    | Destroy session for key.                                                |
 
 <details>
-<summary>
-_Show an example context store.
+<summary><em>Show an example context store.</em>
 </summary>
 
 ```js
@@ -168,7 +167,7 @@ __<a name="type-_idiokoasession">`_idio.KoaSession`</a>__
 | ------------------- | -------------------------------- | -------------------------------------------------------------------------------------- |
 | __isNew*__          | <em>boolean</em>                 | Returns true if the session is new.                                                    |
 | __populated*__      | <em>boolean</em>                 | Populated flag, which is just a boolean alias of `.length`.                            |
-| __maxAge*__         | <em>number</em>                  | Get/set cookie's maxAge.                                                               |
+| __maxAge*__         | <em>(number \| string)</em>      | Get/set cookie's maxAge.                                                               |
 | ___maxAge*__        | <em>number</em>                  | Private JSON serialisation.                                                            |
 | ___expire*__        | <em>number</em>                  | Private JSON serialisation.                                                            |
 | ___session*__       | <em>string</em>                  | Private JSON serialisation.                                                            |

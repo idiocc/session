@@ -15,7 +15,7 @@
     <prop type="(key, sess, maxAge, { rolling, changed }) => Promise" closure="function(string, !Object, (number|string), { rolling, changed }): !Promise" name="set">
       Set session object for key, with a `maxAge` (in ms, or as `'session'`).
     </prop>
-    <prop type="(key) => Promise" closure="function(string): !Promise" name="destroy">
+    <prop closure="function(string): !Promise" name="destroy">
       Destroy session for key.
     </prop>
   </type>
