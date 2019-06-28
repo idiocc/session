@@ -32,7 +32,7 @@ app.listen(async function() {
   }))
   console.log(body, headers, '\n')
 
-  // 2. Destroy cookies
+  // 3. Destroy cookies
   ;({ body, headers } = await aqt(`${url}/exit`, {
     headers: {
       'Cookie': cookies.join(';'),

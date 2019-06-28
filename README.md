@@ -89,7 +89,7 @@ app.listen(async function() {
   }))
   console.log(body, headers, '\n')
 
-  // 2. Destroy cookies
+  // 3. Destroy cookies
   ;({ body, headers } = await aqt(`${url}/exit`, {
     headers: {
       'Cookie': cookies.join(';'),
@@ -104,20 +104,20 @@ app.listen(async function() {
 You have cookies now: { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '21',
   'set-cookie': 
-   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTYxNzg4NTA4MTUwLCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; httponly' ],
-  date: 'Fri, 28 Jun 2019 06:08:28 GMT',
+   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTYxNzg4ODkwODczLCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; httponly' ],
+  date: 'Fri, 28 Jun 2019 06:14:50 GMT',
   connection: 'close' } 
 
 Welcome back: hello { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '19',
-  date: 'Fri, 28 Jun 2019 06:08:28 GMT',
+  date: 'Fri, 28 Jun 2019 06:14:50 GMT',
   connection: 'close' } 
 
 Bye { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '3',
   'set-cookie': 
-   [ 'koa:sess=; path=/; expires=Sat, 29 Jun 2019 06:08:28 GMT; httponly' ],
-  date: 'Fri, 28 Jun 2019 06:08:28 GMT',
+   [ 'koa:sess=; path=/; expires=Sat, 29 Jun 2019 06:14:50 GMT; httponly' ],
+  date: 'Fri, 28 Jun 2019 06:14:50 GMT',
   connection: 'close' }
 ```
 
