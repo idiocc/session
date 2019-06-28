@@ -240,7 +240,7 @@ function G() {
 ;function J(a = {}, b = null, c = 0) {
   c = b && c;
   "string" == typeof a && (b = "binary" == a ? Array(16) : null, a = null);
-  const {random:d, i:e = G} = a;
+  const {random:d, rng:e = G} = a;
   a = d || e();
   a[6] = a[6] & 15 | 64;
   a[8] = a[8] & 63 | 128;
