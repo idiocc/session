@@ -45,7 +45,7 @@
     <prop type="function(_goa.Context, _idio.KoaSession): boolean" name="beforeSave">
       The hook before save session.
     </prop>
-    <prop type="function(): string" name="genid" default="uuid.v4()">
+    <prop type="function(): string" name="genid" default="uuid-v4">
       The way of generating external session id.
     </prop>
     <prop opt type="{ get: !Function, set: !Function, destroy: !Function }" name="store">
@@ -56,9 +56,6 @@
     </prop>
     <prop opt type="_idio.ContextStore" name="ContextStore">
       If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
-    </prop>
-    <prop type="function(): string" name="genid" default="uuid.v4()">
-      The way of generating external session id.
     </prop>
     <prop opt string name="prefix">
       If you want to add prefix for all external session id, it will not work if `options.genid(ctx)` present.

@@ -23,10 +23,12 @@ export default class Session {
         else this[k] = obj[k]
       }
     }
+    // this._requireSave = undefined
   }
 
   /**
    * JSON representation of the session.
+   * @return {!Object}
    */
   toJSON() {
     const obj = {}
@@ -70,9 +72,8 @@ export default class Session {
   }
 
   /**
-   * set session maxAge
-   *
-   * @param {number}
+   * Set session maxAge.
+   * @param {number} val
    */
   set maxAge(val) {
     this._ctx['sessionOptions']['maxAge'] = val
@@ -81,7 +82,7 @@ export default class Session {
   }
 
   /**
-   * save this session no matter whether it is populated
+   * Save this session no matter whether it is populated.
    */
   save() {
     this._requireSave = true

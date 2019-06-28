@@ -12,7 +12,7 @@
     <prop type="function(): void" name="save">
       Save this session no matter whether it is populated.
     </prop>
-    <prop type="function(): void" name="manuallyCommit">
+    <prop type="function(): Promise" name="manuallyCommit">
       Session headers are auto committed by default. Use this if autoCommit is set to false.
     </prop>
   </type>

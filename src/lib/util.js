@@ -3,7 +3,7 @@ import crc32 from './crc'
 
 /**
  * Decode the base64 cookie value to an object.
- * @param {String} string
+ * @param {string} string
  */
 export function decode(string) {
   const body = Buffer.from(string, 'base64').toString('utf8')
@@ -13,7 +13,7 @@ export function decode(string) {
 
 /**
  * Encode an object into a base64-encoded JSON string.
- * @param {Object} body
+ * @param {*} body
  */
 export function encode(body) {
   body = JSON.stringify(body)

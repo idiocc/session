@@ -10,7 +10,7 @@ export {}
  * @prop {boolean} populated Populated flag, which is just a boolean alias of `.length`.
  * @prop {number} maxAge Get/set cookie's maxAge.
  * @prop {function(): void} save Save this session no matter whether it is populated.
- * @prop {function(): void} manuallyCommit Session headers are auto committed by default. Use this if autoCommit is set to false.
+ * @prop {function(): Promise} manuallyCommit Session headers are auto committed by default. Use this if autoCommit is set to false.
  */
 
 /* typal types/index.xml closure noSuppress */
@@ -44,11 +44,10 @@ export {}
  * @prop {boolean} [autoCommit=true] Automatically commit headers. Default `true`.
  * @prop {function(_goa.Context, ?): boolean} valid The validation hook: valid session value before use it.
  * @prop {function(_goa.Context, _idio.KoaSession): boolean} beforeSave The hook before save session.
- * @prop {function(): string} [genid="uuid.v4()"] The way of generating external session id. Default `uuid.v4()`.
+ * @prop {function(): string} [genid="uuid-v4"] The way of generating external session id. Default `uuid-v4`.
  * @prop {{ get: !Function, set: !Function, destroy: !Function }} [store] You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
  * @prop {{ get: !Function, set: !Function }} [externalKey] External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.
  * @prop {_idio.ContextStore} [ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
- * @prop {function(): string} [genid="uuid.v4()"] The way of generating external session id. Default `uuid.v4()`.
  * @prop {string} [prefix] If you want to add prefix for all external session id, it will not work if `options.genid(ctx)` present.
  * @prop {!Function} [encode] Use options.encode and options.decode to customize your own encode/decode methods.
  * @prop {!Function} [decode] Use options.encode and options.decode to customize your own encode/decode methods.

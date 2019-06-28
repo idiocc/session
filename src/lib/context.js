@@ -22,11 +22,10 @@ export default class ContextSession {
    * @param {boolean} [opts.autoCommit=true] Automatically commit headers. Default `true`.
    * @param {function(_goa.Context, ?): boolean} opts.valid The validation hook: valid session value before use it.
    * @param {function(_goa.Context, _idio.KoaSession): boolean} opts.beforeSave The hook before save session.
-   * @param {function(): string} [opts.genid="uuid.v4()"] The way of generating external session id. Default `uuid.v4()`.
+   * @param {function(): string} [opts.genid="uuid-v4"] The way of generating external session id. Default `uuid-v4`.
    * @param {{ get: !Function, set: !Function, destroy: !Function }} [opts.store] You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
    * @param {{ get: !Function, set: !Function }} [opts.externalKey] External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.
    * @param {_idio.ContextStore} [opts.ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
-   * @param {function(): string} [opts.genid="uuid.v4()"] The way of generating external session id. Default `uuid.v4()`.
    * @param {string} [opts.prefix] If you want to add prefix for all external session id, it will not work if `options.genid(ctx)` present.
    * @param {!Function} [opts.encode] Use options.encode and options.decode to customize your own encode/decode methods.
    * @param {!Function} [opts.decode] Use options.encode and options.decode to customize your own encode/decode methods.
@@ -40,6 +39,10 @@ export default class ContextSession {
     this.store = this.opts.ContextStore ? new this.opts.ContextStore(ctx) : this.opts.store
     /** @type {Session|undefined} */
     this.session = undefined
+    /** @type {string} */
+    this.externalKey = undefined
+    /** @type {number} */
+    this.prevHash = undefined
   }
 
   /**

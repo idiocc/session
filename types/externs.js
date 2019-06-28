@@ -27,7 +27,7 @@ _idio.KoaSession.prototype.maxAge
 _idio.KoaSession.prototype.save
 /**
  * Session headers are auto committed by default. Use this if autoCommit is set to false.
- * @type {function(): void}
+ * @type {function(): Promise}
  */
 _idio.KoaSession.prototype.manuallyCommit
 
@@ -67,6 +67,6 @@ _idio.ContextStore.prototype.set
 _idio.ContextStore.prototype.destroy
 /**
  * Configuration passed to `koa-session`.
- * @typedef {{ key: (string|undefined), maxAge: ((string|number)|undefined), overwrite: (boolean|undefined), httpOnly: (boolean|undefined), signed: (boolean|undefined), autoCommit: (boolean|undefined), valid: function(_goa.Context, ?): boolean, beforeSave: function(_goa.Context, _idio.KoaSession): boolean, genid: ((function(): string)|undefined), store: (({ get: !Function, set: !Function, destroy: !Function })|undefined), externalKey: (({ get: !Function, set: !Function })|undefined), ContextStore: (_idio.ContextStore|undefined), genid: ((function(): string)|undefined), prefix: (string|undefined), encode: ((!Function)|undefined), decode: ((!Function)|undefined), rolling: (boolean|undefined), renew: (boolean|undefined) }}
+ * @typedef {{ key: (string|undefined), maxAge: ((string|number)|undefined), overwrite: (boolean|undefined), httpOnly: (boolean|undefined), signed: (boolean|undefined), autoCommit: (boolean|undefined), valid: function(_goa.Context, ?): boolean, beforeSave: function(_goa.Context, _idio.KoaSession): boolean, genid: ((function(): string)|undefined), store: (({ get: !Function, set: !Function, destroy: !Function })|undefined), externalKey: (({ get: !Function, set: !Function })|undefined), ContextStore: (_idio.ContextStore|undefined), prefix: (string|undefined), encode: ((!Function)|undefined), decode: ((!Function)|undefined), rolling: (boolean|undefined), renew: (boolean|undefined) }}
  */
 _idio.KoaSessionConfig

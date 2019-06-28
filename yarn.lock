@@ -51,6 +51,11 @@
   resolved "https://registry.yarnpkg.com/@depack/split/-/split-1.0.0.tgz#37fea28d9bc6f01e5a2da87d393f402781bb7e99"
   integrity sha512-PNJPl01VFMKtyN7qBZ2cds4N/lO2KvzLrR7JamODFiuuL2X8mGoTKp1SI8fxlT2MwLV8mScCUKn55QPwsUX7iA==
 
+"@externs/goa@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@externs/goa/-/goa-0.1.0.tgz#6fd5cf1de0cac54e94928712f767735312028111"
+  integrity sha512-2vRjcSQrxj54w/ztqkpOD4/Rx+Wh6Z52v+uwCjasxtZDmPQAFZs0b65Clvsey39lt+P916VPFuvHsfAtlUmaEw==
+
 "@goa/koa@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@goa/koa/-/koa-1.1.2.tgz#0bea8690b0ae0eb9318e85b2377bad1a3552c3bd"

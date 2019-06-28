@@ -22,8 +22,8 @@ function fnBody(fn) {
 
 const isFunction = fn => typeof fn == 'function'
 
-const CONTEXT_SESSION = Symbol('context#contextSession')
-const _CONTEXT_SESSION = Symbol('context#_contextSession')
+// const CONTEXT_SESSION = Symbol('context#contextSession')
+// const _CONTEXT_SESSION = Symbol('context#_contextSession')
 
 /**
  * Initialize session middleware with `opts`:
@@ -33,24 +33,6 @@ const _CONTEXT_SESSION = Symbol('context#_contextSession')
  *
  * @param {_goa.Application} app koa application instance
  * @param {_idio.KoaSessionConfig} [opts] Configuration passed to `koa-session`.
- * @param {string} [opts.key="koa:sess"] Cookie key. Default `koa:sess`.
- * @param {string|number} [opts.maxAge=86400000] `maxAge` in ms with default of 1 day. Either a number or 'session'. `session` will result in a cookie that expires when session/browser is closed. Warning: If a session cookie is stolen, this cookie will never expire. Default `86400000`.
- * @param {boolean} [opts.overwrite=true] Can overwrite or not. Default `true`.
- * @param {boolean} [opts.httpOnly=true] httpOnly or not. Default `true`.
- * @param {boolean} [opts.signed=true] Signed or not. Default `true`.
- * @param {boolean} [opts.autoCommit=true] Automatically commit headers. Default `true`.
- * @param {function(_goa.Context, ?): boolean} opts.valid The validation hook: valid session value before use it.
- * @param {function(_goa.Context, _idio.KoaSession): boolean} opts.beforeSave The hook before save session.
- * @param {function(): string} [opts.genid="uuid.v4()"] The way of generating external session id. Default `uuid.v4()`.
- * @param {{ get: !Function, set: !Function, destroy: !Function }} [opts.store] You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
- * @param {{ get: !Function, set: !Function }} [opts.externalKey] External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.
- * @param {_idio.ContextStore} [opts.ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
- * @param {function(): string} [opts.genid="uuid.v4()"] The way of generating external session id. Default `uuid.v4()`.
- * @param {string} [opts.prefix] If you want to add prefix for all external session id, it will not work if `options.genid(ctx)` present.
- * @param {!Function} [opts.encode] Use options.encode and options.decode to customize your own encode/decode methods.
- * @param {!Function} [opts.decode] Use options.encode and options.decode to customize your own encode/decode methods.
- * @param {boolean} [opts.rolling=false] Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. Default `false`.
- * @param {boolean} [opts.renew=false] Renew session when session is nearly expired, so we can always keep user logged in. Default `false`.
  * @return {_goa.Middleware}
  */
 export default function(app, opts = {}) {
@@ -63,8 +45,11 @@ export default function(app, opts = {}) {
   extendContext(app.context, opts)
 
   return async function session(ctx, next) {
-    /** @type {ContextSession} */
-    const sess = ctx[CONTEXT_SESSION]
+    /**
+     * @suppress {checkTypes}
+     * @type {ContextSession}
+     */
+    const sess = ctx['CONTEXT_SESSION']
     if (sess.store) await sess.initFromExternal()
     try {
       await next()
@@ -81,25 +66,6 @@ export default function(app, opts = {}) {
 /**
  * format and check session options
  * @param {_idio.KoaSessionConfig} [opts] Configuration passed to `koa-session`.
- * @param {string} [opts.key="koa:sess"] Cookie key. Default `koa:sess`.
- * @param {string|number} [opts.maxAge=86400000] `maxAge` in ms with default of 1 day. Either a number or 'session'. `session` will result in a cookie that expires when session/browser is closed. Warning: If a session cookie is stolen, this cookie will never expire. Default `86400000`.
- * @param {boolean} [opts.overwrite=true] Can overwrite or not. Default `true`.
- * @param {boolean} [opts.httpOnly=true] httpOnly or not. Default `true`.
- * @param {boolean} [opts.signed=true] Signed or not. Default `true`.
- * @param {boolean} [opts.autoCommit=true] Automatically commit headers. Default `true`.
- * @param {function(_goa.Context, ?): boolean} opts.valid The validation hook: valid session value before use it.
- * @param {function(_goa.Context, _idio.KoaSession): boolean} opts.beforeSave The hook before save session.
- * @param {function(): string} [opts.genid="uuid.v4()"] The way of generating external session id. Default `uuid.v4()`.
- * @param {{ get: !Function, set: !Function, destroy: !Function }} [opts.store] You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
- * @param {{ get: !Function, set: !Function }} [opts.externalKey] External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.
- * @param {_idio.ContextStore} [opts.ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
- * @param {function(): string} [opts.genid="uuid.v4()"] The way of generating external session id. Default `uuid.v4()`.
- * @param {string} [opts.prefix] If you want to add prefix for all external session id, it will not work if `options.genid(ctx)` present.
- * @param {!Function} [opts.encode] Use options.encode and options.decode to customize your own encode/decode methods.
- * @param {!Function} [opts.decode] Use options.encode and options.decode to customize your own encode/decode methods.
- * @param {boolean} [opts.rolling=false] Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. Default `false`.
- * @param {boolean} [opts.renew=false] Renew session when session is nearly expired, so we can always keep user logged in. Default `false`.
- *
  * @api private
  */
 function formatOpts(opts = {}) {
@@ -163,11 +129,10 @@ function formatOpts(opts = {}) {
  * @param {boolean} [opts.autoCommit=true] Automatically commit headers. Default `true`.
  * @param {function(_goa.Context, ?): boolean} opts.valid The validation hook: valid session value before use it.
  * @param {function(_goa.Context, _idio.KoaSession): boolean} opts.beforeSave The hook before save session.
- * @param {function(): string} [opts.genid="uuid.v4()"] The way of generating external session id. Default `uuid.v4()`.
+ * @param {function(): string} [opts.genid="uuid-v4"] The way of generating external session id. Default `uuid-v4`.
  * @param {{ get: !Function, set: !Function, destroy: !Function }} [opts.store] You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
  * @param {{ get: !Function, set: !Function }} [opts.externalKey] External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.
  * @param {_idio.ContextStore} [opts.ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
- * @param {function(): string} [opts.genid="uuid.v4()"] The way of generating external session id. Default `uuid.v4()`.
  * @param {string} [opts.prefix] If you want to add prefix for all external session id, it will not work if `options.genid(ctx)` present.
  * @param {!Function} [opts.encode] Use options.encode and options.decode to customize your own encode/decode methods.
  * @param {!Function} [opts.decode] Use options.encode and options.decode to customize your own encode/decode methods.
@@ -177,23 +142,23 @@ function formatOpts(opts = {}) {
  * @api private
  */
 function extendContext(context, opts) {
-  if (context.hasOwnProperty(CONTEXT_SESSION)) {
+  if (context.hasOwnProperty('CONTEXT_SESSION')) {
     return
   }
   Object.defineProperties(context, {
-    [CONTEXT_SESSION]: {
+    'CONTEXT_SESSION': {
       get() {
-        if (this[_CONTEXT_SESSION]) return this[_CONTEXT_SESSION]
-        this[_CONTEXT_SESSION] = new ContextSession(this, opts)
-        return this[_CONTEXT_SESSION]
+        if (this['_CONTEXT_SESSION']) return this['_CONTEXT_SESSION']
+        this['_CONTEXT_SESSION'] = new ContextSession(this, opts)
+        return this['_CONTEXT_SESSION']
       },
     },
     'session': {
       get() {
-        return this[CONTEXT_SESSION].get()
+        return this['CONTEXT_SESSION'].get()
       },
       set(val) {
-        this[CONTEXT_SESSION].set(val)
+        this['CONTEXT_SESSION'].set(val)
       },
       configurable: true,
     },
@@ -202,7 +167,7 @@ function extendContext(context, opts) {
        * @return {_idio.KoaSessionConfig}
        */
       get() {
-        return this[CONTEXT_SESSION].opts
+        return this['CONTEXT_SESSION'].opts
       },
     },
   })

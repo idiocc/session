@@ -9,18 +9,17 @@
     "test": "yarn t test/spec test/mask",
     "spec": "yarn t test/spec",
     "mask": "yarn t test/mask",
+    "depack": "depack-dev src/depack -o depack -a -l -p --externs types/externs.js",
     "test-build": "ALAMODE_ENV=test-build yarn test",
     "lint": "eslint .",
     "doc": "NODE_DEBUG=doc doc -o README.md",
     "b": "alamode src -o build -s",
-    "d": "yarn-s d1 externs",
-    "d1": "typal types/index.js src -c -t types/index.xml",
-    "externs": "typal types/externs.js",
+    "d": "typal types/index.js types/externs.js",
     "build": "yarn-s d b doc",
     "e": "alanode"
   },
   "files": [
-    "build",
+    "depack",
     "src",
     "types/externs.js"
   ],
@@ -41,6 +40,7 @@
   "homepage": "https://github.com/idiocc/session#readme",
   "devDependencies": {
     "@contexts/http": "^1.2.8",
+    "@externs/goa": "^0.1.0",
     "@goa/koa": "^1.1.2",
     "@typedefs/goa": "^0.0.2",
     "alamode": "^2.3.4",
