@@ -83,7 +83,7 @@ export default class ContextSession {
       return
     }
 
-    const json = await this.store.get(externalKey, opts.maxAge, { 'rolling': opts.rolling })
+    const json = await this.store.get(externalKey, /** @type {string|number} */ (opts.maxAge), { 'rolling': /** @type {boolean} */ (opts.rolling) })
     if (!this.valid(json, externalKey)) {
       // create a new `externalKey`
       this.create()
@@ -280,7 +280,7 @@ export default class ContextSession {
       json['_session'] = true
     } else {
       // set expire for check
-      json['_expire'] = maxAge + Date.now()
+      json._expire = maxAge + Date.now()
       json['_maxAge'] = maxAge
     }
 

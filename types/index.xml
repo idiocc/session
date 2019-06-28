@@ -9,13 +9,13 @@
   </type>
 
   <type interface name="ContextStore" description="new ContextStore(ctx) will be executed on every request.">
-    <prop type="!Function" name="get">
+    <prop type="(key, maxAge, { rolling: boolean }) => Promise<*>" closure="function(string, (number|string), { rolling: boolean }): !Promise<!Object>" name="get">
       Get session object by key.
     </prop>
-    <prop type="!Function" name="set">
-      Set session object for key, with a `maxAge` (in ms).
+    <prop type="(key, sess, maxAge, { rolling, changed }) => Promise" closure="function(string, !Object, (number|string), { rolling, changed }): !Promise" name="set">
+      Set session object for key, with a `maxAge` (in ms, or as `'session'`).
     </prop>
-    <prop type="!Function" name="destroy">
+    <prop type="(key) => Promise" closure="function(string): !Promise" name="destroy">
       Destroy session for key.
     </prop>
   </type>
@@ -39,7 +39,7 @@
     <prop boolean name="autoCommit" default="true">
       Automatically commit headers.
     </prop>
-    <prop opt type="function(!_goa.Context, ?): boolean" name="valid">
+    <prop opt type="function(!_goa.Context, *): boolean" name="valid">
       The validation hook: valid session value before use it.
     </prop>
     <prop opt type="function(!_goa.Context, !_idio.KoaSession): boolean" name="beforeSave">
@@ -48,10 +48,10 @@
     <prop type="function(!_goa.Context): string" name="genid" default="uuid-v4">
       The way of generating external session id.
     </prop>
-    <prop opt type="{ get: !Function, set: !Function, destroy: !Function }" name="store">
+    <prop opt type="_idio.ContextStore" name="store">
       You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
     </prop>
-    <prop opt type="{ get: !Function, set: !Function }" name="externalKey">
+    <prop opt type="{ get: function(_goa.Context), set: function(_goa.Context, string) }" name="externalKey">
       External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.
     </prop>
     <prop opt type="function(new: _idio.ContextStore, !_goa.Context)" name="ContextStore">
@@ -60,10 +60,10 @@
     <prop opt string name="prefix">
       If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.
     </prop>
-    <prop opt type="!Function" name="encode">
+    <prop opt type="function(!Object): string" name="encode">
       Use options.encode and options.decode to customize your own encode/decode methods.
     </prop>
-    <prop opt type="!Function" name="decode">
+    <prop opt type="function(string): !Object" name="decode">
       Use options.encode and options.decode to customize your own encode/decode methods.
     </prop>
     <prop boolean name="rolling" default="false">

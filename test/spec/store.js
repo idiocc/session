@@ -502,7 +502,7 @@ export const renew = {
       .assert(200, { foo: 'bar' })
       .count(1)
       .assert(async () => {
-        await new Promise(r => setTimeout(r, 127))
+        await new Promise(r => setTimeout(r, 200))
         ;({ value: cookie } = getCookieForName('koa:sess'))
       })
       .set('Cookie', () => `koa:sess=${cookie}`)

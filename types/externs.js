@@ -17,7 +17,7 @@ _idio.KoaSession.prototype.isNew
 _idio.KoaSession.prototype.populated
 /**
  * Get/set cookie's maxAge.
- * @type {number}
+ * @type {number|string}
  */
 _idio.KoaSession.prototype.maxAge
 /**
@@ -77,17 +77,17 @@ _idio.KoaContextSession.prototype.commit
 _idio.ContextStore
 /**
  * Get session object by key.
- * @type {!Function}
+ * @type {function(string, (number|string), { rolling: boolean }): !Promise<!Object>}
  */
 _idio.ContextStore.prototype.get
 /**
- * Set session object for key, with a `maxAge` (in ms).
- * @type {!Function}
+ * Set session object for key, with a `maxAge` (in ms, or as `'session'`).
+ * @type {function(string, !Object, (number|string), { rolling, changed }): !Promise}
  */
 _idio.ContextStore.prototype.set
 /**
  * Destroy session for key.
- * @type {!Function}
+ * @type {function(string): !Promise}
  */
 _idio.ContextStore.prototype.destroy
 /**
@@ -127,7 +127,7 @@ _idio.KoaSessionConfig.prototype.signed
 _idio.KoaSessionConfig.prototype.autoCommit
 /**
  * The validation hook: valid session value before use it.
- * @type {(function(!_goa.Context, ?): boolean)|undefined}
+ * @type {(function(!_goa.Context, *): boolean)|undefined}
  */
 _idio.KoaSessionConfig.prototype.valid
 /**
@@ -142,12 +142,12 @@ _idio.KoaSessionConfig.prototype.beforeSave
 _idio.KoaSessionConfig.prototype.genid
 /**
  * You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
- * @type {({ get: !Function, set: !Function, destroy: !Function })|undefined}
+ * @type {_idio.ContextStore|undefined}
  */
 _idio.KoaSessionConfig.prototype.store
 /**
  * External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.
- * @type {({ get: !Function, set: !Function })|undefined}
+ * @type {({ get: function(_goa.Context), set: function(_goa.Context, string) })|undefined}
  */
 _idio.KoaSessionConfig.prototype.externalKey
 /**
@@ -162,12 +162,12 @@ _idio.KoaSessionConfig.prototype.ContextStore
 _idio.KoaSessionConfig.prototype.prefix
 /**
  * Use options.encode and options.decode to customize your own encode/decode methods.
- * @type {(!Function)|undefined}
+ * @type {(function(!Object): string)|undefined}
  */
 _idio.KoaSessionConfig.prototype.encode
 /**
  * Use options.encode and options.decode to customize your own encode/decode methods.
- * @type {(!Function)|undefined}
+ * @type {(function(string): !Object)|undefined}
  */
 _idio.KoaSessionConfig.prototype.decode
 /**

@@ -23,6 +23,7 @@ export default class Session {
         else this[k] = obj[k]
       }
     }
+    // this._expire = undefined
     // this._requireSave = undefined
   }
 
@@ -68,12 +69,12 @@ export default class Session {
    * Get session maxAge.
    */
   get maxAge() {
-    return this._ctx.sessionOptions.maxAge
+    return /** @type {string|number} */ (this._ctx.sessionOptions.maxAge)
   }
 
   /**
    * Set session maxAge.
-   * @param {number} val
+   * @param {number|string} val
    */
   set maxAge(val) {
     this._ctx.sessionOptions.maxAge = val

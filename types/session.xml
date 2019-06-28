@@ -6,7 +6,7 @@
     <prop type="boolean" name="populated">
       Populated flag, which is just a boolean alias of `.length`.
     </prop>
-    <prop type="number" name="maxAge">
+    <prop type="number|string" name="maxAge">
       Get/set cookie's maxAge.
     </prop>
     <prop type="number" name="_maxAge">

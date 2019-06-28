@@ -24,9 +24,17 @@ The interface is changed from the original package, so that the app is always pa
 
 If your session store requires data or utilities from context, `opts.ContextStore` is also supported. _ContextStore_ must be a class which claims three instance methods demonstrated above. new ContextStore(ctx) will be executed on every request.
 
-%TYPEDEF types/index.xml KoaContextStore%
+%TYPEDEF types/index.xml ContextStore%
 
-The session object itself has the following methods.
+<details>
+<summary>
+_Show an example context store.
+</summary>
+
+%EXAMPLE: test/context/ContextStore%
+</details>
+
+The session object itself (`ctx.session`) has the following methods.
 
 %TYPEDEF types/session.xml%
 

@@ -13,6 +13,7 @@ yarn add @goa/session
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
 - [`session(app: _goa.App, options?: _idio.KoaSessionConfig): _goa.Middleware`](#sessionapp-_goaappoptions-_idiokoasessionconfig-_goamiddleware)
+  * [`_idio.ContextStore`](#type-_idiocontextstore)
   * [`_idio.KoaSession`](#type-_idiokoasession)
 - [Copyright](#copyright)
 
@@ -42,15 +43,15 @@ __<a name="type-_idiokoasessionconfig">`_idio.KoaSessionConfig`</a>__: Configura
 | httpOnly     | <em>boolean</em>                                                                      | httpOnly or not.                                                                                                                                                                                                          | `true`     |
 | signed       | <em>boolean</em>                                                                      | Signed or not.                                                                                                                                                                                                            | `true`     |
 | autoCommit   | <em>boolean</em>                                                                      | Automatically commit headers.                                                                                                                                                                                             | `true`     |
-| valid        | <em>function(!_goa.Context, ?): boolean</em>                                          | The validation hook: valid session value before use it.                                                                                                                                                                   | -          |
+| valid        | <em>function(!_goa.Context, *): boolean</em>                                          | The validation hook: valid session value before use it.                                                                                                                                                                   | -          |
 | beforeSave   | <em>function(!_goa.Context, [!_idio.KoaSession](#type-_idiokoasession)): boolean</em> | The hook before save session.                                                                                                                                                                                             | -          |
 | genid        | <em>function(!_goa.Context): string</em>                                              | The way of generating external session id.                                                                                                                                                                                | `uuid-v4`  |
-| store        | <em>{ get: !Function, set: !Function, destroy: !Function }</em>                       | You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).                                                        | -          |
-| externalKey  | <em>{ get: !Function, set: !Function }</em>                                           | External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.                                                                                               | -          |
-| ContextStore | <em>function(new: _idio.ContextStore, !_goa.Context)</em>                             | If your session store requires data or utilities from context, `opts.ContextStore` is also supported.                                                                                                                     | -          |
+| store        | <em>[_idio.ContextStore](#type-_idiocontextstore)</em>                                | You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).                                                        | -          |
+| externalKey  | <em>{ get: function(_goa.Context), set: function(_goa.Context, string) }</em>         | External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.                                                                                               | -          |
+| ContextStore | <em>function(new: [_idio.ContextStore](#type-_idiocontextstore), !_goa.Context)</em>  | If your session store requires data or utilities from context, `opts.ContextStore` is also supported.                                                                                                                     | -          |
 | prefix       | <em>string</em>                                                                       | If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.                                                                                                                  | -          |
-| encode       | <em>!Function</em>                                                                    | Use options.encode and options.decode to customize your own encode/decode methods.                                                                                                                                        | -          |
-| decode       | <em>!Function</em>                                                                    | Use options.encode and options.decode to customize your own encode/decode methods.                                                                                                                                        | -          |
+| encode       | <em>function(*): string</em>                                                          | Use options.encode and options.decode to customize your own encode/decode methods.                                                                                                                                        | -          |
+| decode       | <em>function(string): *</em>                                                          | Use options.encode and options.decode to customize your own encode/decode methods.                                                                                                                                        | -          |
 | rolling      | <em>boolean</em>                                                                      | Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown.                                                                        | `false`    |
 | renew        | <em>boolean</em>                                                                      | Renew session when session is nearly expired, so we can always keep user logged in.                                                                                                                                       | `false`    |
 
@@ -123,9 +124,43 @@ Bye { 'content-type': 'text/plain; charset=utf-8',
 
 If your session store requires data or utilities from context, `opts.ContextStore` is also supported. _ContextStore_ must be a class which claims three instance methods demonstrated above. new ContextStore(ctx) will be executed on every request.
 
+__<a name="type-_idiocontextstore">`_idio.ContextStore`</a>__
 
+|     Name     |                             Type                              |                               Description                               |
+| ------------ | ------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| __get*__     | <em>(key, maxAge, { rolling: boolean }) => Promise<*></em>    | Get session object by key.                                              |
+| __set*__     | <em>(key, sess, maxAge, { rolling, changed }) => Promise</em> | Set session object for key, with a `maxAge` (in ms, or as `'session'`). |
+| __destroy*__ | <em>key</em>                                                  | Destroy session for key.                                                |
 
-The session object itself has the following methods.
+<details>
+<summary>
+_Show an example context store.
+</summary>
+
+```js
+const sessions = {}
+
+export default class ContextStore {
+  constructor(ctx) {
+    this.ctx = ctx
+  }
+
+  async get(key) {
+    return sessions[key]
+  }
+
+  async set(key, value) {
+    sessions[key] = value
+  }
+
+  async destroy(key) {
+    sessions[key] = undefined
+  }
+}
+```
+</details>
+
+The session object itself (`ctx.session`) has the following methods.
 
 __<a name="type-_idiokoasession">`_idio.KoaSession`</a>__
 
