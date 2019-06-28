@@ -1,6 +1,5 @@
 import { ok, equal, notEqual } from 'assert'
 import Context from '../context'
-import session from '../../src'
 
 /** @type {TestSuite} */
 const T = {
