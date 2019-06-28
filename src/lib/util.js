@@ -1,4 +1,3 @@
-
 import crc32 from './crc'
 
 /**

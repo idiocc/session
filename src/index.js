@@ -1,6 +1,6 @@
 import Debug from '@idio/debug'
-import assert from 'assert'
 import v4 from '@goa/uuid'
+import assert from 'assert'
 import ContextSession from './lib/context'
 import { encode, decode } from './lib/util'
 
