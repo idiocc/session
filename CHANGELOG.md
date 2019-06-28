@@ -1,3 +1,9 @@
+## 28 June 2019
+
+### [1.0.0](https://github.com/idiocc/session/compare/v0.0.0-pre...v1.0.0)
+
+- [package] Publish `v1` of the package.
+
 ## 27 June 2019
 
 ### 0.0.0-pre
