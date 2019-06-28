@@ -12,7 +12,7 @@ yarn add @goa/session
 
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
-- [`session(app: _goa.App, options?: _idio.KoaSessionConfig)`](#sessionapp-_goaappoptions-_idiokoasessionconfig-void)
+- [`session(app: _goa.App, options?: _idio.KoaSessionConfig): _goa.Middleware`](#sessionapp-_goaappoptions-_idiokoasessionconfig-_goamiddleware)
   * [`_idio.KoaSession`](#type-_idiokoasession)
 - [Copyright](#copyright)
 
@@ -28,7 +28,7 @@ import session from '@goa/session'
 
 <p align="center"><a href="#table-of-contents"><img src="/.documentary/section-breaks/1.svg?sanitize=true"></a></p>
 
-## `session(`<br/>&nbsp;&nbsp;`app: _goa.App,`<br/>&nbsp;&nbsp;`options?: _idio.KoaSessionConfig,`<br/>`): void`
+## `session(`<br/>&nbsp;&nbsp;`app: _goa.App,`<br/>&nbsp;&nbsp;`options?: _idio.KoaSessionConfig,`<br/>`): _goa.Middleware`
 
 The interface is changed from the original package, so that the app is always passed as the first argument.
 
@@ -100,7 +100,7 @@ app.listen(async function() {
   this.close()
 })
 ```
-```
+```js
 You have cookies now: { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '21',
   'set-cookie': 
@@ -120,6 +120,10 @@ Bye { 'content-type': 'text/plain; charset=utf-8',
   date: 'Fri, 28 Jun 2019 06:08:28 GMT',
   connection: 'close' }
 ```
+
+If your session store requires data or utilities from context, `opts.ContextStore` is also supported. _ContextStore_ must be a class which claims three instance methods demonstrated above. new ContextStore(ctx) will be executed on every request.
+
+
 
 The session object itself has the following methods.
 
