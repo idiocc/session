@@ -11,13 +11,13 @@ const debug = Debug('koa-session')
  * MIT https://github.com/miguelmota/is-class
  */
 function isClass(fn) {
-  return (typeof fn === 'function' &&
-    (/^class[\s{]/.test(toString.call(fn)) ||
+  return (typeof fn == 'function' &&
+    (/^class[\s{]/.test(fn.toString()) ||
       (/classCallCheck\(/.test(fnBody(fn)))) // babel.js
   )
 }
 function fnBody(fn) {
-  return toString.call(fn).replace(/^[^{]*{\s*/,'').replace(/\s*}[^}]*$/,'')
+  return fn.toString().replace(/^[^{]*{\s*/,'').replace(/\s*}[^}]*$/,'')
 }
 
 const isFunction = fn => typeof fn == 'function'

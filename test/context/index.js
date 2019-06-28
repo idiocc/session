@@ -1,6 +1,7 @@
 import Cookie from '@contexts/http/cookies'
 import Goa from '@goa/koa'
 import session from '../../src'
+import ContextStore from './ContextStore'
 
 /**
  * A testing context for the package.
@@ -30,6 +31,26 @@ export default class Context extends Cookie {
   }
   get app() {
     const app = this.getApp()
+    return app
+  }
+  get contextStoreApp() {
+    const app = this.getContextStoreApp()
+    return app
+  }
+  /**
+   * @param {KoaSessionConfig} options
+   */
+  getContextStoreApp(options = {}, keys = ['a', 'b']) {
+    const app = new Goa()
+    app.keys = keys
+    options.ContextStore = ContextStore
+    options.genid = ctx => {
+      const sid = Date.now() + '_suffix'
+      ctx.state.sid = sid
+      return sid
+    }
+    app.use(session(app, options))
+    this._app = app
     return app
   }
 }

@@ -283,7 +283,7 @@ export default class ContextSession {
    * @api private
    */
   async save(changed) {
-    const { opts: { key, rolling, encode }, externalKey } = this
+    const { opts: { key, rolling, encode, externalKey: optsExternalKey }, externalKey } = this
     let { opts: { maxAge = ONE_DAY } } = this
     let json = this.session.toJSON()
     // set expire for check
@@ -309,8 +309,8 @@ export default class ContextSession {
         'changed': changed,
         'rolling': rolling,
       })
-      if (externalKey) {
-        externalKey.set(this.ctx, externalKey)
+      if (optsExternalKey) {
+        optsExternalKey.set(this.ctx, externalKey)
       } else {
         this.ctx.cookies.set(key, externalKey, this.opts)
       }
