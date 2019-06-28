@@ -2,7 +2,7 @@
 
 %NPM: @goa/session%
 
-`@goa/session` is [fork] Simple session middleware for koa
+`@goa/session` is a [fork](https://github.com/koajs/session) of Simple session middleware for Koa written in ES6 and optimised with [JavaScript Compiler](https://compiler.page). It is used in the [Idio web](https://github.com/idiocc/idio) server.
 
 ```sh
 yarn add @goa/session
