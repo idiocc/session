@@ -12,7 +12,7 @@ const T = {
       getApp({ externalKey: {}, store: Store })
     }, 'externalKey.get must be function')
   },
-  async '!works with custom get/set externalKey'({ getApp, startApp }) {
+  async 'works with custom get/set externalKey'({ getApp, startApp }) {
     const app = getApp({
       store: Store,
       externalKey: {
