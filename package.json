@@ -1,6 +1,6 @@
 {
   "name": "@goa/session",
-  "version": "0.0.0-pre",
+  "version": "1.0.0",
   "description": "[fork] Simple session middleware for koa",
   "main": "build/index.js",
   "module": "src/index.js",
