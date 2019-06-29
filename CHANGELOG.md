@@ -1,5 +1,9 @@
 ## 29 June 2019
 
+### [1.0.3](https://github.com/idiocc/session/compare/v1.0.2...v1.0.3)
+
+- [package] Publish types folder.
+
 ### [1.0.2](https://github.com/idiocc/session/compare/v1.0.1...v1.0.2)
 
 - [package] Fix the main path.
