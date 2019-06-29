@@ -2,7 +2,7 @@
   "name": "@goa/session",
   "version": "1.0.1",
   "description": "[fork] Simple session middleware for koa",
-  "main": "build/index.js",
+  "main": "depack/index.js",
   "module": "src/index.js",
   "scripts": {
     "t": "zoroaster -a",
