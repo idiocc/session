@@ -230,17 +230,16 @@ function E() {
 function z(a) {
   return a instanceof Error ? a.stack || a.message : a;
 }
-;var F = assert;
-function G() {
+;function F() {
   return h(16);
 }
-;for (var H = [], I = 0; 256 > I; ++I) {
-  H[I] = (I + 256).toString(16).substr(1);
+;for (var G = [], H = 0; 256 > H; ++H) {
+  G[H] = (H + 256).toString(16).substr(1);
 }
-;function J(a = {}, b = null, c = 0) {
+;function I(a = {}, b = null, c = 0) {
   c = b && c;
   "string" == typeof a && (b = "binary" == a ? Array(16) : null, a = null);
-  const {random:d, rng:e = G} = a;
+  const {random:d, rng:e = F} = a;
   a = d || e();
   a[6] = a[6] & 15 | 64;
   a[8] = a[8] & 63 | 128;
@@ -249,10 +248,11 @@ function G() {
       b[c + g] = a[g];
     }
   }
-  b || (b = 0, b = [H[a[b++]], H[a[b++]], H[a[b++]], H[a[b++]], "-", H[a[b++]], H[a[b++]], "-", H[a[b++]], H[a[b++]], "-", H[a[b++]], H[a[b++]], "-", H[a[b++]], H[a[b++]], H[a[b++]], H[a[b++]], H[a[b++]], H[a[b++]]].join(""));
+  b || (b = 0, b = [G[a[b++]], G[a[b++]], G[a[b++]], G[a[b++]], "-", G[a[b++]], G[a[b++]], "-", G[a[b++]], G[a[b++]], "-", G[a[b++]], G[a[b++]], "-", G[a[b++]], G[a[b++]], G[a[b++]], G[a[b++]], G[a[b++]], G[a[b++]]].join(""));
   return b;
 }
-;class K {
+;var J = assert;
+class K {
   constructor(a, b) {
     this._sessCtx = a;
     this._ctx = a.ctx;
@@ -451,6 +451,7 @@ class S {
 const T = E()("koa-session");
 function U(a = {}) {
   a.key = a.key || "koa:sess";
+  a.maxAge = a.maxAge || 864E5;
   null == a.overwrite && (a.overwrite = !0);
   null == a.httpOnly && (a.httpOnly = !0);
   null == a.signed && (a.signed = !0);
@@ -459,14 +460,14 @@ function U(a = {}) {
   "function" != typeof a.encode && (a.encode = O);
   "function" != typeof a.decode && (a.decode = N);
   var b = a.store;
-  b && (F("function" == typeof b.get, "store.get must be function"), F("function" == typeof b.set, "store.set must be function"), F("function" == typeof b.destroy, "store.destroy must be function"));
+  b && (J("function" == typeof b.get, "store.get must be function"), J("function" == typeof b.set, "store.set must be function"), J("function" == typeof b.destroy, "store.destroy must be function"));
   if (b = a.externalKey) {
-    F("function" == typeof b.get, "externalKey.get must be function"), F("function" == typeof b.set, "externalKey.set must be function");
+    J("function" == typeof b.get, "externalKey.get must be function"), J("function" == typeof b.set, "externalKey.set must be function");
   }
   if (b = a.ContextStore) {
-    F("function" == typeof b && (/^class[\s{]/.test(b.toString()) || /classCallCheck\(/.test(b.toString().replace(/^[^{]*{\s*/, "").replace(/\s*}[^}]*$/, ""))), "ContextStore must be a class"), F("function" == typeof b.prototype.get, "ContextStore.prototype.get must be function"), F("function" == typeof b.prototype.set, "ContextStore.prototype.set must be function"), F("function" == typeof b.prototype.destroy, "ContextStore.prototype.destroy must be function");
+    J("function" == typeof b && (/^class[\s{]/.test(b.toString()) || /classCallCheck\(/.test(b.toString().replace(/^[^{]*{\s*/, "").replace(/\s*}[^}]*$/, ""))), "ContextStore must be a class"), J("function" == typeof b.prototype.get, "ContextStore.prototype.get must be function"), J("function" == typeof b.prototype.set, "ContextStore.prototype.set must be function"), J("function" == typeof b.prototype.destroy, "ContextStore.prototype.destroy must be function");
   }
-  a.genid || (a.prefix ? a.genid = () => `${a.prefix}${J()}` : a.genid = J);
+  a.genid || (a.prefix ? a.genid = () => `${a.prefix}${I()}` : a.genid = I);
   return a;
 }
 function V(a, b) {

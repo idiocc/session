@@ -105,20 +105,20 @@ app.listen(async function() {
 You have cookies now: { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '21',
   'set-cookie': 
-   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTYxNzkwNzk4OTQ0LCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; httponly' ],
-  date: 'Fri, 28 Jun 2019 06:46:38 GMT',
+   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTYxODYwMDUyMzc5LCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Sun, 30 Jun 2019 02:00:52 GMT; httponly' ],
+  date: 'Sat, 29 Jun 2019 02:00:52 GMT',
   connection: 'close' } 
 
 Welcome back: hello { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '19',
-  date: 'Fri, 28 Jun 2019 06:46:38 GMT',
+  date: 'Sat, 29 Jun 2019 02:00:52 GMT',
   connection: 'close' } 
 
 Bye { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '3',
   'set-cookie': 
-   [ 'koa:sess=; path=/; expires=Sat, 29 Jun 2019 06:46:38 GMT; httponly' ],
-  date: 'Fri, 28 Jun 2019 06:46:38 GMT',
+   [ 'koa:sess=; path=/; expires=Sun, 30 Jun 2019 02:00:52 GMT; httponly' ],
+  date: 'Sat, 29 Jun 2019 02:00:52 GMT',
   connection: 'close' }
 ```
 
