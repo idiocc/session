@@ -1,3 +1,10 @@
+## 29 June 2019
+
+### [1.0.1](https://github.com/idiocc/session/compare/v1.0.0...v1.0.1)
+
+- [fix] Fix the initial max-age property.
+- [tests] Update `@context/http` to use session.
+
 ## 28 June 2019
 
 ### [1.0.0](https://github.com/idiocc/session/compare/v0.0.0-pre...v1.0.0)
