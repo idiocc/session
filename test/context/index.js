@@ -8,6 +8,11 @@ import Store from './Store'
  * A testing context for the package.
  */
 export default class Context extends Cookie {
+  constructor() {
+    super()
+    this.session = true
+    // this._debug = true
+  }
   /**
    * @param {KoaSessionConfig} options
    */

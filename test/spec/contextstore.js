@@ -4,9 +4,8 @@ import Context from '../context'
 /** @type {TestSuite} */
 const T = {
   context: Context,
-  async 'works when session contains a ;'({ startApp, getContextStoreApp, getCookieForName }) {
-    const app = getContextStoreApp({ signed: false })
-    app.use((ctx) => {
+  async 'works when session contains a ;'({ startApp, contextStoreApp }) {
+    contextStoreApp.use((ctx) => {
       if (ctx.path == '/set') {
         ctx.session.string = ';'
         ctx.status = 204
@@ -14,14 +13,9 @@ const T = {
         ctx.body = ctx.session.string
       }
     })
-    let cookie
     await startApp()
       .get('/set')
-      .assert(({ statusCode }) => {
-        equal(statusCode, 204)
-        ;({ value: cookie } = getCookieForName('koa:sess'))
-      })
-      .set('Cookie', () => `koa:sess=${cookie}`)
+      .assert(204)
       .get('/')
       .assert(200, ';')
   },
@@ -30,17 +24,15 @@ const T = {
 /** @type {TestSuite} */
 export const newSession = {
   context: Context,
-  async 'does not set cookie when not accessed'({ getContextStoreApp, startApp }) {
-    const app = getContextStoreApp()
-    app.use((ctx) => ctx.body = 'greetings')
+  async 'does not set cookie when not accessed'({ contextStoreApp, startApp }) {
+    contextStoreApp.use((ctx) => ctx.body = 'greetings')
     await startApp()
       .get('/')
       .assert(200)
       .count(0)
   },
-  async 'does not set cookie when not populated'({ getContextStoreApp, startApp }) {
-    const app = getContextStoreApp()
-    app.use((ctx) => {
+  async 'does not set cookie when not populated'({ contextStoreApp, startApp }) {
+    contextStoreApp.use((ctx) => {
       ctx.session
       ctx.body = 'greetings'
     })
@@ -49,9 +41,8 @@ export const newSession = {
       .assert(200)
       .count(0)
   },
-  async 'sets cookie when populated'({ getContextStoreApp, startApp }) {
-    const app = getContextStoreApp()
-    app.use((ctx) => {
+  async 'sets cookie when populated'({ contextStoreApp, startApp }) {
+    contextStoreApp.use((ctx) => {
       ctx.session.message = 'hello'
       ctx.body = 'greetings'
     })
@@ -61,9 +52,8 @@ export const newSession = {
       .name('koa:sess')
       .assert('set-cookie', /_suffix/)
   },
-  async 'passes sid to middleware'({ getContextStoreApp, startApp }) {
-    const app = getContextStoreApp()
-    app.use((ctx) => {
+  async 'passes sid to middleware'({ contextStoreApp, startApp }) {
+    contextStoreApp.use((ctx) => {
       ctx.session.message = 'hello'
       ok(ctx.state.sid.indexOf('_suffix') > 1)
       ctx.body = ''
@@ -80,9 +70,8 @@ export const newSession = {
 /** @type {TestSuite} */
 export const savedSession = {
   context: Context,
-  async 'does not set cookie again when not changed'({ getContextStoreApp, startApp, getCookieForName }) {
-    const app = getContextStoreApp({ signed: false })
-    app.use((ctx) => {
+  async 'does not set cookie again when not changed'({ contextStoreApp, startApp }) {
+    contextStoreApp.use((ctx) => {
       if (ctx.path == '/set') {
         ctx.session.message = 'hello'
         ctx.status = 204
@@ -90,21 +79,15 @@ export const savedSession = {
         ctx.body = ctx.session.message
       }
     })
-    let cookie
     await startApp()
       .get('/set')
-      .assert(({ statusCode }) => {
-        equal(statusCode, 204)
-        ;({ value: cookie } = getCookieForName('koa:sess'))
-      })
-      .set('Cookie', () => `koa:sess=${cookie}`)
+      .assert(204)
       .get('/')
       .assert(200, 'hello')
       .count(0)
   },
-  async 'sets the cookie again after a change'({ getContextStoreApp, startApp, getCookieForName }) {
-    const app = getContextStoreApp({ signed: false })
-    app.use((ctx) => {
+  async 'sets the cookie again after a change'({ contextStoreApp, startApp }) {
+    contextStoreApp.use((ctx) => {
       if (ctx.path == '/set') {
         ctx.session.message = 'hello'
         ctx.status = 204
@@ -113,22 +96,14 @@ export const savedSession = {
         ctx.session.money = '$$$'
       }
     })
-    let cookie
     await startApp()
-      .get('/set')
-      .assert(({ statusCode }) => {
-        equal(statusCode, 204)
-        ;({ value: cookie } = getCookieForName('koa:sess'))
-      })
-      .set('Cookie', () => `koa:sess=${cookie}`)
-      .get('/')
-      .assert(200, 'hello')
-      .name('koa:sess')
-      .count(1)
+      .get('/set').assert(204)
+      .name('koa:sess').count(2)
+      .get('/').assert(200, 'hello')
+      .name('koa:sess').count(2)
   },
-  async 'removes session'({ getContextStoreApp, startApp }) {
-    const app = getContextStoreApp()
-    app.use((ctx) => {
+  async 'removes session'({ contextStoreApp, startApp }) {
+    contextStoreApp.use((ctx) => {
       ctx.session.message = 'hello'
       ctx.session = null
       ctx.body = String(ctx.session === null)
@@ -280,7 +255,7 @@ export const autoCommit = {
 /** @type {TestSuite} */
 export const maxAge = {
   async 'does not expire'({ getContextStoreApp, startApp }) {
-    const app = getContextStoreApp({ maxAge: 100 })
+    const app = getContextStoreApp({ maxAge: 2000 })
     app.use((ctx) => {
       if (ctx.path == '/set') {
         ctx.session.message = 'hi'
@@ -289,20 +264,13 @@ export const maxAge = {
         ctx.body = ctx.session.message
       }
     })
-    let cookie
     await startApp()
-      .get('/set')
+      .get('/set').assert(204)
       .name('koa:sess')
-      .assert(204)
-      .assert(({ headers }) => {
-        cookie = headers['set-cookie'].join(';')
-      })
-      .set('Cookie', () => cookie)
-      .get('/')
-      .assert(200, 'hi')
+      .get('/').assert(200, 'hi')
   },
   async 'expires'({ getContextStoreApp, startApp }) {
-    const app = getContextStoreApp({ maxAge: 100 })
+    const app = getContextStoreApp({ maxAge: 1500 })
     app.use((ctx) => {
       if (ctx.path == '/set') {
         ctx.session.message = 'hi'
@@ -311,18 +279,11 @@ export const maxAge = {
         ctx.body = ctx.session.message || 'no cookie'
       }
     })
-    let cookie
     await startApp()
-      .get('/set')
+      .get('/set').assert(204)
       .name('koa:sess')
-      .assert(204)
-      .assert(async ({ headers }) => {
-        cookie = headers['set-cookie'].join(';')
-        await new Promise(r => setTimeout(r, 200))
-      })
-      .set('Cookie', () => cookie)
-      .get('/')
-      .assert(200, 'no cookie')
+      .assert(() => new Promise(r => setTimeout(r, 1500)))
+      .get('/').assert(200, 'no cookie')
   },
   async 'returns opt.maxAge'({ getContextStoreApp, startApp }) {
     const app = getContextStoreApp({ maxAge: 100 })
@@ -383,7 +344,7 @@ export const storeEmpty = {
 
 /** @type {TestSuite} */
 export const valid = {
-  async 'ignores session when uid changed'({ getContextStoreApp, startApp, getCookieForName }) {
+  async 'ignores session when uid changed'({ getContextStoreApp, startApp }) {
     const app = getContextStoreApp({
       valid(ctx, sess) {
         const uid = ctx.cookies.get('uid')
@@ -406,23 +367,17 @@ export const valid = {
         foo: ctx.session.foo,
       }
     })
-    let cookie
     let oldData
     await startApp()
       .set('Cookie', 'uid=123')
       .get('/')
       .assert(200)
       .name('koa:sess')
-      .assert(() => {
-        ({ value: cookie } = getCookieForName('koa:sess'))
-      })
-      .set('Cookie', () => `koa:sess=${cookie}` + ';uid=123')
+      .set('Cookie', 'uid=123')
       .get('/')
       .assert(200)
-      .assert(({ body }) => {
-        oldData = body
-      })
-      .set('Cookie', () => `koa:sess=${cookie}` + ';uid=456')
+      .assert(({ body }) => { oldData = body })
+      .set('Cookie', 'uid=456')
       .get('/')
       .assert(200)
       .assert(({ body }) => {
@@ -445,23 +400,18 @@ export const rolling = {
       .assert(200, {})
       .count(0)
   },
-  async 'sends set-cookie when session exists and not changed'({ getContextStoreApp, startApp, getCookieForName }) {
-    const app = getContextStoreApp({ rolling: true, signed: false })
+  async 'sends set-cookie when session exists and not changed'({ getContextStoreApp, startApp }) {
+    const app = getContextStoreApp({ rolling: true })
     app.use((ctx) => {
       if (ctx.path == '/set') ctx.session = { foo: 'bar' }
       ctx.body = ctx.session
     })
-    let cookie
     await startApp()
       .get('/set')
       .assert(200, { foo: 'bar' })
-      .count(1)
-      .assert(() => {
-        ({ value: cookie } = getCookieForName('koa:sess'))
-      })
-      .set('Cookie', () => `koa:sess=${cookie}`)
+      .count(2)
       .get('/')
-      .count(1)
+      .count(2)
       .assert(200, { foo: 'bar' })
   },
 }

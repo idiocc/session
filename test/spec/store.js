@@ -1,10 +1,10 @@
-import { ok, equal, notEqual } from 'assert'
+import { equal, notEqual } from 'assert'
 import Context from '../context'
 
 /** @type {TestSuite} */
 const T = {
   context: Context,
-  async 'works when session contains a ;'({ startApp, getStoreApp, getCookieForName }) {
+  async 'works when session contains a ;'({ startApp, getStoreApp }) {
     const app = getStoreApp({ signed: false })
     app.use((ctx) => {
       if (ctx.path == '/set') {
@@ -14,16 +14,9 @@ const T = {
         ctx.body = ctx.session.string
       }
     })
-    let cookie
     await startApp()
-      .get('/set')
-      .assert(({ statusCode }) => {
-        equal(statusCode, 204)
-        ;({ value: cookie } = getCookieForName('koa:sess'))
-      })
-      .set('Cookie', () => `koa:sess=${cookie}`)
-      .get('/')
-      .assert(200, ';')
+      .get('/set').assert(204)
+      .get('/').assert(200, ';')
   },
 }
 
@@ -62,9 +55,8 @@ export const newSession = {
 /** @type {TestSuite} */
 export const savedSession = {
   context: Context,
-  async 'does not set cookie again when not changed'({ getStoreApp, startApp, getCookieForName }) {
-    const app = getStoreApp({ signed: false })
-    app.use((ctx) => {
+  async 'does not set cookie again when not changed'({ storeApp, startApp }) {
+    storeApp.use((ctx) => {
       if (ctx.path == '/set') {
         ctx.session.message = 'hello'
         ctx.status = 204
@@ -72,21 +64,13 @@ export const savedSession = {
         ctx.body = ctx.session.message
       }
     })
-    let cookie
     await startApp()
-      .get('/set')
-      .assert(({ statusCode }) => {
-        equal(statusCode, 204)
-        ;({ value: cookie } = getCookieForName('koa:sess'))
-      })
-      .set('Cookie', () => `koa:sess=${cookie}`)
-      .get('/')
-      .assert(200, 'hello')
+      .get('/set').assert(204)
+      .get('/').assert(200, 'hello')
       .count(0)
   },
-  async 'sets the cookie again after a change'({ getStoreApp, startApp, getCookieForName }) {
-    const app = getStoreApp({ signed: false })
-    app.use((ctx) => {
+  async 'sets the cookie again after a change'({ storeApp, startApp }) {
+    storeApp.use((ctx) => {
       if (ctx.path == '/set') {
         ctx.session.message = 'hello'
         ctx.status = 204
@@ -95,22 +79,13 @@ export const savedSession = {
         ctx.session.money = '$$$'
       }
     })
-    let cookie
     await startApp()
-      .get('/set')
-      .assert(({ statusCode }) => {
-        equal(statusCode, 204)
-        ;({ value: cookie } = getCookieForName('koa:sess'))
-      })
-      .set('Cookie', () => `koa:sess=${cookie}`)
-      .get('/')
-      .assert(200, 'hello')
-      .name('koa:sess')
-      .count(1)
+      .get('/set').assert(204)
+      .get('/').assert(200, 'hello')
+      .name('koa:sess').count(2)
   },
-  async 'removes session'({ getStoreApp, startApp }) {
-    const app = getStoreApp()
-    app.use((ctx) => {
+  async 'removes session'({ storeApp, startApp }) {
+    storeApp.use((ctx) => {
       ctx.session.message = 'hello'
       ctx.session = null
       ctx.body = String(ctx.session === null)
@@ -262,7 +237,7 @@ export const autoCommit = {
 /** @type {TestSuite} */
 export const maxAge = {
   async 'does not expire'({ getStoreApp, startApp }) {
-    const app = getStoreApp({ maxAge: 100 })
+    const app = getStoreApp({ maxAge: 2000 })
     app.use((ctx) => {
       if (ctx.path == '/set') {
         ctx.session.message = 'hi'
@@ -271,20 +246,12 @@ export const maxAge = {
         ctx.body = ctx.session.message
       }
     })
-    let cookie
     await startApp()
-      .get('/set')
-      .name('koa:sess')
-      .assert(204)
-      .assert(({ headers }) => {
-        cookie = headers['set-cookie'].join(';')
-      })
-      .set('Cookie', () => cookie)
-      .get('/')
-      .assert(200, 'hi')
+      .get('/set').assert(204).name('koa:sess')
+      .get('/')   .assert(200, 'hi')
   },
   async 'expires'({ getStoreApp, startApp }) {
-    const app = getStoreApp({ maxAge: 100 })
+    const app = getStoreApp({ maxAge: 1500 })
     app.use((ctx) => {
       if (ctx.path == '/set') {
         ctx.session.message = 'hi'
@@ -293,18 +260,11 @@ export const maxAge = {
         ctx.body = ctx.session.message || 'no cookie'
       }
     })
-    let cookie
     await startApp()
-      .get('/set')
+      .get('/set').assert(204)
       .name('koa:sess')
-      .assert(204)
-      .assert(async ({ headers }) => {
-        cookie = headers['set-cookie'].join(';')
-        await new Promise(r => setTimeout(r, 200))
-      })
-      .set('Cookie', () => cookie)
-      .get('/')
-      .assert(200, 'no cookie')
+      .assert(() => new Promise(r => setTimeout(r, 1500)))
+      .get('/').assert(200, 'no cookie')
   },
   async 'returns opt.maxAge'({ getStoreApp, startApp }) {
     const app = getStoreApp({ maxAge: 100 })
@@ -365,7 +325,7 @@ export const storeEmpty = {
 
 /** @type {TestSuite} */
 export const valid = {
-  async 'ignores session when uid changed'({ getStoreApp, startApp, getCookieForName }) {
+  async 'ignores session when uid changed'({ getStoreApp, startApp }) {
     const app = getStoreApp({
       valid(ctx, sess) {
         const uid = ctx.cookies.get('uid')
@@ -388,23 +348,17 @@ export const valid = {
         foo: ctx.session.foo,
       }
     })
-    let cookie
     let oldData
     await startApp()
       .set('Cookie', 'uid=123')
       .get('/')
       .assert(200)
       .name('koa:sess')
-      .assert(() => {
-        ({ value: cookie } = getCookieForName('koa:sess'))
-      })
-      .set('Cookie', () => `koa:sess=${cookie}` + ';uid=123')
+      .set('Cookie', 'uid=123')
       .get('/')
       .assert(200)
-      .assert(({ body }) => {
-        oldData = body
-      })
-      .set('Cookie', () => `koa:sess=${cookie}` + ';uid=456')
+      .assert(({ body }) => { oldData = body })
+      .set('Cookie', 'uid=456')
       .get('/')
       .assert(200)
       .assert(({ body }) => {
@@ -427,49 +381,35 @@ export const rolling = {
       .assert(200, {})
       .count(0)
   },
-  async 'sends set-cookie when session exists and not changed'({ getStoreApp, startApp, getCookieForName }) {
-    const app = getStoreApp({ rolling: true, signed: false })
+  async 'sends set-cookie when session exists and not changed'({ getStoreApp, startApp }) {
+    const app = getStoreApp({ rolling: true })
     app.use((ctx) => {
       if (ctx.path == '/set') ctx.session = { foo: 'bar' }
       ctx.body = ctx.session
     })
-    let cookie
     await startApp()
       .get('/set')
       .assert(200, { foo: 'bar' })
-      .count(1)
-      .assert(() => {
-        ({ value: cookie } = getCookieForName('koa:sess'))
-      })
-      .set('Cookie', () => `koa:sess=${cookie}`)
+      .count(2)
       .get('/')
-      .count(1)
+      .count(2)
       .assert(200, { foo: 'bar' })
   },
 }
 
 /** @type {TestSuite} */
 export const prefix = {
-  async 'works'({ getStoreApp, startApp, getCookieForName }) {
-    const app = getStoreApp({ prefix: 'sess:', signed: false })
+  async 'works'({ getStoreApp, startApp }) {
+    const app = getStoreApp({ prefix: 'sess:' })
     app.use((ctx) => {
       if (ctx.path == '/set') {
         ctx.session.string =';'
         ctx.body = 204
       } else ctx.body = ctx.session.string
     })
-    let cookie
     await startApp()
-      .get('/set')
-      .assert('set-cookie', /koa:sess=sess:/)
-      .count(1)
-      .assert(() => {
-        ({ value: cookie } = getCookieForName('koa:sess'))
-      })
-      .set('Cookie', () => `koa:sess=${cookie}`)
-      .get('/')
-      .count(0)
-      .assert(200, ';')
+      .get('/set').count(2).assert('set-cookie', /koa:sess=sess:/)
+      .get('/').count(0).assert(200, ';')
   },
 }
 
@@ -488,48 +428,34 @@ export const renew = {
       .assert(200, {})
       .count(0)
   },
-  async 'sends set-cookie when session near expire'({ getStoreApp, startApp, getCookieForName }) {
-    const app = getStoreApp({ renew: true, maxAge: 250, signed: false })
+  async 'sends set-cookie when session near expire'({ getStoreApp, startApp }) {
+    const app = getStoreApp({ renew: true, maxAge: 2000 })
     app.use((ctx) => {
       if (ctx.path == '/set') {
         ctx.session = { foo: 'bar' }
       }
       ctx.body = ctx.session
     })
-    let cookie
     await startApp()
-      .get('/set')
-      .assert(200, { foo: 'bar' })
-      .count(1)
-      .assert(async () => {
-        await new Promise(r => setTimeout(r, 200))
-        ;({ value: cookie } = getCookieForName('koa:sess'))
-      })
-      .set('Cookie', () => `koa:sess=${cookie}`)
+      .get('/set').assert(200, { foo: 'bar' }).count(2)
+      .assert(() => new Promise(r => setTimeout(r, 1000)))
       .get('/')
       .assert(200, { foo: 'bar' })
-      .count(1)
+      .count(2)
   },
-  async 'does not send set-cookie when session not near expire'({ getStoreApp, startApp, getCookieForName }) {
-    const app = getStoreApp({ renew: true, maxAge: 250, signed: false })
+  async 'does not send set-cookie when session not near expire'({ getStoreApp, startApp }) {
+    const app = getStoreApp({ renew: true, maxAge: 2000 })
     app.use((ctx) => {
       if (ctx.path == '/set') {
         ctx.session = { foo: 'bar' }
       }
       ctx.body = ctx.session
     })
-    let cookie
     await startApp()
-      .get('/set')
-      .assert(200, { foo: 'bar' })
-      .count(1)
-      .assert(async () => {
-        await new Promise(r => setTimeout(r, 100))
-        ;({ value: cookie } = getCookieForName('koa:sess'))
-      })
-      .set('Cookie', () => `koa:sess=${cookie}`)
-      .get('/')
-      .assert(200, { foo: 'bar' })
+      .get('/set').assert(200, { foo: 'bar' })
+      .count(2)
+      .assert(() => new Promise(r => setTimeout(r, 100)))
+      .get('/').assert(200, { foo: 'bar' })
       .count(0)
   },
 }

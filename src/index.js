@@ -1,7 +1,7 @@
 import Debug from '@idio/debug'
 import v4 from '@goa/uuid'
 import assert from 'assert'
-import ContextSession from './lib/context'
+import ContextSession, { ONE_DAY } from './lib/context'
 import { encode, decode } from './lib/util'
 
 const debug = Debug('koa-session')
@@ -70,6 +70,7 @@ export default function(app, opts = {}) {
  */
 function formatOpts(opts = {}) {
   opts.key = opts.key || 'koa:sess'
+  opts.maxAge = opts.maxAge || ONE_DAY
 
   // defaults
   if (opts.overwrite == null) opts.overwrite = true

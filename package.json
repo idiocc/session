@@ -39,11 +39,11 @@
   },
   "homepage": "https://github.com/idiocc/session#readme",
   "devDependencies": {
-    "@contexts/http": "^1.2.8",
+    "@contexts/http": "^1.3.0",
     "@externs/goa": "^0.1.0",
     "@goa/cookies": "^1.0.0",
     "@goa/koa": "^1.1.2",
-    "@goa/uuid": "^1.0.1",
+    "@goa/uuid": "^1.0.2",
     "@idio/debug": "^1.1.1",
     "@typedefs/goa": "^0.0.2",
     "alamode": "^2.3.4",
