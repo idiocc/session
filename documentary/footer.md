@@ -2,11 +2,11 @@
 
 - [ ] Add a new item to the todo list. -->
 
-## Copyright
+## Copyright & License
 
-Original Work by [dead-horse and contributors](https://github.com/koajs/session).
+GNU Affero General Public License v3.0
 
----
+[Original Work](https://github.com/koajs/session) by dead-horse and contributors under MIT license found.
 
 <idio-footer />
 

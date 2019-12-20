@@ -143,8 +143,8 @@ _idio.KoaSessionConfig.prototype.autoCommit
  */
 _idio.KoaSessionConfig.prototype.store
 /**
- * External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.
- * @type {({ get: function(_goa.Context), set: function(_goa.Context, string) })|undefined}
+ * External key is used from the cookie by default, but you can use `options.externalKey` to customize your own external key methods.
+ * @type {({ get: function(_goa.Context): string, set: function(_goa.Context, string): void })|undefined}
  */
 _idio.KoaSessionConfig.prototype.externalKey
 /**

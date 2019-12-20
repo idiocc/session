@@ -13,3 +13,7 @@ yarn add @goa/session
 %TOC%
 
 %~%
+
+<include-typedefs>
+  node_modules/@typedefs/goa/typedefs.json
+</include-typedefs>

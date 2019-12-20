@@ -9,13 +9,14 @@
     "test": "yarn t test/spec test/mask",
     "spec": "yarn t test/spec",
     "mask": "yarn t test/mask",
-    "lib": "depack src/depack -o depack -a -c -p --externs types/externs.js --externs http",
+    "lib": "depack src/depack -o compile/session.js -a -c -p --externs http",
     "test-compile": "ALAMODE_ENV=test-compile yarn test",
     "lint": "eslint .",
     "doc": "NODE_DEBUG=doc doc -o README.md",
     "b": "alamode src -o build -s",
-    "d": "yarn-s d1 externs",
-    "d1": "typal types/index.js",
+    "d": "yarn-s template d1 externs",
+    "d1": "typal compile/index.js -u",
+    "template": "typal compile/template.js -T compile/index.js -t types",
     "externs": "typal types/externs.js -e",
     "e": "alanode"
   },
@@ -34,7 +35,7 @@
     "goa"
   ],
   "author": "Anton <anton@adc.sh>",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "bugs": {
     "url": "https://github.com/idiocc/session/issues"
   },

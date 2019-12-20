@@ -26,10 +26,6 @@ const isFunction = fn => typeof fn == 'function'
 // const _CONTEXT_SESSION = Symbol('context#_contextSession')
 
 /**
- * Initialize session middleware with `opts`:
- *
- * - `key` session cookie name ["koa:sess"]
- * - all other options are passed as cookie options
  *
  * @param {_goa.Application} app koa application instance
  * @param {_idio.KoaSessionConfig} [opts] Configuration passed to `koa-session`.

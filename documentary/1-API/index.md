@@ -8,23 +8,18 @@ import session from '@goa/session'
 
 %~%
 
-```## session => _goa.Middleware
-[
-  ["app", "_goa.App"],
-  ["options?", "_idio.KoaSessionConfig"]
-]
-```
+<typedef>types/api.xml</typedef>
 
 The interface is changed from the original package, so that the app is always passed as the first argument.
 
-%TYPEDEF types/index.xml KoaSessionConfig%
+<typedef name="KoaSessionConfig">types/index.xml</typedef>
 
 %EXAMPLE: example, ../src => @goa/session%
 %FORK-js example%
 
 If your session store requires data or utilities from context, `opts.ContextStore` is also supported. _ContextStore_ must be a class which claims three instance methods demonstrated above. new ContextStore(ctx) will be executed on every request.
 
-%TYPEDEF types/index.xml ContextStore%
+<typedef name="ContextStore">types/index.xml</typedef>
 
 <details>
 <summary><em>Show an example context store.</em>
@@ -35,6 +30,6 @@ If your session store requires data or utilities from context, `opts.ContextStor
 
 The session object itself (`ctx.session`) has the following methods.
 
-%TYPEDEF types/session.xml%
+<typedef narrow flatten slimFunctions>types/session.xml</typedef>
 
 %~%
