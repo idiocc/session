@@ -33,7 +33,6 @@ const isFunction = fn => typeof fn == 'function'
  *
  * @param {_goa.Application} app koa application instance
  * @param {_idio.KoaSessionConfig} [opts] Configuration passed to `koa-session`.
- * @return {_goa.Middleware}
  */
 export default function(app, opts = {}) {
   // app required
@@ -44,7 +43,10 @@ export default function(app, opts = {}) {
   opts = formatOpts(opts)
   extendContext(app.context, opts)
 
-  return async function session(ctx, next) {
+  /**
+   * @type {!_goa.Middleware}
+   */
+  async function session(ctx, next) {
     /**
      * @suppress {checkTypes}
      * @type {ContextSession}
@@ -61,6 +63,7 @@ export default function(app, opts = {}) {
       }
     }
   }
+  return session
 }
 
 /**

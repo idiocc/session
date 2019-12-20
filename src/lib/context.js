@@ -20,7 +20,7 @@ export default class ContextSession {
     this.app = ctx.app
     this.opts = opts
     this.store = this.opts.ContextStore ? new this.opts.ContextStore(ctx) : this.opts.store
-    /** @type {!Session|undefined} */
+    /** @type {Session|undefined} */
     this.session = undefined
     /** @type {string|undefined} */
     this.externalKey = undefined
@@ -36,7 +36,7 @@ export default class ContextSession {
     // already retrieved
     if (session) return session
     // unset
-    if (session === false) return null
+    if (session === null) return null
 
     // cookie session store
     if (!store) this.initFromCookie()
@@ -49,10 +49,10 @@ export default class ContextSession {
    */
   set(val) {
     if (val === null) {
-      this.session = false
+      this.session = null
       return
     }
-    if (typeof val === 'object') {
+    if (typeof val == 'object') {
       // use the original `externalKey` if exists to avoid waste storage
       this.create(val, this.externalKey)
       return
@@ -122,7 +122,7 @@ export default class ContextSession {
       debug('decode %j error: %s', cookie, err)
       if (!(err instanceof SyntaxError)) {
         // clean this cookie to ensure next request won't throw again
-        ctx.cookies.set(/** @type {string} */ (opts.key), '', /** @type {_goa.CookieAttributes} */ (opts))
+        ctx.cookies.set(/** @type {string} */ (opts.key), '', /** @type {!_goa.} */ (opts))
         // ctx.onerror will unset all headers, and set those specified in err
         err.headers = {
           'set-cookie': ctx.response.get('set-cookie'),
@@ -164,7 +164,7 @@ export default class ContextSession {
     }
 
     const valid = this.opts.valid
-    if (typeof valid === 'function' && !valid(ctx, value)) {
+    if (typeof valid == 'function' && !valid(ctx, value)) {
       // valid session value fail, ignore this session
       debug('invalid session')
       this.emit('invalid', { key, value, ctx })
@@ -207,7 +207,7 @@ export default class ContextSession {
     if (undefined === session) return
 
     // removed
-    if (session === false) {
+    if (session === null) {
       await this.remove()
       return
     }
@@ -260,7 +260,7 @@ export default class ContextSession {
     const { opts: { key }, ctx, externalKey, store } = this
 
     if (externalKey) await store.destroy(externalKey)
-    ctx.cookies.set(/** @type {string} */ (key), '', /** @type {_goa.CookieAttributes} */ (this.opts))
+    ctx.cookies.set(/** @type {string} */ (key), '', /** @type {!_goa.CookieSetOptions} */ (this.opts))
   }
 
   /**
@@ -273,7 +273,7 @@ export default class ContextSession {
     let { opts: { maxAge = ONE_DAY } } = this
     let json = this.session.toJSON()
     // set expire for check
-    if (maxAge === 'session') {
+    if (maxAge == 'session') {
       // do not set _expire in json if maxAge is set to 'session'
       // also delete maxAge from options
       this.opts.maxAge = undefined
@@ -287,7 +287,7 @@ export default class ContextSession {
     // save to external store
     if (externalKey) {
       debug('save %j to external key %s', json, externalKey)
-      if (typeof maxAge === 'number') {
+      if (typeof maxAge == 'number') {
         // ensure store expired after cookie
         maxAge += 10000
       }
@@ -298,7 +298,7 @@ export default class ContextSession {
       if (optsExternalKey) {
         optsExternalKey.set(this.ctx, externalKey)
       } else {
-        this.ctx.cookies.set(/** @type {string} */ (key), externalKey, /** @type {_goa.CookieAttributes} */ (this.opts))
+        this.ctx.cookies.set(/** @type {string} */ (key), externalKey, /** @type {!_goa.CookieSetOptions} */ (this.opts))
       }
       return
     }
@@ -308,7 +308,7 @@ export default class ContextSession {
     json = encode(json)
     debug('save %s', json)
 
-    this.ctx.cookies.set(/** @type {string} */ (key), json, /** @type {_goa.CookieAttributes} */ (this.opts))
+    this.ctx.cookies.set(/** @type {string} */ (key), json, /** @type {!_goa.CookieSetOptions} */ (this.opts))
   }
 }
 
@@ -327,4 +327,8 @@ export default class ContextSession {
 /**
  * @suppress {nonStandardJsDocs}
  * @typedef {import('../../types').KoaSessionConfig} _idio.KoaSessionConfig
+ */
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('@goa/cookies').CookieSetOptions} _goa.CookieSetOptions
  */

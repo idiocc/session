@@ -378,7 +378,7 @@ export const maxAge = {
     })
     await startApp()
       .get('/')
-      .assert(200, '100')
+      .assert(200, 100)
   },
   async 'sets opt.maxAge'({ app, startApp }) {
     app.use((ctx) => {

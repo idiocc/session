@@ -1,5 +1,5 @@
 <types namespace="_idio">
-  <type interface name="KoaSession" description="The session model.">
+  <interface name="KoaSession" description="The session model.">
     <prop type="boolean" name="isNew">
       Returns true if the session is new.
     </prop>
@@ -24,11 +24,11 @@
     <prop type="_goa.Context" name="_ctx">
       Private JSON serialisation.
     </prop>
-    <prop type="function(): void" name="save">
+    <fn void name="save">
       Save this session no matter whether it is populated.
-    </prop>
-    <prop type="function(): Promise" name="manuallyCommit">
-      Session headers are auto committed by default. Use this if autoCommit is set to false.
-    </prop>
-  </type>
+    </fn>
+    <fn async void name="manuallyCommit">
+      Session headers are auto committed by default. Use this if `autoCommit` is set to false.
+    </fn>
+  </interface>
 </types>

@@ -1,6 +1,5 @@
 import '@externs/goa'
 import '@goa/cookies'
-import 'http'
-import session from './'
+import Session from './'
 
-DEPACK_EXPORT = session
+module.exports = Session

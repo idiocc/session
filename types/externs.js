@@ -1,3 +1,8 @@
+/**
+ * @fileoverview
+ * @externs
+ */
+
 /* typal types/session.xml externs */
 /** @const */
 var _idio = {}

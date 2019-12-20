@@ -1,28 +1,40 @@
 <types namespace="_idio">
-  <type interface name="KoaContextSession" description="The context for the session API. Is actually private, as only accessible from context by a symbol.">
-    <prop type="_goa.Context" name="ctx">
+  <interface name="KoaContextSession" description="The context for the session API. Is actually private, as only accessible from context by a symbol.">
+    <prop type="!_goa.Context" name="ctx">
       The context.
     </prop>
-    <prop type="function(): !Promise" name="commit">
+    <fn async name="commit">
       Commit the session changes or removal.
-    </prop>
-  </type>
+    </fn>
+  </interface>
 
-  <type interface name="ContextStore" description="new ContextStore(ctx) will be executed on every request.">
-    <prop type="(key, maxAge, { rolling: boolean }) => Promise<*>" closure="function(string, (number|string), { rolling: boolean }): !Promise<!Object>" name="get">
+  <interface name="ContextStore" description="new ContextStore(ctx) will be executed on every request.">
+    <fn async return="!Object" name="get">
+      <arg string name="key">The session key.</arg>
+      <arg type="number|string" name="maxAge">The max age.</arg>
+      <arg type="{ rolling: boolean }" name="opts">
+        Additional options.
+      </arg>
       Get session object by key.
-    </prop>
-    <prop type="(key, sess, maxAge, { rolling, changed }) => Promise" closure="function(string, !Object, (number|string), { rolling, changed }): !Promise" name="set">
+    </fn>
+    <fn async name="set">
+      <arg string name="key">The session key.</arg>
+      <arg type="!Object" name="sess">The object to set.</arg>
+      <arg type="number|string" name="maxAge">The max age.</arg>
+      <arg type="{ rolling: boolean, changed: boolean }" name="opts">
+        Additional options.
+      </arg>
       Set session object for key, with a `maxAge` (in ms, or as `'session'`).
-    </prop>
-    <prop closure="function(string): !Promise" name="destroy">
+    </fn>
+    <fn async name="destroy">
+      <arg string name="key">The key.</arg>
       Destroy session for key.
-    </prop>
-  </type>
+    </fn>
+  </interface>
 
-  <type record name="KoaSessionConfig" desc="Configuration passed to `koa-session`." noToc>
+  <record name="KoaSessionConfig" desc="Configuration passed to `koa-session`." noToc>
     <prop string name="key" default="koa:sess">
-      Cookie key.
+      The cookie key.
     </prop>
     <prop type="string|number" name="maxAge" default="86400000">
       `maxAge` in ms with default of 1 day. Either a number or 'session'. `session` will result in a cookie that expires when session/browser is closed. Warning: If a session cookie is stolen, this cookie will never expire.
@@ -39,31 +51,38 @@
     <prop boolean name="autoCommit" default="true">
       Automatically commit headers.
     </prop>
-    <prop opt type="function(!_goa.Context, *): boolean" name="valid">
+    <fn opt return="boolean" name="valid">
+      <arg type="!_goa.Context" name="ctx">The context.</arg>
+      <arg type="!Object" name="sess">The session to validate.</arg>
       The validation hook: valid session value before use it.
-    </prop>
-    <prop opt type="function(!_goa.Context, !_idio.KoaSession): boolean" name="beforeSave">
+    </fn>
+    <fn opt return="boolean" name="beforeSave">
+      <arg type="!_goa.Context" name="ctx">The context.</arg>
+      <arg type="!_idio.KoaSession" name="ctx">The session.</arg>
       The hook before save session.
-    </prop>
-    <prop type="function(!_goa.Context): string" name="genid" default="uuid-v4">
+    </fn>
+    <fn return="string" name="genid" default="uuid-v4">
+      <arg type="!_goa.Context" name="ctx">The context.</arg>
       The way of generating external session id.
-    </prop>
+    </fn>
     <prop opt type="_idio.ContextStore" name="store">
       You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
     </prop>
     <prop opt type="{ get: function(_goa.Context), set: function(_goa.Context, string) }" name="externalKey">
       External key is used the cookie by default, but you can use options.externalKey to customize your own external key methods.
     </prop>
-    <prop opt type="function(new: _idio.ContextStore, !_goa.Context)" name="ContextStore">
+    <prop opt type="new (ctx:_goa.Context) => _idio.ContextStore" closure="function(new: _idio.ContextStore, !_goa.Context)" name="ContextStore">
       If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
     </prop>
     <prop opt string name="prefix">
       If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.
     </prop>
-    <prop opt type="function(!Object): string" name="encode">
+    <fn opt return="string" name="encode">
+      <arg type="!Object" name="sess">The session object to encode.</arg>
       Use options.encode and options.decode to customize your own encode/decode methods.
-    </prop>
-    <prop opt type="function(string): !Object" name="decode">
+    </fn>
+    <prop opt return="!Object" name="decode">
+    <arg type="string" name="sess">The session object to decode.</arg>
       Use options.encode and options.decode to customize your own encode/decode methods.
     </prop>
     <prop boolean name="rolling" default="false">
@@ -72,5 +91,5 @@
     <prop boolean name="renew" default="false">
       Renew session when session is nearly expired, so we can always keep user logged in.
     </prop>
-  </type>
+  </record>
 </types>
