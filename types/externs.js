@@ -7,9 +7,12 @@
 /** @const */
 var _idio = {}
 /**
+ * Session constructor.
+ * @param {_idio.KoaContextSession} sessionContext The session context.
+ * @param {?{ _maxAge: (number|undefined), _session: (boolean|undefined) }=} [obj] Serialised session to be restored.
  * @interface
  */
-_idio.KoaSession
+_idio.KoaSession = function(sessionContext, obj) {}
 /**
  * Returns true if the session is new.
  * @type {boolean}
@@ -29,17 +32,12 @@ _idio.KoaSession.prototype.maxAge
  * Private JSON serialisation.
  * @type {number}
  */
-_idio.KoaSession.prototype._maxAge
-/**
- * Private JSON serialisation.
- * @type {number}
- */
 _idio.KoaSession.prototype._expire
 /**
  * Private JSON serialisation.
- * @type {string}
+ * @type {boolean}
  */
-_idio.KoaSession.prototype._session
+_idio.KoaSession.prototype._requireSave
 /**
  * Private JSON serialisation.
  * @type {_idio.KoaContextSession}
@@ -52,56 +50,65 @@ _idio.KoaSession.prototype._sessCtx
 _idio.KoaSession.prototype._ctx
 /**
  * Save this session no matter whether it is populated.
- * @type {function(): void}
  */
-_idio.KoaSession.prototype.save
+_idio.KoaSession.prototype.save = function() {}
 /**
- * Session headers are auto committed by default. Use this if autoCommit is set to false.
- * @type {function(): Promise}
+ * Session headers are auto committed by default. Use this if `autoCommit` is set to false.
+ * @return {!Promise}
  */
-_idio.KoaSession.prototype.manuallyCommit
+_idio.KoaSession.prototype.manuallyCommit = function() {}
 
 /* typal types/index.xml externs */
 /**
+ * Constructor method.
  * @interface
  */
-_idio.KoaContextSession
+_idio.KoaContextSession = function() {}
 /**
  * The context.
- * @type {_goa.Context}
+ * @type {!_goa.Context}
  */
 _idio.KoaContextSession.prototype.ctx
 /**
  * Commit the session changes or removal.
- * @type {function(): !Promise}
+ * @return {!Promise}
  */
-_idio.KoaContextSession.prototype.commit
+_idio.KoaContextSession.prototype.commit = function() {}
 /**
+ * Constructor method.
  * @interface
  */
-_idio.ContextStore
+_idio.ContextStore = function() {}
 /**
  * Get session object by key.
- * @type {function(string, (number|string), { rolling: boolean }): !Promise<!Object>}
+ * @param {string} key The session key.
+ * @param {(number|string)} maxAge The max age.
+ * @param {{ rolling: boolean }} opts Additional options.
+ * @return {!Promise<!Object>}
  */
-_idio.ContextStore.prototype.get
+_idio.ContextStore.prototype.get = function(key, maxAge, opts) {}
 /**
  * Set session object for key, with a `maxAge` (in ms, or as `'session'`).
- * @type {function(string, !Object, (number|string), { rolling, changed }): !Promise}
+ * @param {string} key The session key.
+ * @param {!Object} sess The object to set.
+ * @param {(number|string)} maxAge The max age.
+ * @param {{ rolling: boolean, changed: boolean }} opts Additional options.
+ * @return {!Promise}
  */
-_idio.ContextStore.prototype.set
+_idio.ContextStore.prototype.set = function(key, sess, maxAge, opts) {}
 /**
  * Destroy session for key.
- * @type {function(string): !Promise}
+ * @param {string} key The key.
+ * @return {!Promise}
  */
-_idio.ContextStore.prototype.destroy
+_idio.ContextStore.prototype.destroy = function(key) {}
 /**
  * Configuration passed to `koa-session`.
  * @record
  */
 _idio.KoaSessionConfig
 /**
- * Cookie key. Default `koa:sess`.
+ * The cookie key. Default `koa:sess`.
  * @type {string|undefined}
  */
 _idio.KoaSessionConfig.prototype.key
@@ -131,21 +138,6 @@ _idio.KoaSessionConfig.prototype.signed
  */
 _idio.KoaSessionConfig.prototype.autoCommit
 /**
- * The validation hook: valid session value before use it.
- * @type {(function(!_goa.Context, *): boolean)|undefined}
- */
-_idio.KoaSessionConfig.prototype.valid
-/**
- * The hook before save session.
- * @type {(function(!_goa.Context, !_idio.KoaSession): boolean)|undefined}
- */
-_idio.KoaSessionConfig.prototype.beforeSave
-/**
- * The way of generating external session id. Default `uuid-v4`.
- * @type {(function(!_goa.Context): string)|undefined}
- */
-_idio.KoaSessionConfig.prototype.genid
-/**
  * You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
  * @type {_idio.ContextStore|undefined}
  */
@@ -159,32 +151,47 @@ _idio.KoaSessionConfig.prototype.externalKey
  * If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
  * @type {(function(new: _idio.ContextStore, !_goa.Context))|undefined}
  */
-_idio.KoaSessionConfig.prototype.ContextStore
+_idio.KoaSessionConfig.prototype.ContextStore = function(arg0) {}
 /**
  * If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.
  * @type {string|undefined}
  */
 _idio.KoaSessionConfig.prototype.prefix
 /**
- * Use options.encode and options.decode to customize your own encode/decode methods.
- * @type {(function(!Object): string)|undefined}
- */
-_idio.KoaSessionConfig.prototype.encode
-/**
- * Use options.encode and options.decode to customize your own encode/decode methods.
- * @type {(function(string): !Object)|undefined}
- */
-_idio.KoaSessionConfig.prototype.decode
-/**
- * Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown.
+ * Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. Default `false`.
  * @type {boolean|undefined}
  */
 _idio.KoaSessionConfig.prototype.rolling
 /**
- * Renew session when session is nearly expired, so we can always keep user logged in.
+ * Renew session when session is nearly expired, so we can always keep user logged in. Default `false`.
  * @type {boolean|undefined}
  */
 _idio.KoaSessionConfig.prototype.renew
+/**
+ * The validation hook: valid session value before use it.
+ * @type {(function(!_goa.Context,!Object): boolean)|undefined}
+ */
+_idio.KoaSessionConfig.prototype.valid = function(ctx, sess) {}
+/**
+ * The hook before save session.
+ * @type {(function(!_goa.Context,!_idio.KoaSession): boolean)|undefined}
+ */
+_idio.KoaSessionConfig.prototype.beforeSave = function(ctx, sess) {}
+/**
+ * The way of generating external session id. Default `uuid-v4`.
+ * @type {(function(!_goa.Context): string)|undefined}
+ */
+_idio.KoaSessionConfig.prototype.genid = function(ctx) {}
+/**
+ * Use options.encode and options.decode to customize your own encode/decode methods.
+ * @type {(function(!Object): string)|undefined}
+ */
+_idio.KoaSessionConfig.prototype.encode = function(sess) {}
+/**
+ * Use options.encode and options.decode to customize your own encode/decode methods.
+ * @type {(function(string): !Object)|undefined}
+ */
+_idio.KoaSessionConfig.prototype.decode = function(sess) {}
 
 /** @type {_idio.KoaSessionConfig} */
 _goa.Context.prototype.sessionOptions

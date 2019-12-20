@@ -58,7 +58,7 @@
     </fn>
     <fn opt return="boolean" name="beforeSave">
       <arg type="!_goa.Context" name="ctx">The context.</arg>
-      <arg type="!_idio.KoaSession" name="ctx">The session.</arg>
+      <arg type="!_idio.KoaSession" name="sess">The session.</arg>
       The hook before save session.
     </fn>
     <fn return="string" name="genid" default="uuid-v4">
@@ -81,10 +81,10 @@
       <arg type="!Object" name="sess">The session object to encode.</arg>
       Use options.encode and options.decode to customize your own encode/decode methods.
     </fn>
-    <prop opt return="!Object" name="decode">
-    <arg type="string" name="sess">The session object to decode.</arg>
+    <fn opt return="!Object" name="decode">
+      <arg type="string" name="sess">The session object to decode.</arg>
       Use options.encode and options.decode to customize your own encode/decode methods.
-    </prop>
+    </fn>
     <prop boolean name="rolling" default="false">
       Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown.
     </prop>

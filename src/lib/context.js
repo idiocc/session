@@ -122,7 +122,7 @@ export default class ContextSession {
       debug('decode %j error: %s', cookie, err)
       if (!(err instanceof SyntaxError)) {
         // clean this cookie to ensure next request won't throw again
-        ctx.cookies.set(/** @type {string} */ (opts.key), '', /** @type {!_goa.} */ (opts))
+        ctx.cookies.set(/** @type {string} */ (opts.key), '', /** @type {!_goa.CookieSetOptions} */ (opts))
         // ctx.onerror will unset all headers, and set those specified in err
         err.headers = {
           'set-cookie': ctx.response.get('set-cookie'),
@@ -147,13 +147,13 @@ export default class ContextSession {
 
   /**
    * Verify session(expired or )
-   * @param {*} value session object
+   * @param {Object} value session object
    * @param {*} [key] session externalKey(optional)
    */
   valid(value, key) {
     const { ctx } = this
     if (!value) {
-      this.emit('missed', { 'key': key, 'value': value, 'ctx': ctx })
+      this.emit('missed', { key, value, ctx })
       return false
     }
 
@@ -269,7 +269,7 @@ export default class ContextSession {
    * @api private
    */
   async save(changed) {
-    const { opts: { key, rolling, encode, externalKey: optsExternalKey }, externalKey } = this
+    const { opts: { key, rolling = false, encode, externalKey: optsExternalKey }, externalKey } = this
     let { opts: { maxAge = ONE_DAY } } = this
     let json = this.session.toJSON()
     // set expire for check
@@ -292,8 +292,8 @@ export default class ContextSession {
         maxAge += 10000
       }
       await this.store.set(externalKey, json, maxAge, {
-        'changed': changed,
-        'rolling': rolling,
+        changed,
+        rolling,
       })
       if (optsExternalKey) {
         optsExternalKey.set(this.ctx, externalKey)

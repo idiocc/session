@@ -6,11 +6,18 @@ export default class Session {
   /**
    * Session constructor.
    * @param {_idio.KoaContextSession} sessionContext
-   * @param {_goa.Context} sessionContext.ctx The context.
-   * @param {function(): !Promise} sessionContext.commit Commit the session changes or removal.
-   * @param {Object} [obj]
+   * @param {?{ _maxAge: (number|undefined), _session: (boolean|undefined) }} [obj]
    */
   constructor(sessionContext, obj) {
+    /**
+     * @type {number}
+     */
+    this._expire = 0
+    /**
+     * Does the session need saving.
+     * @type {boolean}
+     */
+    this._requireSave = false
     this._sessCtx = sessionContext
     this._ctx = sessionContext.ctx
     if (!obj) {
@@ -20,11 +27,12 @@ export default class Session {
         // restore maxAge from store
         if (k == '_maxAge') this._ctx.sessionOptions.maxAge = obj._maxAge
         else if (k == '_session') this._ctx.sessionOptions.maxAge = 'session'
-        else this[k] = obj[k]
+        else {
+          /** @suppress {checkTypes} */
+          this[k] = obj[k]
+        }
       }
     }
-    // this._expire = undefined
-    // this._requireSave = undefined
   }
 
   /**
@@ -37,6 +45,9 @@ export default class Session {
     Object.keys(this).forEach(key => {
       if (key == 'isNew') return
       if (key[0] == '_') return
+      /**
+       * @suppress {checkTypes}
+       */
       obj[key] = this[key]
     })
 

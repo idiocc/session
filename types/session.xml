@@ -1,21 +1,27 @@
 <types namespace="_idio">
   <interface name="KoaSession" description="The session model.">
-    <prop type="boolean" name="isNew">
+    <fn name="constructor">
+      <arg type="_idio.KoaContextSession" name="sessionContext">
+        The session context.
+      </arg>
+      <arg type="?{ _maxAge: (number|undefined), _session: (boolean|undefined) }" name="obj" opt>
+        Serialised session to be restored.
+      </arg>
+      Session constructor.
+    </fn>
+    <prop boolean name="isNew">
       Returns true if the session is new.
     </prop>
-    <prop type="boolean" name="populated">
+    <prop boolean name="populated">
       Populated flag, which is just a boolean alias of `.length`.
     </prop>
     <prop type="number|string" name="maxAge">
       Get/set cookie's maxAge.
     </prop>
-    <prop type="number" name="_maxAge">
+    <prop number name="_expire">
       Private JSON serialisation.
     </prop>
-    <prop type="number" name="_expire">
-      Private JSON serialisation.
-    </prop>
-    <prop type="string" name="_session">
+    <prop boolean name="_requireSave">
       Private JSON serialisation.
     </prop>
     <prop type="_idio.KoaContextSession" name="_sessCtx">

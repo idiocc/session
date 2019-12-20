@@ -179,7 +179,7 @@ function F(a) {
 function H(a) {
   const b = F(a);
   "function" == typeof a.init && a.init(b);
-  a.a.push(b);
+  a.c.push(b);
   return b;
 }
 function I(a, b) {
@@ -199,8 +199,8 @@ function J(a) {
   for (c = 0; c < e; c++) {
     d[c] && (b = d[c].replace(/\*/g, ".*?"), "-" == b[0] ? a.h.push(new RegExp("^" + b.substr(1) + "$")) : a.g.push(new RegExp("^" + b + "$")));
   }
-  for (c = 0; c < a.a.length; c++) {
-    b = a.a[c], b.enabled = a.enabled(b.namespace);
+  for (c = 0; c < a.c.length; c++) {
+    b = a.c[c], b.enabled = a.enabled(b.namespace);
   }
 }
 class K {
@@ -212,13 +212,13 @@ class K {
     this.save = a.save;
     this.init = a.init;
     this.formatters = a.formatters || {};
-    this.a = [];
+    this.c = [];
     this.g = [];
     this.h = [];
   }
   destroy(a) {
-    a = this.a.indexOf(a);
-    return -1 !== a ? (this.a.splice(a, 1), !0) : !1;
+    a = this.c.indexOf(a);
+    return -1 !== a ? (this.c.splice(a, 1), !0) : !1;
   }
   enabled(a) {
     if ("*" == a[a.length - 1]) {
@@ -293,6 +293,8 @@ function G(a) {
 ;var R = assert;
 class S {
   constructor(a, b) {
+    this._expire = 0;
+    this._requireSave = !1;
     this._sessCtx = a;
     this._ctx = a.ctx;
     if (b) {
@@ -324,10 +326,10 @@ class S {
   }
   set maxAge(a) {
     this._ctx.sessionOptions.maxAge = a;
-    this.a = !0;
+    this._requireSave = !0;
   }
   save() {
-    this.a = !0;
+    this._requireSave = !0;
   }
   async manuallyCommit() {
     await this._sessCtx.commit();
@@ -347,7 +349,7 @@ const U = function(a, b) {
   const c = (d, e) => b(d, e) >>> 0;
   c.signed = b;
   c.g = c;
-  c.a = a;
+  c.c = a;
   return c;
 }("crc-32", (a, b) => {
   Buffer.isBuffer(a) || (a = Buffer.from(a));
@@ -368,29 +370,29 @@ function W(a) {
 ;const X = M("koa-session:context");
 async function Y(a) {
   X("init from external");
-  var b = a.ctx, c = a.c;
+  var b = a.ctx, c = a.a;
   c.externalKey ? (b = c.externalKey.get(b), X("get external key from custom %s", b)) : (b = b.cookies.get(c.key, c), X("get external key from cookie %s", b));
-  b ? (c = await a.store.get(b, c.maxAge, {rolling:c.rolling}), a.valid(c, b) ? (a.create(c, b), a.g = U(JSON.stringify(a.a.toJSON()))) : a.create()) : a.create();
+  b ? (c = await a.store.get(b, c.maxAge, {rolling:c.rolling}), a.valid(c, b) ? (a.create(c, b), a.g = U(JSON.stringify(a.c.toJSON()))) : a.create()) : a.create();
 }
 function Z(a) {
   const b = a.g;
-  var c = a.a;
-  if (c.a) {
+  var c = a.c;
+  if (c._requireSave) {
     return "force";
   }
   const d = c.toJSON();
-  return b || Object.keys(d).length ? b !== U(JSON.stringify(d)) ? "changed" : a.c.rolling ? "rolling" : a.c.renew && (a = c._expire, c = c.maxAge, a && c && a - Date.now() < c / 2) ? "renew" : "" : "";
+  return b || Object.keys(d).length ? b !== U(JSON.stringify(d)) ? "changed" : a.a.rolling ? "rolling" : a.a.renew && (a = c._expire, c = c.maxAge, a && c && a - Date.now() < c / 2) ? "renew" : "" : "";
 }
 class aa {
   constructor(a, b = {}) {
     this.ctx = a;
     this.h = a.app;
-    this.c = b;
-    this.store = this.c.ContextStore ? new this.c.ContextStore(a) : this.c.store;
-    this.g = this.externalKey = this.a = void 0;
+    this.a = b;
+    this.store = this.a.ContextStore ? new this.a.ContextStore(a) : this.a.store;
+    this.g = this.externalKey = this.c = void 0;
   }
   get() {
-    var a = this.a;
+    var a = this.c;
     if (a) {
       return a;
     }
@@ -401,7 +403,7 @@ class aa {
       a: {
         X("init from cookie");
         a = this.ctx;
-        const c = this.c, d = a.cookies.get(c.key, c);
+        const c = this.a, d = a.cookies.get(c.key, c);
         if (d) {
           X("parse %s", d);
           try {
@@ -415,17 +417,17 @@ class aa {
             break a;
           }
           X("parsed %j", b);
-          this.valid(b) ? (this.create(b), this.g = U(JSON.stringify(this.a.toJSON()))) : this.create();
+          this.valid(b) ? (this.create(b), this.g = U(JSON.stringify(this.c.toJSON()))) : this.create();
         } else {
           this.create();
         }
       }
     }
-    return this.a;
+    return this.c;
   }
   set(a) {
     if (null === a) {
-      this.a = null;
+      this.c = null;
     } else {
       if ("object" == typeof a) {
         this.create(a, this.externalKey);
@@ -442,7 +444,7 @@ class aa {
     if (a._expire && a._expire < Date.now()) {
       return X("expired session"), this.emit("expired", {key:b, value:a, ctx:c}), !1;
     }
-    const d = this.c.valid;
+    const d = this.a.valid;
     return "function" != typeof d || d(c, a) ? !0 : (X("invalid session"), this.emit("invalid", {key:b, value:a, ctx:c}), !1);
   }
   emit(a, b) {
@@ -452,11 +454,11 @@ class aa {
   }
   create(a, b) {
     X("create session with val: %j externalKey: %s", a, b);
-    this.store && (this.externalKey = b || this.c.genid && this.c.genid(this.ctx));
-    this.a = new S(this, a);
+    this.store && (this.externalKey = b || this.a.genid && this.a.genid(this.ctx));
+    this.c = new S(this, a);
   }
   async commit() {
-    const {a, c:{beforeSave:b}, ctx:c} = this;
+    const {c:a, a:{beforeSave:b}, ctx:c} = this;
     if (void 0 !== a) {
       if (null === a) {
         await this.remove();
@@ -468,15 +470,15 @@ class aa {
     }
   }
   async remove() {
-    const {c:{key:a}, ctx:b, externalKey:c, store:d} = this;
+    const {a:{key:a}, ctx:b, externalKey:c, store:d} = this;
     c && await d.destroy(c);
-    b.cookies.set(a, "", this.c);
+    b.cookies.set(a, "", this.a);
   }
   async save(a) {
-    const {c:{key:b, rolling:c, encode:d, externalKey:e}, externalKey:h} = this;
-    let {c:{maxAge:f = 864E5}} = this, l = this.a.toJSON();
-    "session" == f ? (this.c.maxAge = void 0, l._session = !0) : (l._expire = f + Date.now(), l._maxAge = f);
-    h ? (X("save %j to external key %s", l, h), "number" == typeof f && (f += 10000), await this.store.set(h, l, f, {changed:a, rolling:c}), e ? e.set(this.ctx, h) : this.ctx.cookies.set(b, h, this.c)) : (X("save %j to cookie", l), l = d(l), X("save %s", l), this.ctx.cookies.set(b, l, this.c));
+    const {a:{key:b, rolling:c = !1, encode:d, externalKey:e}, externalKey:h} = this;
+    let {a:{maxAge:f = 864E5}} = this, l = this.c.toJSON();
+    "session" == f ? (this.a.maxAge = void 0, l._session = !0) : (l._expire = f + Date.now(), l._maxAge = f);
+    h ? (X("save %j to external key %s", l, h), "number" == typeof f && (f += 10000), await this.store.set(h, l, f, {changed:a, rolling:c}), e ? e.set(this.ctx, h) : this.ctx.cookies.set(b, h, this.a)) : (X("save %j to cookie", l), l = d(l), X("save %s", l), this.ctx.cookies.set(b, l, this.a));
   }
 }
 ;/*
@@ -513,7 +515,7 @@ function da(a, b) {
   }, set(c) {
     this.CONTEXT_SESSION.set(c);
   }, configurable:!0}, sessionOptions:{get() {
-    return this.CONTEXT_SESSION.c;
+    return this.CONTEXT_SESSION.a;
   }}});
 }
 ;module.exports = function(a, b = {}) {
