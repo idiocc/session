@@ -7,7 +7,7 @@
 /** @const */
 var _idio = {}
 /**
- * Session constructor.
+ * Private session constructor. It is called one time per request by the session context when middleware accesses `.session` property of the context.
  * @param {_idio.KoaContextSession} sessionContext The session context.
  * @param {?{ _maxAge: (number|undefined), _session: (boolean|undefined) }=} [obj] Serialised session to be restored.
  * @interface
@@ -75,6 +75,7 @@ _idio.KoaContextSession.prototype.ctx
  */
 _idio.KoaContextSession.prototype.commit = function() {}
 /**
+ * By implementing this class, the session can be recorded and retrieved using context, instead of cookies.
  * Constructor method.
  * @interface
  */
@@ -193,5 +194,7 @@ _idio.KoaSessionConfig.prototype.encode = function(sess) {}
  */
 _idio.KoaSessionConfig.prototype.decode = function(sess) {}
 
-/** @type {_idio.KoaSessionConfig} */
+/** @type {!_idio.KoaSessionConfig} */
 _goa.Context.prototype.sessionOptions
+/** @type {!_idio.KoaSession} */
+_goa.Context.prototype.session

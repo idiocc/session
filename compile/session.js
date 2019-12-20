@@ -89,15 +89,15 @@ function r(a, b, c, d) {
  Copyright(c) 2015 Jed Watson
  MIT Licensed
 */
-const t = /\B(?=(\d{3})+(?!\d))/g, w = /(?:\.0*|(\.[^0]+)0+)$/, x = {b:1, kb:1024, mb:1048576, gb:1073741824, tb:Math.pow(1024, 4), pb:Math.pow(1024, 5)};
-function z(a, b) {
+const t = /\B(?=(\d{3})+(?!\d))/g, u = /(?:\.0*|(\.[^0]+)0+)$/, x = {b:1, kb:1024, mb:1048576, gb:1073741824, tb:Math.pow(1024, 4), pb:Math.pow(1024, 5)};
+function y(a, b) {
   if (!Number.isFinite(a)) {
     return null;
   }
   const c = Math.abs(a), d = b && b.m || "", e = b && b.u || "", h = b && void 0 !== b.i ? b.i : 2, f = !(!b || !b.j);
   (b = b && b.s || "") && x[b.toLowerCase()] || (b = c >= x.pb ? "PB" : c >= x.tb ? "TB" : c >= x.gb ? "GB" : c >= x.mb ? "MB" : c >= x.kb ? "KB" : "B");
   a = (a / x[b.toLowerCase()]).toFixed(h);
-  f || (a = a.replace(w, "$1"));
+  f || (a = a.replace(u, "$1"));
   d && (a = a.replace(t, d));
   return a + e + b;
 }
@@ -106,22 +106,22 @@ function z(a, b) {
  BSD License
  Copyright (c) 2009-2015, Kevin Decker <kpdecker@gmail.com>
 */
-const A = {black:30, red:31, green:32, yellow:33, blue:34, magenta:35, cyan:36, white:37, grey:90};
+const z = {black:30, red:31, green:32, yellow:33, blue:34, magenta:35, cyan:36, white:37, grey:90};
 function B(a, b) {
-  return (b = A[b]) ? `\x1b[${b}m${a}\x1b[0m` : a;
+  return (b = z[b]) ? `\x1b[${b}m${a}\x1b[0m` : a;
 }
-;var C = {f:z, ["fy"](a) {
-  return B(z(a) || "", "yellow");
+;var C = {f:y, ["fy"](a) {
+  return B(y(a) || "", "yellow");
 }, ["fr"](a) {
-  return B(z(a) || "", "red");
+  return B(y(a) || "", "red");
 }, ["fb"](a) {
-  return B(z(a) || "", "blue");
+  return B(y(a) || "", "blue");
 }, ["fg"](a) {
-  return B(z(a) || "", "green");
+  return B(y(a) || "", "green");
 }, ["fc"](a) {
-  return B(z(a) || "", "cyan");
+  return B(y(a) || "", "cyan");
 }, ["fm"](a) {
-  return B(z(a) || "", "magenta");
+  return B(y(a) || "", "magenta");
 }};
 const D = Object.keys(process.env).filter(a => /^debug_/i.test(a)).reduce((a, b) => {
   const c = b.substring(6).toLowerCase().replace(/_([a-z])/g, (d, e) => e.toUpperCase());
@@ -157,16 +157,16 @@ function F(a) {
       h = b.curr = l;
       f[0] = G(f[0]);
       "string" != typeof f[0] && f.unshift("%O");
-      var u = 0;
-      f[0] = f[0].replace(/%([a-zA-Z%]+)/g, (v, y) => {
-        if ("%%" == v) {
-          return v;
+      var v = 0;
+      f[0] = f[0].replace(/%([a-zA-Z%]+)/g, (w, A) => {
+        if ("%%" == w) {
+          return w;
         }
-        u++;
-        if (y = c[y]) {
-          v = y.call(b, f[u]), f.splice(u, 1), u--;
+        v++;
+        if (A = c[A]) {
+          w = A.call(b, f[v]), f.splice(v, 1), v--;
         }
-        return v;
+        return w;
       });
       d.call(b, f);
       (b.log || e).apply(b, f);
@@ -179,7 +179,7 @@ function F(a) {
 function H(a) {
   const b = F(a);
   "function" == typeof a.init && a.init(b);
-  a.c.push(b);
+  a.a.push(b);
   return b;
 }
 function I(a, b) {
@@ -199,8 +199,8 @@ function J(a) {
   for (c = 0; c < e; c++) {
     d[c] && (b = d[c].replace(/\*/g, ".*?"), "-" == b[0] ? a.h.push(new RegExp("^" + b.substr(1) + "$")) : a.g.push(new RegExp("^" + b + "$")));
   }
-  for (c = 0; c < a.c.length; c++) {
-    b = a.c[c], b.enabled = a.enabled(b.namespace);
+  for (c = 0; c < a.a.length; c++) {
+    b = a.a[c], b.enabled = a.enabled(b.namespace);
   }
 }
 class K {
@@ -212,13 +212,13 @@ class K {
     this.save = a.save;
     this.init = a.init;
     this.formatters = a.formatters || {};
-    this.c = [];
+    this.a = [];
     this.g = [];
     this.h = [];
   }
   destroy(a) {
-    a = this.c.indexOf(a);
-    return -1 !== a ? (this.c.splice(a, 1), !0) : !1;
+    a = this.a.indexOf(a);
+    return -1 !== a ? (this.a.splice(a, 1), !0) : !1;
   }
   enabled(a) {
     if ("*" == a[a.length - 1]) {
@@ -349,7 +349,7 @@ const U = function(a, b) {
   const c = (d, e) => b(d, e) >>> 0;
   c.signed = b;
   c.g = c;
-  c.c = a;
+  c.a = a;
   return c;
 }("crc-32", (a, b) => {
   Buffer.isBuffer(a) || (a = Buffer.from(a));
@@ -368,31 +368,31 @@ function W(a) {
   return Buffer.from(a).toString("base64");
 }
 ;const X = M("koa-session:context");
-async function Y(a) {
+async function aa(a) {
   X("init from external");
-  var b = a.ctx, c = a.a;
+  var b = a.ctx, c = a.c;
   c.externalKey ? (b = c.externalKey.get(b), X("get external key from custom %s", b)) : (b = b.cookies.get(c.key, c), X("get external key from cookie %s", b));
-  b ? (c = await a.store.get(b, c.maxAge, {rolling:c.rolling}), a.valid(c, b) ? (a.create(c, b), a.g = U(JSON.stringify(a.c.toJSON()))) : a.create()) : a.create();
+  b ? (c = await a.store.get(b, c.maxAge, {rolling:c.rolling}), a.valid(c, b) ? (a.create(c, b), a.g = U(JSON.stringify(a.a.toJSON()))) : a.create()) : a.create();
 }
-function Z(a) {
+function ba(a) {
   const b = a.g;
-  var c = a.c;
+  var c = a.a;
   if (c._requireSave) {
     return "force";
   }
   const d = c.toJSON();
-  return b || Object.keys(d).length ? b !== U(JSON.stringify(d)) ? "changed" : a.a.rolling ? "rolling" : a.a.renew && (a = c._expire, c = c.maxAge, a && c && a - Date.now() < c / 2) ? "renew" : "" : "";
+  return b || Object.keys(d).length ? b !== U(JSON.stringify(d)) ? "changed" : a.c.rolling ? "rolling" : a.c.renew && (a = c._expire, c = c.maxAge, a && c && a - Date.now() < c / 2) ? "renew" : "" : "";
 }
-class aa {
+class ca {
   constructor(a, b = {}) {
     this.ctx = a;
     this.h = a.app;
-    this.a = b;
-    this.store = this.a.ContextStore ? new this.a.ContextStore(a) : this.a.store;
-    this.g = this.externalKey = this.c = void 0;
+    this.c = b;
+    this.store = b.ContextStore ? new b.ContextStore(a) : b.store;
+    this.g = this.externalKey = this.a = void 0;
   }
   get() {
-    var a = this.c;
+    var a = this.a;
     if (a) {
       return a;
     }
@@ -403,7 +403,7 @@ class aa {
       a: {
         X("init from cookie");
         a = this.ctx;
-        const c = this.a, d = a.cookies.get(c.key, c);
+        const c = this.c, d = a.cookies.get(c.key, c);
         if (d) {
           X("parse %s", d);
           try {
@@ -417,17 +417,17 @@ class aa {
             break a;
           }
           X("parsed %j", b);
-          this.valid(b) ? (this.create(b), this.g = U(JSON.stringify(this.c.toJSON()))) : this.create();
+          this.valid(b) ? (this.create(b), this.g = U(JSON.stringify(this.a.toJSON()))) : this.create();
         } else {
           this.create();
         }
       }
     }
-    return this.c;
+    return this.a;
   }
   set(a) {
     if (null === a) {
-      this.c = null;
+      this.a = null;
     } else {
       if ("object" == typeof a) {
         this.create(a, this.externalKey);
@@ -444,7 +444,7 @@ class aa {
     if (a._expire && a._expire < Date.now()) {
       return X("expired session"), this.emit("expired", {key:b, value:a, ctx:c}), !1;
     }
-    const d = this.a.valid;
+    const d = this.c.valid;
     return "function" != typeof d || d(c, a) ? !0 : (X("invalid session"), this.emit("invalid", {key:b, value:a, ctx:c}), !1);
   }
   emit(a, b) {
@@ -454,46 +454,46 @@ class aa {
   }
   create(a, b) {
     X("create session with val: %j externalKey: %s", a, b);
-    this.store && (this.externalKey = b || this.a.genid && this.a.genid(this.ctx));
-    this.c = new S(this, a);
+    this.store && (this.externalKey = b || this.c.genid && this.c.genid(this.ctx));
+    this.a = new S(this, a);
   }
   async commit() {
-    const {c:a, a:{beforeSave:b}, ctx:c} = this;
+    const {a, c:{beforeSave:b}, ctx:c} = this;
     if (void 0 !== a) {
       if (null === a) {
         await this.remove();
       } else {
-        var d = Z(this);
+        var d = ba(this);
         X("should save session: %s", d);
         d && ("function" == typeof b && (X("before save"), b(c, a)), await this.save("changed" == d));
       }
     }
   }
   async remove() {
-    const {a:{key:a}, ctx:b, externalKey:c, store:d} = this;
+    const {c:{key:a}, ctx:b, externalKey:c, store:d} = this;
     c && await d.destroy(c);
-    b.cookies.set(a, "", this.a);
+    b.cookies.set(a, "", this.c);
   }
   async save(a) {
-    const {a:{key:b, rolling:c = !1, encode:d, externalKey:e}, externalKey:h} = this;
-    let {a:{maxAge:f = 864E5}} = this, l = this.c.toJSON();
-    "session" == f ? (this.a.maxAge = void 0, l._session = !0) : (l._expire = f + Date.now(), l._maxAge = f);
-    h ? (X("save %j to external key %s", l, h), "number" == typeof f && (f += 10000), await this.store.set(h, l, f, {changed:a, rolling:c}), e ? e.set(this.ctx, h) : this.ctx.cookies.set(b, h, this.a)) : (X("save %j to cookie", l), l = d(l), X("save %s", l), this.ctx.cookies.set(b, l, this.a));
+    const {c:{key:b, rolling:c = !1, encode:d, externalKey:e}, externalKey:h} = this;
+    let {c:{maxAge:f = 864E5}} = this, l = this.a.toJSON();
+    "session" == f ? (this.c.maxAge = void 0, l._session = !0) : (l._expire = f + Date.now(), l._maxAge = f);
+    h ? (X("save %j to external key %s", l, h), "number" == typeof f && (f += 10000), await this.store.set(h, l, f, {changed:a, rolling:c}), e ? e.set(this.ctx, h) : this.ctx.cookies.set(b, h, this.c)) : (X("save %j to cookie", l), l = d(l), X("save %s", l), this.ctx.cookies.set(b, l, this.c));
   }
 }
 ;/*
 
  MIT https://github.com/miguelmota/is-class
 */
-const ba = M("koa-session");
-function ca(a = {}) {
+const da = M("koa-session"), Y = Symbol("context#contextSession"), Z = Symbol("context#_contextSession");
+function ea(a = {}) {
   a.key = a.key || "koa:sess";
   a.maxAge = a.maxAge || 864E5;
   null == a.overwrite && (a.overwrite = !0);
   null == a.httpOnly && (a.httpOnly = !0);
   null == a.signed && (a.signed = !0);
   null == a.autoCommit && (a.autoCommit = !0);
-  ba("session options %j", a);
+  da("session options %j", a);
   "function" != typeof a.encode && (a.encode = W);
   "function" != typeof a.decode && (a.decode = V);
   var b = a.store;
@@ -507,30 +507,32 @@ function ca(a = {}) {
   a.genid || (a.prefix ? a.genid = () => `${a.prefix}${Q()}` : a.genid = Q);
   return a;
 }
-function da(a, b) {
-  a.hasOwnProperty("CONTEXT_SESSION") || Object.defineProperties(a, {CONTEXT_SESSION:{get() {
-    return this._CONTEXT_SESSION ? this._CONTEXT_SESSION : this._CONTEXT_SESSION = new aa(this, b);
+function fa(a, b) {
+  a.hasOwnProperty(Y) || Object.defineProperties(a, {[Y]:{get() {
+    if (this[Z]) {
+      return this[Z];
+    }
+    this[Z] = new ca(this, b);
+    return this[Z];
   }}, session:{get() {
-    return this.CONTEXT_SESSION.get();
+    return this[Y].get();
   }, set(c) {
-    this.CONTEXT_SESSION.set(c);
+    this[Y].set(c);
   }, configurable:!0}, sessionOptions:{get() {
-    return this.CONTEXT_SESSION.a;
+    return this[Y].c;
   }}});
 }
 ;module.exports = function(a, b = {}) {
   if (!a || "function" != typeof a.use) {
     throw new TypeError("app instance required: `session(app, opts)`");
   }
-  b = ca(b);
-  da(a.context, b);
+  b = ea(b);
+  fa(a.context, b);
   return async function(c, d) {
-    c = c.CONTEXT_SESSION;
-    c.store && await Y(c);
+    c = c[Y];
+    c.store && await aa(c);
     try {
       await d();
-    } catch (e) {
-      throw e;
     } finally {
       b.autoCommit && await c.commit();
     }

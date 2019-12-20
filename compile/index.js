@@ -41,8 +41,8 @@ module.exports = $session
  * @typedef {Object} _idio.KoaContextSession `＠interface`
  * @prop {!_goa.Context} ctx The context.
  * @prop {() => !Promise} commit Commit the session changes or removal.
- * @typedef {_idio.ContextStore} ContextStore `＠interface`
- * @typedef {Object} _idio.ContextStore `＠interface`
+ * @typedef {_idio.ContextStore} ContextStore `＠interface` By implementing this class, the session can be recorded and retrieved using context, instead of cookies.
+ * @typedef {Object} _idio.ContextStore `＠interface` By implementing this class, the session can be recorded and retrieved using context, instead of cookies.
  * @prop {(key: string, maxAge: (number|string), opts: { rolling: boolean }) => !Promise<!Object>} get Get session object by key.
  * @prop {(key: string, sess: !Object, maxAge: (number|string), opts: { rolling: boolean, changed: boolean }) => !Promise} set Set session object for key, with a `maxAge` (in ms, or as `'session'`).
  * @prop {(key: string) => !Promise} destroy Destroy session for key.

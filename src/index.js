@@ -6,6 +6,9 @@ import { encode, decode } from './lib/util'
 
 const debug = Debug('koa-session')
 
+const CONTEXT_SESSION = Symbol('context#contextSession')
+const _CONTEXT_SESSION = Symbol('context#_contextSession')
+
 /**
  * @license
  * MIT https://github.com/miguelmota/is-class
@@ -47,12 +50,10 @@ export default function(app, opts = {}) {
      * @suppress {checkTypes}
      * @type {ContextSession}
      */
-    const sess = ctx['CONTEXT_SESSION']
+    const sess = ctx[CONTEXT_SESSION]
     if (sess.store) await sess.initFromExternal()
     try {
       await next()
-    } catch (err) {
-      throw err
     } finally {
       if (opts.autoCommit) {
         await sess.commit()
@@ -123,32 +124,32 @@ function formatOpts(opts = {}) {
  * @param {!_idio.KoaSessionConfig} opts Configuration passed to `koa-session`.
  */
 function extendContext(context, opts) {
-  if (context.hasOwnProperty('CONTEXT_SESSION')) {
+  if (context.hasOwnProperty(CONTEXT_SESSION)) {
     return
   }
   Object.defineProperties(context, {
-    'CONTEXT_SESSION': {
+    [CONTEXT_SESSION]: {
       get() {
-        if (this['_CONTEXT_SESSION']) return this['_CONTEXT_SESSION']
-        this['_CONTEXT_SESSION'] = new ContextSession(this, opts)
-        return this['_CONTEXT_SESSION']
+        if (this[_CONTEXT_SESSION]) return this[_CONTEXT_SESSION]
+        this[_CONTEXT_SESSION] = new ContextSession(this, opts)
+        return this[_CONTEXT_SESSION]
       },
     },
-    'session': {
+    session: {
       get() {
-        return this['CONTEXT_SESSION'].get()
+        return this[CONTEXT_SESSION].get()
       },
       set(val) {
-        this['CONTEXT_SESSION'].set(val)
+        this[CONTEXT_SESSION].set(val)
       },
       configurable: true,
     },
-    'sessionOptions': {
+    sessionOptions: {
       /**
        * @return {_idio.KoaSessionConfig}
        */
       get() {
-        return this['CONTEXT_SESSION'].opts
+        return this[CONTEXT_SESSION].opts
       },
     },
   })
