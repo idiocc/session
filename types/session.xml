@@ -7,7 +7,7 @@
       <arg type="?{ _maxAge: (number|undefined), _session: (boolean|undefined) }" name="obj" opt>
         Serialised session to be restored.
       </arg>
-      Session constructor.
+      Private session constructor. It is called one time per request by the session context when middleware accesses `.session` property of the context.
     </fn>
     <prop boolean name="isNew">
       Returns true if the session is new.

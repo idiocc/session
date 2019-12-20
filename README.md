@@ -12,10 +12,10 @@ yarn add @goa/session
 
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
-- [`session(app: !_goa.Application, opts=: _idio.KoaSessionConfig): !_goa.Middleware`](#sessionapp-_goaapplicationopts-_idiokoasessionconfig-_goamiddleware)
-  * [`_idio.KoaSessionConfig`](#type-_idiokoasessionconfig)
-  * [`_idio.ContextStore`](#type-_idiocontextstore)
-  * [`_idio.KoaSession`](#type-_idiokoasession)
+- [`session(app: !_goa.Application, opts=: KoaSessionConfig): !_goa.Middleware`](#sessionapp-_goaapplicationopts-koasessionconfig-_goamiddleware)
+  * [`KoaSessionConfig`](#type-koasessionconfig)
+  * [`ContextStore`](#type-contextstore)
+  * [`KoaSession`](#type-koasession)
 - [Copyright & License](#copyright--license)
 
 <p align="center"><a href="#table-of-contents">
@@ -35,15 +35,15 @@ import session from '@goa/session'
   <img src="/.documentary/section-breaks/1.svg?sanitize=true">
 </a></p>
 
-## <code><ins>session</ins>(</code><sub><br/>&nbsp;&nbsp;`app: !_goa.Application,`<br/>&nbsp;&nbsp;`opts=: _idio.KoaSessionConfig,`<br/></sub><code>): <i>!_goa.Middleware</i></code>
+## <code><ins>session</ins>(</code><sub><br/>&nbsp;&nbsp;`app: !_goa.Application,`<br/>&nbsp;&nbsp;`opts=: KoaSessionConfig,`<br/></sub><code>): <i>!_goa.Middleware</i></code>
 Initialize the session middleware with `opts`.
 
  - <kbd><strong>app*</strong></kbd> <em><code><a href="https://github.com/idiocc/goa/wiki/Application#type-application" title="The application interface.">!_goa.Application</a></code></em>: A Goa application instance.
- - <kbd>opts</kbd> <em><code><a href="#type-_idiokoasessionconfig" title="Configuration passed to `koa-session`.">_idio.KoaSessionConfig</a></code></em> (optional): The configuration passed to `koa-session`.
+ - <kbd>opts</kbd> <em><code><a href="#type-koasessionconfig" title="Configuration passed to `koa-session`.">KoaSessionConfig</a></code></em> (optional): The configuration passed to `koa-session`.
 
 The interface is changed from the original package, so that the app is always passed as the first argument.
 
-<strong><a name="type-_idiokoasessionconfig">`_idio.KoaSessionConfig`</a></strong>: Configuration passed to `koa-session`.
+__<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration passed to `koa-session`.
 
 
 |     Name     |                                                                                                                                                               Type                                                                                                                                                                |                                                                                                        Description                                                                                                        |  Default   |
@@ -54,14 +54,14 @@ The interface is changed from the original package, so that the app is always pa
 | httpOnly     | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | httpOnly or not.                                                                                                                                                                                                          | `true`     |
 | signed       | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | Signed or not.                                                                                                                                                                                                            | `true`     |
 | autoCommit   | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | Automatically commit headers.                                                                                                                                                                                             | `true`     |
-| store        | <em>[_idio.ContextStore](#type-_idiocontextstore)</em>                                                                                                                                                                                                                                                                            | You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).                                                        | -          |
+| store        | <em><a href="#type-contextstore" title="By implementing this class, the session can be recorded and retrieved using context, instead of cookies.">ContextStore</a></em>                                                                                                                                                           | You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).                                                        | -          |
 | externalKey  | <em>{ get: function(<a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">_goa.Context</a>): string, set: function(<a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">_goa.Context</a>, string): void }</em> | External key is used from the cookie by default, but you can use `options.externalKey` to customize your own external key methods.                                                                                        | -          |
 | ContextStore | <em>(arg0: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>) => ?</em>                                                                                                                                                                            | If your session store requires data or utilities from context, `opts.ContextStore` is also supported.                                                                                                                     | -          |
 | prefix       | <em>string</em>                                                                                                                                                                                                                                                                                                                   | If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.                                                                                                                  | -          |
 | rolling      | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown.                                                                        | `false`    |
 | renew        | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | Renew session when session is nearly expired, so we can always keep user logged in.                                                                                                                                       | `false`    |
 | valid        | <em>(ctx: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>, sess: !Object) => boolean</em>                                                                                                                                                        | The validation hook: valid session value before use it.                                                                                                                                                                   | -          |
-| beforeSave   | <em>(ctx: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>, sess: [!_idio.KoaSession](#type-_idiokoasession)) => boolean</em>                                                                                                                     | The hook before save session.                                                                                                                                                                                             | -          |
+| beforeSave   | <em>(ctx: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>, sess: [!KoaSession](#type-koasession)) => boolean</em>                                                                                                                                | The hook before save session.                                                                                                                                                                                             | -          |
 | genid        | <em>(ctx: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>) => string</em>                                                                                                                                                                        | The way of generating external session id.                                                                                                                                                                                | `uuid-v4`  |
 | encode       | <em>(sess: !Object) => string</em>                                                                                                                                                                                                                                                                                                | Use options.encode and options.decode to customize your own encode/decode methods.                                                                                                                                        | -          |
 | decode       | <em>(sess: string) => !Object</em>                                                                                                                                                                                                                                                                                                | Use options.encode and options.decode to customize your own encode/decode methods.                                                                                                                                        | -          |
@@ -116,34 +116,72 @@ app.listen(async function() {
 You have cookies now: { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '21',
   'set-cookie': 
-   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc2OTM0NjE2MDUwLCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Sat, 21 Dec 2019 13:23:36 GMT; httponly' ],
-  date: 'Fri, 20 Dec 2019 13:23:36 GMT',
+   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc2OTM2MzUyMjUyLCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Sat, 21 Dec 2019 13:52:32 GMT; httponly' ],
+  date: 'Fri, 20 Dec 2019 13:52:32 GMT',
   connection: 'close' } 
 
 Welcome back: hello { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '19',
-  date: 'Fri, 20 Dec 2019 13:23:36 GMT',
+  date: 'Fri, 20 Dec 2019 13:52:32 GMT',
   connection: 'close' } 
 
 Bye { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '3',
   'set-cookie': 
-   [ 'koa:sess=; path=/; expires=Sat, 21 Dec 2019 13:23:36 GMT; httponly' ],
-  date: 'Fri, 20 Dec 2019 13:23:36 GMT',
+   [ 'koa:sess=; path=/; expires=Sat, 21 Dec 2019 13:52:32 GMT; httponly' ],
+  date: 'Fri, 20 Dec 2019 13:52:32 GMT',
   connection: 'close' }
 ```
 
-If your session store requires data or utilities from context, `opts.ContextStore` is also supported. _ContextStore_ must be a class which claims three instance methods demonstrated above. new ContextStore(ctx) will be executed on every request.
+If your session store requires data or utilities from context, `opts.ContextStore` is also supported. _ContextStore_ must be a class which implements three instance methods demonstrated below. `new ContextStore(ctx)` will be executed on every request.
 
-<strong><a name="type-_idiocontextstore">`_idio.ContextStore`</a></strong>
-
-
-|      Name       |                                                            Type                                                             |                               Description                               |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| __constructor__ | <em>new () => [_idio.ContextStore](#type-_idiocontextstore)</em>                                                            | Constructor method.                                                     |
-| __get__         | <em>(key: string, maxAge: (number \| string), opts: { rolling: boolean }) => !Promise&lt;!Object&gt;</em>                   | Get session object by key.                                              |
-| __set__         | <em>(key: string, sess: !Object, maxAge: (number \| string), opts: { rolling: boolean, changed: boolean }) => !Promise</em> | Set session object for key, with a `maxAge` (in ms, or as `'session'`). |
-| __destroy__     | <em>(key: string) => !Promise</em>                                                                                          | Destroy session for key.                                                |
+__<a name="type-contextstore">`ContextStore`</a>__: By implementing this class, the session can be recorded and retrieved using context, instead of cookies.
+<table>
+ <thead><tr>
+  <th>Name</th>
+  <th>Type &amp; Description</th>
+ </tr></thead>
+ <tr>
+  <td rowSpan="3" align="center"><ins>constructor</ins></td>
+  <td><em>new () => <a href="#type-contextstore" title="By implementing this class, the session can be recorded and retrieved using context, instead of cookies.">ContextStore</a></em></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   Constructor method.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center"><ins>get</ins></td>
+  <td><em>(key: string, maxAge: (number | string), opts: { rolling: boolean }) => !Promise&lt;!Object&gt;</em></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   Get session object by key.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center"><ins>set</ins></td>
+  <td><em>(key: string, sess: !Object, maxAge: (number | string), opts: { rolling: boolean, changed: boolean }) => !Promise</em></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   Set session object for key, with a <code>maxAge</code> (in ms, or as <code>'session'</code>).
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center"><ins>destroy</ins></td>
+  <td><em>(key: string) => !Promise</em></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   Destroy session for key.
+  </td>
+ </tr>
+</table>
 
 <details>
 <summary><em>Show an example context store.</em>
@@ -174,7 +212,7 @@ export default class ContextStore {
 
 The session object itself (`ctx.session`) has the following methods.
 
-<strong><a name="type-_idiokoasession">`_idio.KoaSession`</a></strong>
+__<a name="type-koasession">`KoaSession`</a>__
 <table>
  <thead><tr>
   <th>Name</th>
@@ -182,12 +220,12 @@ The session object itself (`ctx.session`) has the following methods.
  </tr></thead>
  <tr>
   <td rowSpan="3" align="center"><ins>constructor</ins></td>
-  <td><em>new (sessionContext: _idio.KoaContextSession, obj?: { _maxAge: (number | undefined), _session: (boolean | undefined) }) => <a href="#type-_idiokoasession">_idio.KoaSession</a></em></td>
+  <td><em>new (sessionContext: KoaContextSession, obj?: { _maxAge: (number | undefined), _session: (boolean | undefined) }) => <a href="#type-koasession">KoaSession</a></em></td>
  </tr>
  <tr></tr>
  <tr>
   <td>
-   Session constructor.
+   Private session constructor. It is called one time per request by the session context when middleware accesses <code>.session</code> property of the context.
   </td>
  </tr>
  <tr>
@@ -242,7 +280,7 @@ The session object itself (`ctx.session`) has the following methods.
  </tr>
  <tr>
   <td rowSpan="3" align="center"><ins>_sessCtx</ins></td>
-  <td><em>_idio.KoaContextSession</em></td>
+  <td><em>KoaContextSession</em></td>
  </tr>
  <tr></tr>
  <tr>

@@ -17,9 +17,9 @@ The interface is changed from the original package, so that the app is always pa
 %EXAMPLE: example, ../src => @goa/session%
 %FORK-js example%
 
-If your session store requires data or utilities from context, `opts.ContextStore` is also supported. _ContextStore_ must be a class which claims three instance methods demonstrated above. new ContextStore(ctx) will be executed on every request.
+If your session store requires data or utilities from context, `opts.ContextStore` is also supported. _ContextStore_ must be a class which implements three instance methods demonstrated below. `new ContextStore(ctx)` will be executed on every request.
 
-<typedef name="ContextStore">types/index.xml</typedef>
+<typedef narrow flatten slimFunctions name="ContextStore">types/index.xml</typedef>
 
 <details>
 <summary><em>Show an example context store.</em>

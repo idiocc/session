@@ -8,7 +8,7 @@
     </fn>
   </interface>
 
-  <interface name="ContextStore" description="new ContextStore(ctx) will be executed on every request.">
+  <interface name="ContextStore" desc="By implementing this class, the session can be recorded and retrieved using context, instead of cookies.">
     <fn async return="!Object" name="get">
       <arg string name="key">The session key.</arg>
       <arg type="number|string" name="maxAge">The max age.</arg>
