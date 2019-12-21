@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/%40goa%2Fsession.svg)](https://www.npmjs.com/package/@goa/session)
 
-`@goa/session` is a [fork](https://github.com/koajs/session) of Simple session middleware for Koa written in ES6 and optimised with [JavaScript Compiler](https://compiler.page). It is used in the [Idio web](https://github.com/idiocc/idio) server.
+`@goa/session` is Session Middleware for Goa apps written in ES6 and optimised with [JavaScript Compiler](https://www.compiler.page). It is used in the [Idio web](https://www.idio.cc) server.
 
 ```sh
 yarn add @goa/session
@@ -44,27 +44,203 @@ Initialize the session middleware with `opts`.
 The interface is changed from the original package, so that the app is always passed as the first argument.
 
 __<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration passed to `koa-session`.
+<table>
+ <thead><tr>
+  <th>Name</th>
+  <th>Type &amp; Description</th>
+  <th>Default</th>
+ </tr></thead>
+ <tr>
+  <td rowSpan="3" align="center">key</td>
+  <td><em>string</em></td>
+  <td rowSpan="3"><code>koa:sess</code></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   The cookie key.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">maxAge</td>
+  <td><em>(string | number)</em></td>
+  <td rowSpan="3"><code>86400000</code></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   <code>maxAge</code> in ms with default of 1 day. Either a number or 'session'. <code>session</code> will result in a cookie that expires when session/browser is closed. Warning: If a session cookie is stolen, this cookie will never expire.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">overwrite</td>
+  <td><em>boolean</em></td>
+  <td rowSpan="3"><code>true</code></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   Can overwrite or not.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">httpOnly</td>
+  <td><em>boolean</em></td>
+  <td rowSpan="3"><code>true</code></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   httpOnly or not.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">signed</td>
+  <td><em>boolean</em></td>
+  <td rowSpan="3"><code>true</code></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   Signed or not.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">autoCommit</td>
+  <td><em>boolean</em></td>
+  <td rowSpan="3"><code>true</code></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   Automatically commit headers.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">store</td>
+  <td><em><a href="#type-contextstore" title="By implementing this class, the session can be recorded and retrieved using context, instead of cookies.">ContextStore</a></em></td>
+  <td rowSpan="3">-</td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   You can store the session content in external stores (Redis, MongoDB or other DBs) by passing a constructor with three methods (these need to be async functions).
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">externalKey</td>
+  <td><em>{ get: function(<a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">_goa.Context</a>): string, set: function(<a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">_goa.Context</a>, string): void }</em></td>
+  <td rowSpan="3">-</td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   When using a store, the external key is recorded in cookies by default, but you can use <code>options.externalKey</code> to customize your own external key methods.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">ContextStore</td>
+  <td colSpan="2"><em>(arg0: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>) => ?</em></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td colSpan="2">
+   If your session store requires data or utilities from context, <code>opts.ContextStore</code> is also supported.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">prefix</td>
+  <td><em>string</em></td>
+  <td rowSpan="3">-</td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   If you want to add prefix for all external session id. It will not work if <code>options.genid(ctx)</code> present.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">rolling</td>
+  <td><em>boolean</em></td>
+  <td rowSpan="3"><code>false</code></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">renew</td>
+  <td><em>boolean</em></td>
+  <td rowSpan="3"><code>false</code></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   Renew session when session is nearly expired, so we can always keep user logged in.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">valid</td>
+  <td colSpan="2"><em>(ctx: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>, sess: !Object) => boolean</em></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td colSpan="2">
+   The validation hook: valid session value before use it.<br/>
+   <kbd><strong>ctx*</strong></kbd> <em><code><a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a></code></em>: The context.<br/>
+   <kbd><strong>sess*</strong></kbd> <em><code>!Object</code></em>: The session to validate.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">beforeSave</td>
+  <td colSpan="2"><em>(ctx: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>, sess: <a href="#type-koasession">!KoaSession</a>) => boolean</em></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td colSpan="2">
+   The hook before save session.<br/>
+   <kbd><strong>ctx*</strong></kbd> <em><code><a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a></code></em>: The context.<br/>
+   <kbd><strong>sess*</strong></kbd> <em><code><a href="#type-koasession">!KoaSession</a></code></em>: The session.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">genid</td>
+  <td colSpan="2"><em>(ctx: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>) => string</em></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td colSpan="2">
+   The way of generating external session id.<br/>
+   <kbd><strong>ctx*</strong></kbd> <em><code><a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a></code></em>: The context.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">encode</td>
+  <td colSpan="2"><em>(sess: !Object) => string</em></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td colSpan="2">
+   Use options.encode and options.decode to customize your own encode/decode methods.<br/>
+   <kbd><strong>sess*</strong></kbd> <em><code>!Object</code></em>: The session object to encode.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center">decode</td>
+  <td colSpan="2"><em>(sess: string) => !Object</em></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td colSpan="2">
+   Use options.encode and options.decode to customize your own encode/decode methods.<br/>
+   <kbd><strong>sess*</strong></kbd> <em><code>string</code></em>: The session object to decode.
+  </td>
+ </tr>
+</table>
 
-
-|     Name     |                                                                                                                                                               Type                                                                                                                                                                |                                                                                                        Description                                                                                                        |  Default   |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| key          | <em>string</em>                                                                                                                                                                                                                                                                                                                   | The cookie key.                                                                                                                                                                                                           | `koa:sess` |
-| maxAge       | <em>(string \| number)</em>                                                                                                                                                                                                                                                                                                       | `maxAge` in ms with default of 1 day. Either a number or 'session'. `session` will result in a cookie that expires when session/browser is closed. Warning: If a session cookie is stolen, this cookie will never expire. | `86400000` |
-| overwrite    | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | Can overwrite or not.                                                                                                                                                                                                     | `true`     |
-| httpOnly     | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | httpOnly or not.                                                                                                                                                                                                          | `true`     |
-| signed       | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | Signed or not.                                                                                                                                                                                                            | `true`     |
-| autoCommit   | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | Automatically commit headers.                                                                                                                                                                                             | `true`     |
-| store        | <em><a href="#type-contextstore" title="By implementing this class, the session can be recorded and retrieved using context, instead of cookies.">ContextStore</a></em>                                                                                                                                                           | You can store the session content in external stores (Redis, MongoDB or other DBs) by passing a constructor with three methods (these need to be async functions).                                                        | -          |
-| externalKey  | <em>{ get: function(<a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">_goa.Context</a>): string, set: function(<a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">_goa.Context</a>, string): void }</em> | When using a store, the external key is recorded in cookies by default, but you can use `options.externalKey` to customize your own external key methods.                                                                 | -          |
-| ContextStore | <em>(arg0: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>) => ?</em>                                                                                                                                                                            | If your session store requires data or utilities from context, `opts.ContextStore` is also supported.                                                                                                                     | -          |
-| prefix       | <em>string</em>                                                                                                                                                                                                                                                                                                                   | If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.                                                                                                                  | -          |
-| rolling      | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown.                                                                        | `false`    |
-| renew        | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | Renew session when session is nearly expired, so we can always keep user logged in.                                                                                                                                       | `false`    |
-| valid        | <em>(ctx: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>, sess: !Object) => boolean</em>                                                                                                                                                        | The validation hook: valid session value before use it.                                                                                                                                                                   | -          |
-| beforeSave   | <em>(ctx: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>, sess: [!KoaSession](#type-koasession)) => boolean</em>                                                                                                                                | The hook before save session.                                                                                                                                                                                             | -          |
-| genid        | <em>(ctx: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>) => string</em>                                                                                                                                                                        | The way of generating external session id.                                                                                                                                                                                | `uuid-v4`  |
-| encode       | <em>(sess: !Object) => string</em>                                                                                                                                                                                                                                                                                                | Use options.encode and options.decode to customize your own encode/decode methods.                                                                                                                                        | -          |
-| decode       | <em>(sess: string) => !Object</em>                                                                                                                                                                                                                                                                                                | Use options.encode and options.decode to customize your own encode/decode methods.                                                                                                                                        | -          |
+**Example**
 
 ```js
 import aqt from '@rqt/aqt'
@@ -116,20 +292,20 @@ app.listen(async function() {
 You have cookies now: { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '21',
   'set-cookie': 
-   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc2OTM4MTM4MjEzLCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Sat, 21 Dec 2019 14:22:18 GMT; httponly' ],
-  date: 'Fri, 20 Dec 2019 14:22:18 GMT',
+   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc2OTc3MjQwODU3LCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Sun, 22 Dec 2019 01:14:00 GMT; httponly' ],
+  date: 'Sat, 21 Dec 2019 01:14:00 GMT',
   connection: 'close' } 
 
 Welcome back: hello { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '19',
-  date: 'Fri, 20 Dec 2019 14:22:18 GMT',
+  date: 'Sat, 21 Dec 2019 01:14:00 GMT',
   connection: 'close' } 
 
 Bye { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '3',
   'set-cookie': 
-   [ 'koa:sess=; path=/; expires=Sat, 21 Dec 2019 14:22:18 GMT; httponly' ],
-  date: 'Fri, 20 Dec 2019 14:22:18 GMT',
+   [ 'koa:sess=; path=/; expires=Sun, 22 Dec 2019 01:14:00 GMT; httponly' ],
+  date: 'Sat, 21 Dec 2019 01:14:00 GMT',
   connection: 'close' }
 ```
 
