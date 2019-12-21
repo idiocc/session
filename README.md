@@ -12,7 +12,7 @@ yarn add @goa/session
 
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
-- [`session(app: !_goa.Application, opts=: KoaSessionConfig): !_goa.Middleware`](#sessionapp-_goaapplicationopts-koasessionconfig-_goamiddleware)
+- [`session(app, opts=): !_goa.Middleware`](#sessionapp-_goaapplicationopts-koasessionconfig-_goamiddleware)
   * [`KoaSessionConfig`](#type-koasessionconfig)
   * [`ContextStore`](#type-contextstore)
   * [`KoaSession`](#type-koasession)

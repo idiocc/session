@@ -8,7 +8,7 @@ import session from '@goa/session'
 
 %~%
 
-<typedef>types/api.xml</typedef>
+<typedef noArgTypesInToc>types/api.xml</typedef>
 
 The interface is changed from the original package, so that the app is always passed as the first argument.
 
