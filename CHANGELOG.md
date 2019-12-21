@@ -1,3 +1,11 @@
+## 21 December 2019
+
+### [2.0.0](https://github.com/idiocc/session/compare/v1.0.3...v2.0.0)
+
+- [license] Update to _AGPL-3.0_
+- [docs] Document and annotate better with `typedefs.json`.
+- [compile] Fix all compiler warnings.
+
 ## 29 June 2019
 
 ### [1.0.3](https://github.com/idiocc/session/compare/v1.0.2...v1.0.3)
