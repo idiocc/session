@@ -1,6 +1,6 @@
 {
   "name": "@goa/session",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "Session Middleware For Goa.",
   "main": "compile/index.js",
   "module": "src/index.js",
