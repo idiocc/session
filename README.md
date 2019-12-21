@@ -54,8 +54,8 @@ __<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration passed
 | httpOnly     | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | httpOnly or not.                                                                                                                                                                                                          | `true`     |
 | signed       | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | Signed or not.                                                                                                                                                                                                            | `true`     |
 | autoCommit   | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | Automatically commit headers.                                                                                                                                                                                             | `true`     |
-| store        | <em><a href="#type-contextstore" title="By implementing this class, the session can be recorded and retrieved using context, instead of cookies.">ContextStore</a></em>                                                                                                                                                           | You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).                                                        | -          |
-| externalKey  | <em>{ get: function(<a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">_goa.Context</a>): string, set: function(<a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">_goa.Context</a>, string): void }</em> | External key is used from the cookie by default, but you can use `options.externalKey` to customize your own external key methods.                                                                                        | -          |
+| store        | <em><a href="#type-contextstore" title="By implementing this class, the session can be recorded and retrieved using context, instead of cookies.">ContextStore</a></em>                                                                                                                                                           | You can store the session content in external stores (Redis, MongoDB or other DBs) by passing a constructor with three methods (these need to be async functions).                                                        | -          |
+| externalKey  | <em>{ get: function(<a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">_goa.Context</a>): string, set: function(<a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">_goa.Context</a>, string): void }</em> | When using a store, the external key is recorded in cookies by default, but you can use `options.externalKey` to customize your own external key methods.                                                                 | -          |
 | ContextStore | <em>(arg0: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>) => ?</em>                                                                                                                                                                            | If your session store requires data or utilities from context, `opts.ContextStore` is also supported.                                                                                                                     | -          |
 | prefix       | <em>string</em>                                                                                                                                                                                                                                                                                                                   | If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.                                                                                                                  | -          |
 | rolling      | <em>boolean</em>                                                                                                                                                                                                                                                                                                                  | Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown.                                                                        | `false`    |
@@ -116,20 +116,20 @@ app.listen(async function() {
 You have cookies now: { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '21',
   'set-cookie': 
-   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc2OTM2MzUyMjUyLCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Sat, 21 Dec 2019 13:52:32 GMT; httponly' ],
-  date: 'Fri, 20 Dec 2019 13:52:32 GMT',
+   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc2OTM4MTM4MjEzLCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Sat, 21 Dec 2019 14:22:18 GMT; httponly' ],
+  date: 'Fri, 20 Dec 2019 14:22:18 GMT',
   connection: 'close' } 
 
 Welcome back: hello { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '19',
-  date: 'Fri, 20 Dec 2019 13:52:32 GMT',
+  date: 'Fri, 20 Dec 2019 14:22:18 GMT',
   connection: 'close' } 
 
 Bye { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '3',
   'set-cookie': 
-   [ 'koa:sess=; path=/; expires=Sat, 21 Dec 2019 13:52:32 GMT; httponly' ],
-  date: 'Fri, 20 Dec 2019 13:52:32 GMT',
+   [ 'koa:sess=; path=/; expires=Sat, 21 Dec 2019 14:22:18 GMT; httponly' ],
+  date: 'Fri, 20 Dec 2019 14:22:18 GMT',
   connection: 'close' }
 ```
 

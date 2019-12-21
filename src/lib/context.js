@@ -83,7 +83,7 @@ export default class ContextSession {
       return
     }
 
-    const json = await this.store.get(externalKey, /** @type {string|number} */ (opts.maxAge), { 'rolling': /** @type {boolean} */ (opts.rolling) })
+    const json = await this.store.get(externalKey, /** @type {string|number} */ (opts.maxAge), { rolling: opts.rolling || false })
     if (!this.valid(json, externalKey)) {
       // create a new `externalKey`
       this.create()

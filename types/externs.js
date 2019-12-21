@@ -139,12 +139,12 @@ _idio.KoaSessionConfig.prototype.signed
  */
 _idio.KoaSessionConfig.prototype.autoCommit
 /**
- * You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
+ * You can store the session content in external stores (Redis, MongoDB or other DBs) by passing a constructor with three methods (these need to be async functions).
  * @type {_idio.ContextStore|undefined}
  */
 _idio.KoaSessionConfig.prototype.store
 /**
- * External key is used from the cookie by default, but you can use `options.externalKey` to customize your own external key methods.
+ * When using a store, the external key is recorded in cookies by default, but you can use `options.externalKey` to customize your own external key methods.
  * @type {({ get: function(_goa.Context): string, set: function(_goa.Context, string): void })|undefined}
  */
 _idio.KoaSessionConfig.prototype.externalKey

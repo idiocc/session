@@ -10,8 +10,8 @@ const _session = require('./session')
  * @param {boolean} [opts.httpOnly=true] httpOnly or not. Default `true`.
  * @param {boolean} [opts.signed=true] Signed or not. Default `true`.
  * @param {boolean} [opts.autoCommit=true] Automatically commit headers. Default `true`.
- * @param {_idio.ContextStore} [opts.store] You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
- * @param {{ get: function(_goa.Context): string, set: function(_goa.Context, string): void }} [opts.externalKey] External key is used from the cookie by default, but you can use `options.externalKey` to customize your own external key methods.
+ * @param {_idio.ContextStore} [opts.store] You can store the session content in external stores (Redis, MongoDB or other DBs) by passing a constructor with three methods (these need to be async functions).
+ * @param {{ get: function(_goa.Context): string, set: function(_goa.Context, string): void }} [opts.externalKey] When using a store, the external key is recorded in cookies by default, but you can use `options.externalKey` to customize your own external key methods.
  * @param {(arg0: !_goa.Context) => ?} [opts.ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
  * @param {string} [opts.prefix] If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.
  * @param {boolean} [opts.rolling=false] Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. Default `false`.
@@ -54,8 +54,8 @@ module.exports = $session
  * @prop {boolean} [httpOnly=true] httpOnly or not. Default `true`.
  * @prop {boolean} [signed=true] Signed or not. Default `true`.
  * @prop {boolean} [autoCommit=true] Automatically commit headers. Default `true`.
- * @prop {_idio.ContextStore} [store] You can store the session content in external stores (Redis, MongoDB or other DBs) by passing options.store with three methods (these need to be async functions).
- * @prop {{ get: function(_goa.Context): string, set: function(_goa.Context, string): void }} [externalKey] External key is used from the cookie by default, but you can use `options.externalKey` to customize your own external key methods.
+ * @prop {_idio.ContextStore} [store] You can store the session content in external stores (Redis, MongoDB or other DBs) by passing a constructor with three methods (these need to be async functions).
+ * @prop {{ get: function(_goa.Context): string, set: function(_goa.Context, string): void }} [externalKey] When using a store, the external key is recorded in cookies by default, but you can use `options.externalKey` to customize your own external key methods.
  * @prop {(arg0: !_goa.Context) => ?} [ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
  * @prop {string} [prefix] If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.
  * @prop {boolean} [rolling=false] Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. Default `false`.

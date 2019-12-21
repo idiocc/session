@@ -372,7 +372,7 @@ async function aa(a) {
   X("init from external");
   var b = a.ctx, c = a.c;
   c.externalKey ? (b = c.externalKey.get(b), X("get external key from custom %s", b)) : (b = b.cookies.get(c.key, c), X("get external key from cookie %s", b));
-  b ? (c = await a.store.get(b, c.maxAge, {rolling:c.rolling}), a.valid(c, b) ? (a.create(c, b), a.g = U(JSON.stringify(a.a.toJSON()))) : a.create()) : a.create();
+  b ? (c = await a.store.get(b, c.maxAge, {rolling:c.rolling || !1}), a.valid(c, b) ? (a.create(c, b), a.g = U(JSON.stringify(a.a.toJSON()))) : a.create()) : a.create();
 }
 function ba(a) {
   const b = a.g;

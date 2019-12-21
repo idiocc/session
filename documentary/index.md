@@ -14,6 +14,4 @@ yarn add @goa/session
 
 %~%
 
-<include-typedefs>
-  node_modules/@typedefs/goa/typedefs.json
-</include-typedefs>
+<include-typedefs>@typedefs/goa</include-typedefs>

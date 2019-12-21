@@ -118,9 +118,8 @@ function formatOpts(opts = {}) {
 }
 
 /**
- * extend context prototype, add session properties
- *
- * @param {_goa.Context} context koa's context prototype
+ * Extend context prototype, add session properties
+ * @param {!_goa.Context} context Koa's context prototype.
  * @param {!_idio.KoaSessionConfig} opts Configuration passed to `koa-session`.
  */
 function extendContext(context, opts) {
