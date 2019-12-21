@@ -12,11 +12,12 @@ yarn add @goa/session
 
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
-- [`session(app, opts=): !_goa.Middleware`](#sessionapp-applicationopts-sessionconfig-_goamiddleware)
+- [`session(app, opts=): !Middleware`](#sessionapp-applicationopts-sessionconfig-middleware)
   * [`SessionConfig`](#type-sessionconfig)
   * [`ExternalStore`](#type-externalstore)
   * [`Session`](#type-session)
   * [<code>KoaSession</code>](#type-koasession)
+- [Typedefs](#typedefs)
 - [Copyright & License](#copyright--license)
 
 <p align="center"><a href="#table-of-contents">
@@ -36,11 +37,11 @@ import session from '@goa/session'
   <img src="/.documentary/section-breaks/1.svg?sanitize=true">
 </a></p>
 
-## <code><ins>session</ins>(</code><sub><br/>&nbsp;&nbsp;`app: !Application,`<br/>&nbsp;&nbsp;`opts=: SessionConfig,`<br/></sub><code>): <i>!_goa.Middleware</i></code>
+## <code><ins>session</ins>(</code><sub><br/>&nbsp;&nbsp;`app: !Application,`<br/>&nbsp;&nbsp;`opts=: !SessionConfig,`<br/></sub><code>): <i>!Middleware</i></code>
 Initialize the session middleware with `opts`.
 
  - <kbd><strong>app*</strong></kbd> <em><code><a href="https://github.com/idiocc/idio/wiki/Home#type-application" title="The application with some additions.">!Application</a></code></em>: A Goa application instance.
- - <kbd>opts</kbd> <em><code><a href="#type-sessionconfig" title="Configuration for the session middleware.">SessionConfig</a></code></em> (optional): The configuration passed to `koa-session`.
+ - <kbd>opts</kbd> <em><code><a href="#type-sessionconfig" title="Configuration for the session middleware.">!SessionConfig</a></code></em> (optional): The configuration passed to `koa-session`.
 
 The interface is changed from the original package, so that the app is always passed as the first argument.
 
@@ -286,20 +287,20 @@ app.listen(async function() {
 You have cookies now: { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '21',
   'set-cookie': 
-   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc2OTk4MTgwNDgyLCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Sun, 22 Dec 2019 07:03:00 GMT; httponly' ],
-  date: 'Sat, 21 Dec 2019 07:03:00 GMT',
+   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc3MDAxMjcyNTc4LCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Sun, 22 Dec 2019 07:54:32 GMT; httponly' ],
+  date: 'Sat, 21 Dec 2019 07:54:32 GMT',
   connection: 'close' } 
 
 Welcome back: hello { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '19',
-  date: 'Sat, 21 Dec 2019 07:03:00 GMT',
+  date: 'Sat, 21 Dec 2019 07:54:32 GMT',
   connection: 'close' } 
 
 Bye { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '3',
   'set-cookie': 
-   [ 'koa:sess=; path=/; expires=Sun, 22 Dec 2019 07:03:00 GMT; httponly' ],
-  date: 'Sat, 21 Dec 2019 07:03:00 GMT',
+   [ 'koa:sess=; path=/; expires=Sun, 22 Dec 2019 07:54:32 GMT; httponly' ],
+  date: 'Sat, 21 Dec 2019 07:54:32 GMT',
   connection: 'close' }
 ```
 
@@ -455,6 +456,19 @@ __<a name="type-session">`Session`</a>__: The session instance accessible via Go
 
 <p align="center"><a href="#table-of-contents">
   <img src="/.documentary/section-breaks/2.svg?sanitize=true">
+</a></p>
+
+## Typedefs
+
+This package is meant to be used as part of the Idio web server. But it also can be used on its own. To enable auto-completions on the method, please install
+
+[![npm version](https://badge.fury.io/js/%40typedefs%2Fgoa.svg)](https://www.npmjs.com/package/@typedefs/goa)
+[![npm version](https://badge.fury.io/js/%40typedefs%2Fidio.svg)](https://www.npmjs.com/package/@typedefs/idio)
+
+This will add information about required types to _VSCode_.
+
+<p align="center"><a href="#table-of-contents">
+  <img src="/.documentary/section-breaks/3.svg?sanitize=true">
 </a></p>
 
 ## Copyright & License

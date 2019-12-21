@@ -1,7 +1,9 @@
 <types ns="_idio">
-  <method name="session" return="!_goa.Middleware">
+  <import from="@typedefs/idio" ns="_idio" name="Middleware" />
+
+  <method name="session" return="!_idio.Middleware">
     <arg type="!_idio.Application" name="app">A Goa application instance.</arg>
-    <arg type="_idio.SessionConfig" name="opts" opt>
+    <arg type="!_idio.SessionConfig" name="opts" opt>
       The configuration passed to `koa-session`.
     </arg>
     Initialize the session middleware with `opts`.

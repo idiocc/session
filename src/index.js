@@ -26,10 +26,9 @@ function fnBody(fn) {
 const isFunction = fn => typeof fn == 'function'
 
 /**
- * @param {_idio.Application} app koa application instance
- * @param {_idio.SessionConfig} [opts] Configuration passed to `koa-session`.
+ * @type {_idio.session}
  */
-export default function(app, opts = {}) {
+function Session(app, opts = {}) {
   // app required
   if (!app || typeof app.use != 'function') {
     throw new TypeError('app instance required: `session(app, opts)`')
@@ -39,7 +38,7 @@ export default function(app, opts = {}) {
   extendContext(app.context, opts)
 
   /**
-   * @type {!_goa.Middleware}
+   * @type {!_idio.Middleware}
    */
   async function session(ctx, next) {
     /**
@@ -59,10 +58,12 @@ export default function(app, opts = {}) {
   return session
 }
 
+export default Session
+
 /**
  * format and check session options
- * @param {_idio.SessionConfig} [opts] Configuration passed to `koa-session`.
- * @api private
+ * @param {!_idio.SessionConfig} [opts] Configuration passed to `koa-session`.
+ * @private
  */
 function formatOpts(opts = {}) {
   opts.key = opts.key || 'koa:sess'
@@ -152,13 +153,21 @@ function extendContext(context, opts) {
 
 /**
  * @suppress {nonStandardJsDocs}
- * @typedef {import('@typedefs/goa').Application} _goa.Application
+ * @typedef {import('@typedefs/idio').Application} _idio.Application
  */
 /**
  * @suppress {nonStandardJsDocs}
- * @typedef {import('@typedefs/goa').Middleware} _goa.Middleware
+ * @typedef {import('@typedefs/idio').Context} _idio.Context
  */
 /**
  * @suppress {nonStandardJsDocs}
- * @typedef {import('../types').SessionConfig} _idio.SessionConfig
+ * @typedef {import('@typedefs/idio').Middleware} _idio.Middleware
+ */
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('..').SessionConfig} _idio.SessionConfig
+ */
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('..').session} _idio.session
  */

@@ -3,7 +3,7 @@ const _session = require('./session')
 /**
  * Initialize the session middleware with `opts`.
  * @param {!_idio.Application} app A Goa application instance.
- * @param {_idio.SessionConfig} [opts] Configuration for the session middleware.
+ * @param {!_idio.SessionConfig} [opts] Configuration for the session middleware.
  * @param {string} [opts.key="koa:sess"] The cookie key. Default `koa:sess`.
  * @param {string|number} [opts.maxAge=86400000] `maxAge` in ms with default of 1 day. Either a number or 'session'. `session` will result in a cookie that expires when session/browser is closed. Warning: If a session cookie is stolen, this cookie will never expire. Default `86400000`.
  * @param {boolean} [opts.overwrite=true] Can overwrite or not. Default `true`.
@@ -21,7 +21,7 @@ const _session = require('./session')
  * @param {(ctx: !_goa.Context) => string} [opts.genid="uuid-v4"] The way of generating external session id. Default `uuid-v4`.
  * @param {(sess: !Object) => string} [opts.encode] Use options.encode and options.decode to customize your own encode/decode methods.
  * @param {(sess: string) => !Object} [opts.decode] Use options.encode and options.decode to customize your own encode/decode methods.
- * @return {!_goa.Middleware}
+ * @return {!_idio.Middleware}
  */
 function $session(app, opts) {
   return _session(app, opts)
@@ -30,7 +30,7 @@ function $session(app, opts) {
 module.exports = $session
 
 /**
- * @typedef {import('@typedefs/goa').Middleware} _goa.Middleware
+ * @typedef {import('@typedefs/goa').Application} _goa.Application
  */
 
 /* typal types/index.xml namespace */
@@ -83,4 +83,11 @@ module.exports = $session
  * @prop {boolean} _requireSave Private JSON serialisation.
  * @prop {_idio.KoaContextSession} _sessCtx Private JSON serialisation.
  * @prop {_goa.Context} _ctx Private JSON serialisation.
+ */
+
+/* typal types/api.xml namespace */
+/**
+ * @typedef {import('@typedefs/idio').Middleware} _idio.Middleware
+ * @typedef {_idio.session} session Initialize the session middleware with `opts`.
+ * @typedef {(app: !_idio.Application, opts?: !_idio.SessionConfig) => !_idio.Middleware} _idio.session Initialize the session middleware with `opts`.
  */

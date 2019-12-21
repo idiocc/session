@@ -201,3 +201,10 @@ _idio.SessionConfig.prototype.encode = function(sess) {}
  * @type {(function(string): !Object)|undefined}
  */
 _idio.SessionConfig.prototype.decode = function(sess) {}
+
+/* typal types/api.xml externs */
+/**
+ * Initialize the session middleware with `opts`.
+ * @typedef {function(!_idio.Application,!_idio.SessionConfig=): !_idio.Middleware}
+ */
+_idio.session

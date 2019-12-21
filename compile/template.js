@@ -10,9 +10,11 @@ function $session(app, opts) {
 module.exports = $session
 
 /**
- * @typedef {import('@typedefs/goa').Middleware} _goa.Middleware
+ * @typedef {import('@typedefs/goa').Application} _goa.Application
  */
 
 /* typal types/index.xml namespace */
 
 /* typal types/session.xml namespace */
+
+/* typal types/api.xml namespace */
