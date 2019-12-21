@@ -12,7 +12,7 @@ const _session = require('./session')
  * @param {boolean} [opts.autoCommit=true] Automatically commit headers. Default `true`.
  * @param {_idio.ExternalStore} [opts.store] You can store the session content in external stores (Redis, MongoDB or other DBs) by passing an instance of a store with three methods (these need to be async functions).
  * @param {{ get: function(_goa.Context): string, set: function(_goa.Context, string): void }} [opts.externalKey] When using a store, the external key is recorded in cookies by default, but you can use `options.externalKey` to customize your own external key methods.
- * @param {(arg0: !_goa.Context) => ?} [opts.ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` can be used to set a constructor for the store that implements the _ExternalStore_ interface.
+ * @param {new (arg0: !_goa.Context) => _idio.ExternalStore} [opts.ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` can be used to set a constructor for the store that implements the _ExternalStore_ interface.
  * @param {string} [opts.prefix] If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.
  * @param {boolean} [opts.rolling=false] Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. Default `false`.
  * @param {boolean} [opts.renew=false] Renew session when session is nearly expired, so we can always keep user logged in. Default `false`.
@@ -56,7 +56,7 @@ module.exports = $session
  * @prop {boolean} [autoCommit=true] Automatically commit headers. Default `true`.
  * @prop {_idio.ExternalStore} [store] You can store the session content in external stores (Redis, MongoDB or other DBs) by passing an instance of a store with three methods (these need to be async functions).
  * @prop {{ get: function(_goa.Context): string, set: function(_goa.Context, string): void }} [externalKey] When using a store, the external key is recorded in cookies by default, but you can use `options.externalKey` to customize your own external key methods.
- * @prop {(arg0: !_goa.Context) => ?} [ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` can be used to set a constructor for the store that implements the _ExternalStore_ interface.
+ * @prop {new (arg0: !_goa.Context) => _idio.ExternalStore} [ContextStore] If your session store requires data or utilities from context, `opts.ContextStore` can be used to set a constructor for the store that implements the _ExternalStore_ interface.
  * @prop {string} [prefix] If you want to add prefix for all external session id. It will not work if `options.genid(ctx)` present.
  * @prop {boolean} [rolling=false] Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. Default `false`.
  * @prop {boolean} [renew=false] Renew session when session is nearly expired, so we can always keep user logged in. Default `false`.

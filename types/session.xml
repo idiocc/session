@@ -1,5 +1,5 @@
 <types namespace="_idio">
-  <interface name="Session" desc="The session instance accessible via Goa's context.">
+  <record name="Session" desc="The session instance accessible via Goa's context.">
     <prop boolean name="isNew">
       Returns true if the session is new.
     </prop>
@@ -15,8 +15,8 @@
     <fn async void name="manuallyCommit">
       Session headers are auto committed by default. Use this if `autoCommit` is set to false.
     </fn>
-  </interface>
-  <interface extends="_idio.Session" name="KoaSession" description="A private session model.">
+  </record>
+  <interface extends="_idio.Session" name="KoaSession" desc="A private session model.">
     <fn name="constructor">
       <arg type="_idio.KoaContextSession" name="sessionContext">
         The session context.

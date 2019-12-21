@@ -8,10 +8,9 @@
 var _idio = {}
 /**
  * The session instance accessible via Goa's context.
- * Constructor method.
- * @interface
+ * @record
  */
-_idio.Session = function() {}
+_idio.Session
 /**
  * Returns true if the session is new.
  * @type {boolean}
@@ -37,6 +36,7 @@ _idio.Session.prototype.save = function() {}
  */
 _idio.Session.prototype.manuallyCommit = function() {}
 /**
+ * A private session model.
  * Private session constructor. It is called one time per request by the session context when middleware accesses `.session` property of the context.
  * @extends {_idio.Session}
  * @param {_idio.KoaContextSession} sessionContext The session context.

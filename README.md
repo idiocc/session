@@ -194,7 +194,7 @@ __<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration passed
  </tr>
  <tr>
   <td rowSpan="3" align="center">beforeSave</td>
-  <td colSpan="2"><em>(ctx: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>, sess: <a href="#type-koasession">!KoaSession</a>) => boolean</em></td>
+  <td colSpan="2"><em>(ctx: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>, sess: <a href="#type-koasession" title="A private session model.">!KoaSession</a>) => boolean</em></td>
  </tr>
  <tr></tr>
  <tr>
@@ -389,17 +389,7 @@ __<a name="type-session">`Session`</a>__: The session instance accessible via Go
   <th>Type &amp; Description</th>
  </tr></thead>
  <tr>
-  <td rowSpan="3" align="center"><ins>constructor</ins></td>
-  <td><em>new () => <a href="#type-session" title="The session instance accessible via Goa's context.">Session</a></em></td>
- </tr>
- <tr></tr>
- <tr>
-  <td>
-   Constructor method.
-  </td>
- </tr>
- <tr>
-  <td rowSpan="3" align="center"><ins>isNew</ins></td>
+  <td rowSpan="3" align="center"><strong>isNew*</strong></td>
   <td><em>boolean</em></td>
  </tr>
  <tr></tr>
@@ -409,7 +399,7 @@ __<a name="type-session">`Session`</a>__: The session instance accessible via Go
   </td>
  </tr>
  <tr>
-  <td rowSpan="3" align="center"><ins>populated</ins></td>
+  <td rowSpan="3" align="center"><strong>populated*</strong></td>
   <td><em>boolean</em></td>
  </tr>
  <tr></tr>
@@ -419,7 +409,7 @@ __<a name="type-session">`Session`</a>__: The session instance accessible via Go
   </td>
  </tr>
  <tr>
-  <td rowSpan="3" align="center"><ins>maxAge</ins></td>
+  <td rowSpan="3" align="center"><strong>maxAge*</strong></td>
   <td><em>(number | string)</em></td>
  </tr>
  <tr></tr>
@@ -429,7 +419,7 @@ __<a name="type-session">`Session`</a>__: The session instance accessible via Go
   </td>
  </tr>
  <tr>
-  <td rowSpan="3" align="center"><ins>save</ins></td>
+  <td rowSpan="3" align="center"><strong>save*</strong></td>
   <td><em>() => void</em></td>
  </tr>
  <tr></tr>
@@ -439,7 +429,7 @@ __<a name="type-session">`Session`</a>__: The session instance accessible via Go
   </td>
  </tr>
  <tr>
-  <td rowSpan="3" align="center"><ins>manuallyCommit</ins></td>
+  <td rowSpan="3" align="center"><strong>manuallyCommit*</strong></td>
   <td><em>() => !Promise&lt;void&gt;</em></td>
  </tr>
  <tr></tr>
@@ -452,7 +442,7 @@ __<a name="type-session">`Session`</a>__: The session instance accessible via Go
 
 
 <details>
- <summary><strong><a name="type-koasession"><code>KoaSession</code></a> extends <a href="#type-session" title="The session instance accessible via Goa's context."><code>Session</code></a></strong></summary>
+ <summary><strong><a name="type-koasession"><code>KoaSession</code></a> extends <a href="#type-session" title="The session instance accessible via Goa's context."><code>Session</code></a></strong>: A private session model.</summary>
 <table>
  <thead><tr>
   <th>Name</th>
@@ -460,7 +450,7 @@ __<a name="type-session">`Session`</a>__: The session instance accessible via Go
  </tr></thead>
  <tr>
   <td rowSpan="3" align="center"><ins>constructor</ins></td>
-  <td><em>new (sessionContext: KoaContextSession, obj?: { _maxAge: (number | undefined), _session: (boolean | undefined) }) => <a href="#type-koasession">KoaSession</a></em></td>
+  <td><em>new (sessionContext: KoaContextSession, obj?: { _maxAge: (number | undefined), _session: (boolean | undefined) }) => <a href="#type-koasession" title="A private session model.">KoaSession</a></em></td>
  </tr>
  <tr></tr>
  <tr>
