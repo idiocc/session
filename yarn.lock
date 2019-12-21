@@ -109,14 +109,14 @@ differently@^1.0.0:
   dependencies:
     erte "^1.2.0"
 
-documentary@^1.35.3:
-  version "1.35.3"
-  resolved "https://registry.yarnpkg.com/documentary/-/documentary-1.35.3.tgz#9ac599f3f33cc7520d8092ed3ae9c0681c46903b"
-  integrity sha512-IGkDlWdTwE0PRvNl9uTteYloocoar/cRw1UHlkTzuc00AxcKdrUgA6SYZALW7dnYIjCsn49tfSqdcQB/x7JcCQ==
+documentary@^1.35.4:
+  version "1.35.4"
+  resolved "https://registry.yarnpkg.com/documentary/-/documentary-1.35.4.tgz#c74733b4301462d284900c6c148a1d44ecf84bb7"
+  integrity sha512-HBwmUE6UEjxJRyPDRqFN6ftPio1Avn5QVtzkaUui8ZXv/rVS3YSAYhSlc6Pukzaf2rc+VIP7W3Wn1xYZWgoylw==
   dependencies:
     alamode "^3.3.0"
     preact "8.5.3"
-    typal "^1.24.17"
+    typal "^1.24.19"
 
 erotic@^2.1.1:
   version "2.1.1"
@@ -150,10 +150,10 @@ preact@8.5.3:
   resolved "https://registry.yarnpkg.com/preact/-/preact-8.5.3.tgz#78c2a5562fcecb1fed1d0055fa4ac1e27bde17c1"
   integrity sha512-O3kKP+1YdgqHOFsZF2a9JVdtqD+RPzCQc3rP+Ualf7V6rmRDchZ9MJbiGTT7LuyqFKZqlHSOyO/oMFmI2lVTsw==
 
-typal@^1.24.17:
-  version "1.24.17"
-  resolved "https://registry.yarnpkg.com/typal/-/typal-1.24.17.tgz#0bb301ad8be4a8076f59527f167622a17b15f4d8"
-  integrity sha512-8qPwL4uPqRBAmHkGz0DIoWbCswykXo9kjz4urajEz7G7GsT2p6KNCiAqk+mJ+1MhNsO9yW9U1zSVS7TvSj3B3g==
+typal@^1.24.19:
+  version "1.24.19"
+  resolved "https://registry.yarnpkg.com/typal/-/typal-1.24.19.tgz#b77d62a25cf65bfbb13808d3939a571c8a65a8f4"
+  integrity sha512-LAdurZ+1RxVKXkxGR9qr+CM7b5DfQ+HB7zk1dBd2YVL3mcCS+s0K5k/5plxM3NMPcmjQi12nz2woWxoQp9nnbQ==
 
 yarn-s@1.2.1:
   version "1.2.1"
