@@ -40,11 +40,11 @@ import session from '@goa/session'
 Initialize the session middleware with `opts`.
 
  - <kbd><strong>app*</strong></kbd> <em><code><a href="https://github.com/idiocc/goa/wiki/Application#type-application" title="The application interface.">!_goa.Application</a></code></em>: A Goa application instance.
- - <kbd>opts</kbd> <em><code><a href="#type-koasessionconfig" title="Configuration passed to `koa-session`.">KoaSessionConfig</a></code></em> (optional): The configuration passed to `koa-session`.
+ - <kbd>opts</kbd> <em><code><a href="#type-koasessionconfig" title="Configuration for the session middleware.">KoaSessionConfig</a></code></em> (optional): The configuration passed to `koa-session`.
 
 The interface is changed from the original package, so that the app is always passed as the first argument.
 
-__<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration passed to `koa-session`.
+__<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration for the session middleware.
 <table>
  <thead><tr>
   <th>Name</th>
@@ -383,63 +383,15 @@ export default class ContextStore {
 The session object itself (`ctx.session`) has the following methods.
 
 __<a name="type-session">`Session`</a>__: The session instance accessible via Goa's context.
-<table>
- <thead><tr>
-  <th>Name</th>
-  <th>Type &amp; Description</th>
- </tr></thead>
- <tr>
-  <td rowSpan="3" align="center"><strong>isNew*</strong></td>
-  <td><em>boolean</em></td>
- </tr>
- <tr></tr>
- <tr>
-  <td>
-   Returns true if the session is new.
-  </td>
- </tr>
- <tr>
-  <td rowSpan="3" align="center"><strong>populated*</strong></td>
-  <td><em>boolean</em></td>
- </tr>
- <tr></tr>
- <tr>
-  <td>
-   Populated flag, which is just a boolean alias of <code>.length</code>.
-  </td>
- </tr>
- <tr>
-  <td rowSpan="3" align="center"><strong>maxAge*</strong></td>
-  <td><em>(number | string)</em></td>
- </tr>
- <tr></tr>
- <tr>
-  <td>
-   Get/set cookie's maxAge.
-  </td>
- </tr>
- <tr>
-  <td rowSpan="3" align="center"><strong>save*</strong></td>
-  <td><em>() => void</em></td>
- </tr>
- <tr></tr>
- <tr>
-  <td>
-   Save this session no matter whether it is populated.
-  </td>
- </tr>
- <tr>
-  <td rowSpan="3" align="center"><strong>manuallyCommit*</strong></td>
-  <td><em>() => !Promise&lt;void&gt;</em></td>
- </tr>
- <tr></tr>
- <tr>
-  <td>
-   Session headers are auto committed by default. Use this if <code>autoCommit</code> is set to false.
-  </td>
- </tr>
-</table>
 
+
+|        Name         |                Type                 |                                       Description                                        |
+| ------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------- |
+| __isNew*__          | <em>boolean</em>                    | Returns true if the session is new.                                                      |
+| __populated*__      | <em>boolean</em>                    | Populated flag, which is just a boolean alias of `.length`.                              |
+| __maxAge*__         | <em>(number \| string)</em>         | Get/set cookie's maxAge.                                                                 |
+| __save*__           | <em>() => void</em>                 | Save this session no matter whether it is populated.                                     |
+| __manuallyCommit*__ | <em>() => !Promise&lt;void&gt;</em> | Session headers are auto committed by default. Use this if `autoCommit` is set to false. |
 
 <details>
  <summary><strong><a name="type-koasession"><code>KoaSession</code></a> extends <a href="#type-session" title="The session instance accessible via Goa's context."><code>Session</code></a></strong>: A private session model.</summary>

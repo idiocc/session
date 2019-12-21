@@ -1,5 +1,5 @@
 <types namespace="_idio">
-  <interface name="KoaContextSession" description="The context for the session API. Is actually private, as only accessible from context by a symbol.">
+  <interface name="KoaContextSession" desc="The context for the session API. Is actually private, as only accessible from context by a symbol.">
     <prop type="!_goa.Context" name="ctx">
       The context.
     </prop>
@@ -32,7 +32,7 @@
     </fn>
   </interface>
 
-  <record name="KoaSessionConfig" desc="Configuration passed to `koa-session`.">
+  <record name="KoaSessionConfig" desc="Configuration for the session middleware.">
     <prop string name="key" default="koa:sess">
       The cookie key.
     </prop>

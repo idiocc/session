@@ -67,6 +67,7 @@ _idio.KoaSession.prototype._ctx
 
 /* typal types/index.xml externs */
 /**
+ * The context for the session API. Is actually private, as only accessible from context by a symbol.
  * Constructor method.
  * @interface
  */
@@ -111,7 +112,7 @@ _idio.ExternalStore.prototype.set = function(key, sess, maxAge, opts) {}
  */
 _idio.ExternalStore.prototype.destroy = function(key) {}
 /**
- * Configuration passed to `koa-session`.
+ * Configuration for the session middleware.
  * @record
  */
 _idio.KoaSessionConfig

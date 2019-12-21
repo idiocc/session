@@ -3,7 +3,7 @@ const _session = require('./session')
 /**
  * Initialize the session middleware with `opts`.
  * @param {!_goa.Application} app A Goa application instance.
- * @param {_idio.KoaSessionConfig} [opts] Configuration passed to `koa-session`.
+ * @param {_idio.KoaSessionConfig} [opts] Configuration for the session middleware.
  * @param {string} [opts.key="koa:sess"] The cookie key. Default `koa:sess`.
  * @param {string|number} [opts.maxAge=86400000] `maxAge` in ms with default of 1 day. Either a number or 'session'. `session` will result in a cookie that expires when session/browser is closed. Warning: If a session cookie is stolen, this cookie will never expire. Default `86400000`.
  * @param {boolean} [opts.overwrite=true] Can overwrite or not. Default `true`.
@@ -37,8 +37,8 @@ module.exports = $session
 
 /* typal types/index.xml namespace */
 /**
- * @typedef {_idio.KoaContextSession} KoaContextSession `＠interface`
- * @typedef {Object} _idio.KoaContextSession `＠interface`
+ * @typedef {_idio.KoaContextSession} KoaContextSession `＠interface` The context for the session API. Is actually private, as only accessible from context by a symbol.
+ * @typedef {Object} _idio.KoaContextSession `＠interface` The context for the session API. Is actually private, as only accessible from context by a symbol.
  * @prop {!_goa.Context} ctx The context.
  * @prop {() => !Promise} commit Commit the session changes or removal.
  * @typedef {_idio.ExternalStore} ExternalStore `＠interface` By implementing this class, the session can be recorded and retrieved from an external store (e.g., a database), instead of cookies.
@@ -46,8 +46,8 @@ module.exports = $session
  * @prop {(key: string, maxAge: (number|string), opts: { rolling: boolean }) => !Promise<!Object>} get Get session object by key.
  * @prop {(key: string, sess: !Object, maxAge: (number|string), opts: { rolling: boolean, changed: boolean }) => !Promise} set Set session object for key, with a `maxAge` (in ms, or as `'session'`).
  * @prop {(key: string) => !Promise} destroy Destroy session for key.
- * @typedef {_idio.KoaSessionConfig} KoaSessionConfig `＠record` Configuration passed to `koa-session`.
- * @typedef {Object} _idio.KoaSessionConfig `＠record` Configuration passed to `koa-session`.
+ * @typedef {_idio.KoaSessionConfig} KoaSessionConfig `＠record` Configuration for the session middleware.
+ * @typedef {Object} _idio.KoaSessionConfig `＠record` Configuration for the session middleware.
  * @prop {string} [key="koa:sess"] The cookie key. Default `koa:sess`.
  * @prop {string|number} [maxAge=86400000] `maxAge` in ms with default of 1 day. Either a number or 'session'. `session` will result in a cookie that expires when session/browser is closed. Warning: If a session cookie is stolen, this cookie will never expire. Default `86400000`.
  * @prop {boolean} [overwrite=true] Can overwrite or not. Default `true`.
