@@ -1,6 +1,6 @@
 {
   "_idio.session": {
-    "link": "https://github.com/idiocc/session#sessionapp-_goaapplicationopts-sessionconfig-_goamiddleware",
+    "link": "https://github.com/idiocc/session#sessionapp-applicationopts-sessionconfig-_goamiddleware",
     "description": "Initialize the session middleware with `opts`."
   },
   "_idio.KoaSessionConfig": {

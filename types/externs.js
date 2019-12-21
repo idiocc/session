@@ -74,7 +74,7 @@ _idio.KoaSession.prototype._ctx
 _idio.KoaContextSession = function() {}
 /**
  * The context.
- * @type {!_goa.Context}
+ * @type {!_idio.Context}
  */
 _idio.KoaContextSession.prototype.ctx
 /**
@@ -201,8 +201,3 @@ _idio.SessionConfig.prototype.encode = function(sess) {}
  * @type {(function(string): !Object)|undefined}
  */
 _idio.SessionConfig.prototype.decode = function(sess) {}
-
-/** @type {!_idio.SessionConfig} */
-_goa.Context.prototype.sessionOptions
-/** @type {!_idio.Session} */
-_goa.Context.prototype.session

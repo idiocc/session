@@ -15,3 +15,4 @@ yarn add @goa/session
 %~%
 
 <include-typedefs>@typedefs/goa</include-typedefs>
+<include-typedefs>@typedefs/idio</include-typedefs>

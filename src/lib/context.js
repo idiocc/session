@@ -12,7 +12,7 @@ export const ONE_DAY = 24 * 60 * 60 * 1000
 export default class ContextSession {
   /**
    * context session constructor
-   * @param {!_goa.Context} ctx
+   * @param {!_idio.Context} ctx
    * @param {!_idio.SessionConfig} [opts] Configuration passed to `koa-session`.
    */
   constructor(ctx, opts = {}) {

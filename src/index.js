@@ -25,12 +25,8 @@ function fnBody(fn) {
 
 const isFunction = fn => typeof fn == 'function'
 
-// const CONTEXT_SESSION = Symbol('context#contextSession')
-// const _CONTEXT_SESSION = Symbol('context#_contextSession')
-
 /**
- *
- * @param {_goa.Application} app koa application instance
+ * @param {_idio.Application} app koa application instance
  * @param {_idio.SessionConfig} [opts] Configuration passed to `koa-session`.
  */
 export default function(app, opts = {}) {
@@ -119,7 +115,7 @@ function formatOpts(opts = {}) {
 
 /**
  * Extend context prototype, add session properties
- * @param {!_goa.Context} context Koa's context prototype.
+ * @param {!_idio.Context} context Idio's context prototype.
  * @param {!_idio.SessionConfig} opts Configuration passed to `koa-session`.
  */
 function extendContext(context, opts) {
@@ -157,10 +153,6 @@ function extendContext(context, opts) {
 /**
  * @suppress {nonStandardJsDocs}
  * @typedef {import('@typedefs/goa').Application} _goa.Application
- */
-/**
- * @suppress {nonStandardJsDocs}
- * @typedef {import('@typedefs/goa').Context} _goa.Context
  */
 /**
  * @suppress {nonStandardJsDocs}

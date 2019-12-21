@@ -2,7 +2,7 @@ const _session = require('./session')
 
 /**
  * Initialize the session middleware with `opts`.
- * @param {!_goa.Application} app A Goa application instance.
+ * @param {!_idio.Application} app A Goa application instance.
  * @param {_idio.SessionConfig} [opts] Configuration for the session middleware.
  * @param {string} [opts.key="koa:sess"] The cookie key. Default `koa:sess`.
  * @param {string|number} [opts.maxAge=86400000] `maxAge` in ms with default of 1 day. Either a number or 'session'. `session` will result in a cookie that expires when session/browser is closed. Warning: If a session cookie is stolen, this cookie will never expire. Default `86400000`.
@@ -30,16 +30,16 @@ function $session(app, opts) {
 module.exports = $session
 
 /**
- * @typedef {import('@typedefs/goa').Application} _goa.Application
  * @typedef {import('@typedefs/goa').Middleware} _goa.Middleware
- * @typedef {import('@typedefs/goa').Context} _goa.Context
  */
 
 /* typal types/index.xml namespace */
 /**
+ * @typedef {import('@typedefs/idio').Application} _idio.Application
+ * @typedef {import('@typedefs/idio').Context} _idio.Context
  * @typedef {_idio.KoaContextSession} KoaContextSession `＠interface` The context for the session API. Is actually private, as only accessible from context by a symbol.
  * @typedef {Object} _idio.KoaContextSession `＠interface` The context for the session API. Is actually private, as only accessible from context by a symbol.
- * @prop {!_goa.Context} ctx The context.
+ * @prop {!_idio.Context} ctx The context.
  * @prop {() => !Promise} commit Commit the session changes or removal.
  * @typedef {_idio.ExternalStore} ExternalStore `＠interface` By implementing this class, the session can be recorded and retrieved from an external store (e.g., a database), instead of cookies.
  * @typedef {Object} _idio.ExternalStore `＠interface` By implementing this class, the session can be recorded and retrieved from an external store (e.g., a database), instead of cookies.
