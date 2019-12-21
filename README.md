@@ -14,7 +14,7 @@ yarn add @goa/session
 - [API](#api)
 - [`session(app, opts=): !_goa.Middleware`](#sessionapp-_goaapplicationopts-koasessionconfig-_goamiddleware)
   * [`KoaSessionConfig`](#type-koasessionconfig)
-  * [`ContextStore`](#type-contextstore)
+  * [`ExternalStore`](#type-externalstore)
   * [`KoaSession`](#type-koasession)
 - [Copyright & License](#copyright--license)
 
@@ -118,13 +118,13 @@ __<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration passed
  </tr>
  <tr>
   <td rowSpan="3" align="center">store</td>
-  <td><em><a href="#type-contextstore" title="By implementing this class, the session can be recorded and retrieved using context, instead of cookies.">ContextStore</a></em></td>
+  <td><em><a href="#type-externalstore" title="By implementing this class, the session can be recorded and retrieved from an external store (e.g., a database), instead of cookies.">ExternalStore</a></em></td>
   <td rowSpan="3">-</td>
  </tr>
  <tr></tr>
  <tr>
   <td>
-   You can store the session content in external stores (Redis, MongoDB or other DBs) by passing a constructor with three methods (these need to be async functions).
+   You can store the session content in external stores (Redis, MongoDB or other DBs) by passing an instance of a store with three methods (these need to be async functions).
   </td>
  </tr>
  <tr>
@@ -140,12 +140,12 @@ __<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration passed
  </tr>
  <tr>
   <td rowSpan="3" align="center">ContextStore</td>
-  <td colSpan="2"><em>(arg0: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>) => ?</em></td>
+  <td colSpan="2"><em>new (arg0: <a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a>) => <a href="#type-externalstore" title="By implementing this class, the session can be recorded and retrieved from an external store (e.g., a database), instead of cookies.">ExternalStore</a></em></td>
  </tr>
  <tr></tr>
  <tr>
   <td colSpan="2">
-   If your session store requires data or utilities from context, <code>opts.ContextStore</code> is also supported.
+   If your session store requires data or utilities from context, <code>opts.ContextStore</code> can be used to set a constructor for the store that implements the <em>ExternalStore</em> interface.
   </td>
  </tr>
  <tr>
@@ -188,9 +188,7 @@ __<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration passed
  <tr></tr>
  <tr>
   <td colSpan="2">
-   The validation hook: valid session value before use it.<br/>
-   <kbd><strong>ctx*</strong></kbd> <em><code><a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a></code></em>: The context.<br/>
-   <kbd><strong>sess*</strong></kbd> <em><code>!Object</code></em>: The session to validate.
+   The validation hook: valid session value before use it.
   </td>
  </tr>
  <tr>
@@ -200,9 +198,7 @@ __<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration passed
  <tr></tr>
  <tr>
   <td colSpan="2">
-   The hook before save session.<br/>
-   <kbd><strong>ctx*</strong></kbd> <em><code><a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a></code></em>: The context.<br/>
-   <kbd><strong>sess*</strong></kbd> <em><code><a href="#type-koasession">!KoaSession</a></code></em>: The session.
+   The hook before save session.
   </td>
  </tr>
  <tr>
@@ -212,8 +208,7 @@ __<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration passed
  <tr></tr>
  <tr>
   <td colSpan="2">
-   The way of generating external session id.<br/>
-   <kbd><strong>ctx*</strong></kbd> <em><code><a href="https://github.com/idiocc/goa/wiki/Context#type-context" title="The context object for each request.">!_goa.Context</a></code></em>: The context.
+   The way of generating external session id.
   </td>
  </tr>
  <tr>
@@ -223,8 +218,7 @@ __<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration passed
  <tr></tr>
  <tr>
   <td colSpan="2">
-   Use options.encode and options.decode to customize your own encode/decode methods.<br/>
-   <kbd><strong>sess*</strong></kbd> <em><code>!Object</code></em>: The session object to encode.
+   Use options.encode and options.decode to customize your own encode/decode methods.
   </td>
  </tr>
  <tr>
@@ -234,8 +228,7 @@ __<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration passed
  <tr></tr>
  <tr>
   <td colSpan="2">
-   Use options.encode and options.decode to customize your own encode/decode methods.<br/>
-   <kbd><strong>sess*</strong></kbd> <em><code>string</code></em>: The session object to decode.
+   Use options.encode and options.decode to customize your own encode/decode methods.
   </td>
  </tr>
 </table>
@@ -311,7 +304,7 @@ Bye { 'content-type': 'text/plain; charset=utf-8',
 
 If your session store requires data or utilities from context, `opts.ContextStore` is also supported. _ContextStore_ must be a class which implements three instance methods demonstrated below. `new ContextStore(ctx)` will be executed on every request.
 
-__<a name="type-contextstore">`ContextStore`</a>__: By implementing this class, the session can be recorded and retrieved using context, instead of cookies.
+__<a name="type-externalstore">`ExternalStore`</a>__: By implementing this class, the session can be recorded and retrieved from an external store (e.g., a database), instead of cookies.
 <table>
  <thead><tr>
   <th>Name</th>
@@ -319,7 +312,7 @@ __<a name="type-contextstore">`ContextStore`</a>__: By implementing this class, 
  </tr></thead>
  <tr>
   <td rowSpan="3" align="center"><ins>constructor</ins></td>
-  <td><em>new () => <a href="#type-contextstore" title="By implementing this class, the session can be recorded and retrieved using context, instead of cookies.">ContextStore</a></em></td>
+  <td><em>new () => <a href="#type-externalstore" title="By implementing this class, the session can be recorded and retrieved from an external store (e.g., a database), instead of cookies.">ExternalStore</a></em></td>
  </tr>
  <tr></tr>
  <tr>
@@ -360,7 +353,7 @@ __<a name="type-contextstore">`ContextStore`</a>__: By implementing this class, 
 </table>
 
 <details>
-<summary><em>Show an example context store.</em>
+<summary><em>Show an example external store.</em>
 </summary>
 
 ```js

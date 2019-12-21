@@ -12,7 +12,7 @@ import session from '@goa/session'
 
 The interface is changed from the original package, so that the app is always passed as the first argument.
 
-<typedef narrow name="KoaSessionConfig">types/index.xml</typedef>
+<typedef narrow slimFunctions name="KoaSessionConfig">types/index.xml</typedef>
 
 **Example**
 
@@ -21,10 +21,10 @@ The interface is changed from the original package, so that the app is always pa
 
 If your session store requires data or utilities from context, `opts.ContextStore` is also supported. _ContextStore_ must be a class which implements three instance methods demonstrated below. `new ContextStore(ctx)` will be executed on every request.
 
-<typedef narrow slimFunctions name="ContextStore">types/index.xml</typedef>
+<typedef narrow slimFunctions name="ExternalStore">types/index.xml</typedef>
 
 <details>
-<summary><em>Show an example context store.</em>
+<summary><em>Show an example external store.</em>
 </summary>
 
 %EXAMPLE: test/context/ContextStore%
