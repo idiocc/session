@@ -12,8 +12,8 @@ yarn add @goa/session
 
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
-- [`session(app, opts=): !_goa.Middleware`](#sessionapp-_goaapplicationopts-koasessionconfig-_goamiddleware)
-  * [`KoaSessionConfig`](#type-koasessionconfig)
+- [`session(app, opts=): !_goa.Middleware`](#sessionapp-_goaapplicationopts-sessionconfig-_goamiddleware)
+  * [`SessionConfig`](#type-sessionconfig)
   * [`ExternalStore`](#type-externalstore)
   * [`Session`](#type-session)
   * [<code>KoaSession</code>](#type-koasession)
@@ -36,15 +36,15 @@ import session from '@goa/session'
   <img src="/.documentary/section-breaks/1.svg?sanitize=true">
 </a></p>
 
-## <code><ins>session</ins>(</code><sub><br/>&nbsp;&nbsp;`app: !_goa.Application,`<br/>&nbsp;&nbsp;`opts=: KoaSessionConfig,`<br/></sub><code>): <i>!_goa.Middleware</i></code>
+## <code><ins>session</ins>(</code><sub><br/>&nbsp;&nbsp;`app: !_goa.Application,`<br/>&nbsp;&nbsp;`opts=: SessionConfig,`<br/></sub><code>): <i>!_goa.Middleware</i></code>
 Initialize the session middleware with `opts`.
 
  - <kbd><strong>app*</strong></kbd> <em><code><a href="https://github.com/idiocc/goa/wiki/Application#type-application" title="The application interface.">!_goa.Application</a></code></em>: A Goa application instance.
- - <kbd>opts</kbd> <em><code><a href="#type-koasessionconfig" title="Configuration for the session middleware.">KoaSessionConfig</a></code></em> (optional): The configuration passed to `koa-session`.
+ - <kbd>opts</kbd> <em><code><a href="#type-sessionconfig" title="Configuration for the session middleware.">SessionConfig</a></code></em> (optional): The configuration passed to `koa-session`.
 
 The interface is changed from the original package, so that the app is always passed as the first argument.
 
-__<a name="type-koasessionconfig">`KoaSessionConfig`</a>__: Configuration for the session middleware.
+__<a name="type-sessionconfig">`SessionConfig`</a>__: Configuration for the session middleware.
 <table>
  <thead><tr>
   <th>Name</th>
@@ -286,20 +286,20 @@ app.listen(async function() {
 You have cookies now: { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '21',
   'set-cookie': 
-   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc2OTc3MjQwODU3LCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Sun, 22 Dec 2019 01:14:00 GMT; httponly' ],
-  date: 'Sat, 21 Dec 2019 01:14:00 GMT',
+   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc2OTg1ODMwOTIxLCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Sun, 22 Dec 2019 03:37:10 GMT; httponly' ],
+  date: 'Sat, 21 Dec 2019 03:37:10 GMT',
   connection: 'close' } 
 
 Welcome back: hello { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '19',
-  date: 'Sat, 21 Dec 2019 01:14:00 GMT',
+  date: 'Sat, 21 Dec 2019 03:37:10 GMT',
   connection: 'close' } 
 
 Bye { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '3',
   'set-cookie': 
-   [ 'koa:sess=; path=/; expires=Sun, 22 Dec 2019 01:14:00 GMT; httponly' ],
-  date: 'Sat, 21 Dec 2019 01:14:00 GMT',
+   [ 'koa:sess=; path=/; expires=Sun, 22 Dec 2019 03:37:10 GMT; httponly' ],
+  date: 'Sat, 21 Dec 2019 03:37:10 GMT',
   connection: 'close' }
 ```
 

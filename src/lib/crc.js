@@ -79,6 +79,7 @@ if (typeof Int32Array !== 'undefined') TABLE = new Int32Array(TABLE)
 
 /**
  * @license MIT https://github.com/alexgorbatchev
+ * crc32
  */
 const crc32 = defineCrc('crc-32', (buf, previous) => {
   if (!Buffer.isBuffer(buf)) buf = Buffer.from(buf)

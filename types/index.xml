@@ -32,7 +32,7 @@
     </fn>
   </interface>
 
-  <record name="KoaSessionConfig" desc="Configuration for the session middleware.">
+  <record name="SessionConfig" desc="Configuration for the session middleware.">
     <prop string name="key" default="koa:sess">
       The cookie key.
     </prop>

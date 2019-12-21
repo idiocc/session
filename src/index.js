@@ -31,7 +31,7 @@ const isFunction = fn => typeof fn == 'function'
 /**
  *
  * @param {_goa.Application} app koa application instance
- * @param {_idio.KoaSessionConfig} [opts] Configuration passed to `koa-session`.
+ * @param {_idio.SessionConfig} [opts] Configuration passed to `koa-session`.
  */
 export default function(app, opts = {}) {
   // app required
@@ -65,7 +65,7 @@ export default function(app, opts = {}) {
 
 /**
  * format and check session options
- * @param {_idio.KoaSessionConfig} [opts] Configuration passed to `koa-session`.
+ * @param {_idio.SessionConfig} [opts] Configuration passed to `koa-session`.
  * @api private
  */
 function formatOpts(opts = {}) {
@@ -120,7 +120,7 @@ function formatOpts(opts = {}) {
 /**
  * Extend context prototype, add session properties
  * @param {!_goa.Context} context Koa's context prototype.
- * @param {!_idio.KoaSessionConfig} opts Configuration passed to `koa-session`.
+ * @param {!_idio.SessionConfig} opts Configuration passed to `koa-session`.
  */
 function extendContext(context, opts) {
   if (context.hasOwnProperty(CONTEXT_SESSION)) {
@@ -145,7 +145,7 @@ function extendContext(context, opts) {
     },
     sessionOptions: {
       /**
-       * @return {_idio.KoaSessionConfig}
+       * @return {_idio.SessionConfig}
        */
       get() {
         return this[CONTEXT_SESSION].opts
@@ -168,5 +168,5 @@ function extendContext(context, opts) {
  */
 /**
  * @suppress {nonStandardJsDocs}
- * @typedef {import('../types').KoaSessionConfig} _idio.KoaSessionConfig
+ * @typedef {import('../types').SessionConfig} _idio.SessionConfig
  */

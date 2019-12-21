@@ -2,7 +2,7 @@
   "name": "@goa/session",
   "version": "1.0.3",
   "description": "Session Middleware For Goa.",
-  "main": "depack/index.js",
+  "main": "compile/index.js",
   "module": "src/index.js",
   "scripts": {
     "t": "zoroaster -a",
@@ -12,7 +12,7 @@
     "lib": "depack src/depack -o compile/session.js -a -c -p --externs http",
     "test-compile": "ALAMODE_ENV=test-compile yarn test",
     "lint": "eslint .",
-    "doc": "doc -o README.md -d -n _idio",
+    "doc": "doc -o README.md -d -n _idio -a",
     "b": "alamode src -o build -s",
     "d": "yarn-s template d1 externs",
     "d1": "typal compile/index.js -u",
@@ -23,13 +23,15 @@
   "files": [
     "compile",
     "src",
-    "types"
+    "types",
+    "typedefs.json"
   ],
   "externs": "types/externs.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/idiocc/session.git"
   },
+  "typedefs": "typedefs.json",
   "keywords": [
     "session",
     "goa"
@@ -50,7 +52,7 @@
     "@typedefs/goa": "^0.1.4",
     "alamode": "^3.3.0",
     "depack": "^1.0.1",
-    "documentary": "^1.35.4",
+    "documentary": "^1.35.5",
     "eslint-config-artdeco": "1.0.1",
     "yarn-s": "1.2.1",
     "zoroaster": "^4.1.2"

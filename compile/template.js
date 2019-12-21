@@ -16,3 +16,5 @@ module.exports = $session
  */
 
 /* typal types/index.xml namespace */
+
+/* typal types/session.xml namespace */

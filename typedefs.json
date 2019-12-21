@@ -1,0 +1,26 @@
+{
+  "_idio.session": {
+    "link": "https://github.com/idiocc/session#sessionapp-_goaapplicationopts-sessionconfig-_goamiddleware",
+    "description": "Initialize the session middleware with `opts`."
+  },
+  "_idio.KoaSessionConfig": {
+    "link": "https://github.com/idiocc/session#type-koasessionconfig",
+    "description": "Configuration for the session middleware."
+  },
+  "_idio.ExternalStore": {
+    "link": "https://github.com/idiocc/session#type-externalstore",
+    "description": "By implementing this class, the session can be recorded and retrieved from an external store (e.g., a database), instead of cookies."
+  },
+  "_idio.Session": {
+    "link": "https://github.com/idiocc/session#type-session",
+    "description": "The session instance accessible via Goa's context."
+  },
+  "_idio.KoaSession": {
+    "link": "https://github.com/idiocc/session#type-koasession",
+    "description": "A private session model."
+  },
+  "_idio.SessionConfig": {
+    "link": "https://github.com/idiocc/session#type-sessionconfig",
+    "description": "Configuration for the session middleware."
+  }
+}

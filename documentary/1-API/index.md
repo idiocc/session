@@ -12,7 +12,7 @@ import session from '@goa/session'
 
 The interface is changed from the original package, so that the app is always passed as the first argument.
 
-<typedef narrow slimFunctions name="KoaSessionConfig">types/index.xml</typedef>
+<typedef narrow slimFunctions name="SessionConfig">types/index.xml</typedef>
 
 **Example**
 

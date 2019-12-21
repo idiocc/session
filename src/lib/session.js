@@ -110,5 +110,5 @@ export default class Session {
 
 /**
  * @suppress {nonStandardJsDocs}
- * @typedef {import('../../types').KoaContextSession} _idio.KoaContextSession
+ * @typedef {import('../..').KoaContextSession} _idio.KoaContextSession
  */

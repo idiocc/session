@@ -13,7 +13,7 @@ export default class ContextSession {
   /**
    * context session constructor
    * @param {!_goa.Context} ctx
-   * @param {!_idio.KoaSessionConfig} [opts] Configuration passed to `koa-session`.
+   * @param {!_idio.SessionConfig} [opts] Configuration passed to `koa-session`.
    */
   constructor(ctx, opts = {}) {
     this.ctx = ctx
@@ -326,7 +326,7 @@ export default class ContextSession {
  */
 /**
  * @suppress {nonStandardJsDocs}
- * @typedef {import('../../types').KoaSessionConfig} _idio.KoaSessionConfig
+ * @typedef {import('../..').SessionConfig} _idio.SessionConfig
  */
 /**
  * @suppress {nonStandardJsDocs}
