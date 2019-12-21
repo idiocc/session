@@ -1,5 +1,9 @@
 ## 21 December 2019
 
+### [2.1.0](https://github.com/idiocc/session/compare/v2.0.0...v2.1.0)
+
+- [docs] Use _Idio_ context, application and middleware instead of _Goa_.
+
 ### [2.0.0](https://github.com/idiocc/session/compare/v1.0.3...v2.0.0)
 
 - [license] Update to _AGPL-3.0_
