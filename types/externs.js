@@ -7,27 +7,43 @@
 /** @const */
 var _idio = {}
 /**
+ * The session instance accessible via Goa's context.
+ * Constructor method.
+ * @interface
+ */
+_idio.Session = function() {}
+/**
+ * Returns true if the session is new.
+ * @type {boolean}
+ */
+_idio.Session.prototype.isNew
+/**
+ * Populated flag, which is just a boolean alias of `.length`.
+ * @type {boolean}
+ */
+_idio.Session.prototype.populated
+/**
+ * Get/set cookie's maxAge.
+ * @type {number|string}
+ */
+_idio.Session.prototype.maxAge
+/**
+ * Save this session no matter whether it is populated.
+ */
+_idio.Session.prototype.save = function() {}
+/**
+ * Session headers are auto committed by default. Use this if `autoCommit` is set to false.
+ * @return {!Promise}
+ */
+_idio.Session.prototype.manuallyCommit = function() {}
+/**
  * Private session constructor. It is called one time per request by the session context when middleware accesses `.session` property of the context.
+ * @extends {_idio.Session}
  * @param {_idio.KoaContextSession} sessionContext The session context.
  * @param {?{ _maxAge: (number|undefined), _session: (boolean|undefined) }=} [obj] Serialised session to be restored.
  * @interface
  */
 _idio.KoaSession = function(sessionContext, obj) {}
-/**
- * Returns true if the session is new.
- * @type {boolean}
- */
-_idio.KoaSession.prototype.isNew
-/**
- * Populated flag, which is just a boolean alias of `.length`.
- * @type {boolean}
- */
-_idio.KoaSession.prototype.populated
-/**
- * Get/set cookie's maxAge.
- * @type {number|string}
- */
-_idio.KoaSession.prototype.maxAge
 /**
  * Private JSON serialisation.
  * @type {number}
@@ -48,15 +64,6 @@ _idio.KoaSession.prototype._sessCtx
  * @type {_goa.Context}
  */
 _idio.KoaSession.prototype._ctx
-/**
- * Save this session no matter whether it is populated.
- */
-_idio.KoaSession.prototype.save = function() {}
-/**
- * Session headers are auto committed by default. Use this if `autoCommit` is set to false.
- * @return {!Promise}
- */
-_idio.KoaSession.prototype.manuallyCommit = function() {}
 
 /* typal types/index.xml externs */
 /**
@@ -75,11 +82,11 @@ _idio.KoaContextSession.prototype.ctx
  */
 _idio.KoaContextSession.prototype.commit = function() {}
 /**
- * By implementing this class, the session can be recorded and retrieved using context, instead of cookies.
+ * By implementing this class, the session can be recorded and retrieved from an external store (e.g., a database), instead of cookies.
  * Constructor method.
  * @interface
  */
-_idio.ContextStore = function() {}
+_idio.ExternalStore = function() {}
 /**
  * Get session object by key.
  * @param {string} key The session key.
@@ -87,7 +94,7 @@ _idio.ContextStore = function() {}
  * @param {{ rolling: boolean }} opts Additional options.
  * @return {!Promise<!Object>}
  */
-_idio.ContextStore.prototype.get = function(key, maxAge, opts) {}
+_idio.ExternalStore.prototype.get = function(key, maxAge, opts) {}
 /**
  * Set session object for key, with a `maxAge` (in ms, or as `'session'`).
  * @param {string} key The session key.
@@ -96,13 +103,13 @@ _idio.ContextStore.prototype.get = function(key, maxAge, opts) {}
  * @param {{ rolling: boolean, changed: boolean }} opts Additional options.
  * @return {!Promise}
  */
-_idio.ContextStore.prototype.set = function(key, sess, maxAge, opts) {}
+_idio.ExternalStore.prototype.set = function(key, sess, maxAge, opts) {}
 /**
  * Destroy session for key.
  * @param {string} key The key.
  * @return {!Promise}
  */
-_idio.ContextStore.prototype.destroy = function(key) {}
+_idio.ExternalStore.prototype.destroy = function(key) {}
 /**
  * Configuration passed to `koa-session`.
  * @record
@@ -139,8 +146,8 @@ _idio.KoaSessionConfig.prototype.signed
  */
 _idio.KoaSessionConfig.prototype.autoCommit
 /**
- * You can store the session content in external stores (Redis, MongoDB or other DBs) by passing a constructor with three methods (these need to be async functions).
- * @type {_idio.ContextStore|undefined}
+ * You can store the session content in external stores (Redis, MongoDB or other DBs) by passing an instance of a store with three methods (these need to be async functions).
+ * @type {_idio.ExternalStore|undefined}
  */
 _idio.KoaSessionConfig.prototype.store
 /**
@@ -149,8 +156,8 @@ _idio.KoaSessionConfig.prototype.store
  */
 _idio.KoaSessionConfig.prototype.externalKey
 /**
- * If your session store requires data or utilities from context, `opts.ContextStore` is also supported.
- * @type {(function(new: _idio.ContextStore, !_goa.Context))|undefined}
+ * If your session store requires data or utilities from context, `opts.ContextStore` can be used to set a constructor for the store that implements the _ExternalStore_ interface.
+ * @type {(function(new: _idio.ExternalStore, !_goa.Context))|undefined}
  */
 _idio.KoaSessionConfig.prototype.ContextStore = function(arg0) {}
 /**

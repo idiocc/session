@@ -15,7 +15,8 @@ yarn add @goa/session
 - [`session(app, opts=): !_goa.Middleware`](#sessionapp-_goaapplicationopts-koasessionconfig-_goamiddleware)
   * [`KoaSessionConfig`](#type-koasessionconfig)
   * [`ExternalStore`](#type-externalstore)
-  * [`KoaSession`](#type-koasession)
+  * [`Session`](#type-session)
+  * [<code>KoaSession</code>](#type-koasession)
 - [Copyright & License](#copyright--license)
 
 <p align="center"><a href="#table-of-contents">
@@ -381,7 +382,7 @@ export default class ContextStore {
 
 The session object itself (`ctx.session`) has the following methods.
 
-__<a name="type-koasession">`KoaSession`</a>__
+__<a name="type-session">`Session`</a>__: The session instance accessible via Goa's context.
 <table>
  <thead><tr>
   <th>Name</th>
@@ -389,12 +390,12 @@ __<a name="type-koasession">`KoaSession`</a>__
  </tr></thead>
  <tr>
   <td rowSpan="3" align="center"><ins>constructor</ins></td>
-  <td><em>new (sessionContext: KoaContextSession, obj?: { _maxAge: (number | undefined), _session: (boolean | undefined) }) => <a href="#type-koasession">KoaSession</a></em></td>
+  <td><em>new () => <a href="#type-session" title="The session instance accessible via Goa's context.">Session</a></em></td>
  </tr>
  <tr></tr>
  <tr>
   <td>
-   Private session constructor. It is called one time per request by the session context when middleware accesses <code>.session</code> property of the context.
+   Constructor method.
   </td>
  </tr>
  <tr>
@@ -425,6 +426,46 @@ __<a name="type-koasession">`KoaSession`</a>__
  <tr>
   <td>
    Get/set cookie's maxAge.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center"><ins>save</ins></td>
+  <td><em>() => void</em></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   Save this session no matter whether it is populated.
+  </td>
+ </tr>
+ <tr>
+  <td rowSpan="3" align="center"><ins>manuallyCommit</ins></td>
+  <td><em>() => !Promise&lt;void&gt;</em></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   Session headers are auto committed by default. Use this if <code>autoCommit</code> is set to false.
+  </td>
+ </tr>
+</table>
+
+
+<details>
+ <summary><strong><a name="type-koasession"><code>KoaSession</code></a> extends <a href="#type-session" title="The session instance accessible via Goa's context."><code>Session</code></a></strong></summary>
+<table>
+ <thead><tr>
+  <th>Name</th>
+  <th>Type &amp; Description</th>
+ </tr></thead>
+ <tr>
+  <td rowSpan="3" align="center"><ins>constructor</ins></td>
+  <td><em>new (sessionContext: KoaContextSession, obj?: { _maxAge: (number | undefined), _session: (boolean | undefined) }) => <a href="#type-koasession">KoaSession</a></em></td>
+ </tr>
+ <tr></tr>
+ <tr>
+  <td>
+   Private session constructor. It is called one time per request by the session context when middleware accesses <code>.session</code> property of the context.
   </td>
  </tr>
  <tr>
@@ -467,27 +508,8 @@ __<a name="type-koasession">`KoaSession`</a>__
    Private JSON serialisation.
   </td>
  </tr>
- <tr>
-  <td rowSpan="3" align="center"><ins>save</ins></td>
-  <td><em>() => void</em></td>
- </tr>
- <tr></tr>
- <tr>
-  <td>
-   Save this session no matter whether it is populated.
-  </td>
- </tr>
- <tr>
-  <td rowSpan="3" align="center"><ins>manuallyCommit</ins></td>
-  <td><em>() => !Promise&lt;void&gt;</em></td>
- </tr>
- <tr></tr>
- <tr>
-  <td>
-   Session headers are auto committed by default. Use this if <code>autoCommit</code> is set to false.
-  </td>
- </tr>
 </table>
+</details>
 
 <p align="center"><a href="#table-of-contents">
   <img src="/.documentary/section-breaks/2.svg?sanitize=true">

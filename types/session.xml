@@ -1,14 +1,5 @@
 <types namespace="_idio">
-  <interface name="KoaSession" description="The session model.">
-    <fn name="constructor">
-      <arg type="_idio.KoaContextSession" name="sessionContext">
-        The session context.
-      </arg>
-      <arg type="?{ _maxAge: (number|undefined), _session: (boolean|undefined) }" name="obj" opt>
-        Serialised session to be restored.
-      </arg>
-      Private session constructor. It is called one time per request by the session context when middleware accesses `.session` property of the context.
-    </fn>
+  <interface name="Session" desc="The session instance accessible via Goa's context.">
     <prop boolean name="isNew">
       Returns true if the session is new.
     </prop>
@@ -18,6 +9,23 @@
     <prop type="number|string" name="maxAge">
       Get/set cookie's maxAge.
     </prop>
+    <fn void name="save">
+      Save this session no matter whether it is populated.
+    </fn>
+    <fn async void name="manuallyCommit">
+      Session headers are auto committed by default. Use this if `autoCommit` is set to false.
+    </fn>
+  </interface>
+  <interface extends="_idio.Session" name="KoaSession" description="A private session model.">
+    <fn name="constructor">
+      <arg type="_idio.KoaContextSession" name="sessionContext">
+        The session context.
+      </arg>
+      <arg type="?{ _maxAge: (number|undefined), _session: (boolean|undefined) }" name="obj" opt>
+        Serialised session to be restored.
+      </arg>
+      Private session constructor. It is called one time per request by the session context when middleware accesses `.session` property of the context.
+    </fn>
     <prop number name="_expire">
       Private JSON serialisation.
     </prop>
@@ -30,11 +38,5 @@
     <prop type="_goa.Context" name="_ctx">
       Private JSON serialisation.
     </prop>
-    <fn void name="save">
-      Save this session no matter whether it is populated.
-    </fn>
-    <fn async void name="manuallyCommit">
-      Session headers are auto committed by default. Use this if `autoCommit` is set to false.
-    </fn>
   </interface>
 </types>

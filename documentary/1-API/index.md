@@ -32,6 +32,6 @@ If your session store requires data or utilities from context, `opts.ContextStor
 
 The session object itself (`ctx.session`) has the following methods.
 
-<typedef narrow slimFunctions>types/session.xml</typedef>
+<typedef narrow slimFunctions details="KoaSession">types/session.xml</typedef>
 
 %~%
