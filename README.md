@@ -8,11 +8,20 @@
 yarn add @goa/session
 ```
 
+## Fork Diff
+
+This package is a fork of `koa-session` with a number of improvements:
+
+1. The session middleware constructor does not require the app, and will not extend the context with `.session` property, if middleware wasn't explicitly used. Fixes [177](https://github.com/koajs/session/issues/177) to avoid confusion when `.session` is not expected to be present, but is read from cookies anyway.
+1. Remove `crc32` hash checking which was unnecessary. Fixes [161](https://github.com/koajs/session/issues/161) as JSON comparison is enough.
+1. Fix [the bug](https://github.com/koajs/session/pull/175) when initial `maxAge` is not set on the initial session cookie, resulting in a session-only sessions.
+
 ## Table Of Contents
 
+- [Fork Diff](#fork-diff)
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
-- [`session(app, opts=): !Middleware`](#sessionapp-applicationopts-sessionconfig-middleware)
+- [`session(opts=): !_goa.Middleware`](#sessionopts-sessionconfig-_goamiddleware)
   * [`SessionConfig`](#type-sessionconfig)
   * [`ExternalStore`](#type-externalstore)
   * [`Session`](#type-session)
@@ -37,10 +46,9 @@ import session from '@goa/session'
   <img src="/.documentary/section-breaks/1.svg?sanitize=true">
 </a></p>
 
-## <code><ins>session</ins>(</code><sub><br/>&nbsp;&nbsp;`app: !Application,`<br/>&nbsp;&nbsp;`opts=: !SessionConfig,`<br/></sub><code>): <i>!Middleware</i></code>
+## <code><ins>session</ins>(</code><sub><br/>&nbsp;&nbsp;`opts=: !SessionConfig,`<br/></sub><code>): <i>!_goa.Middleware</i></code>
 Initialize the session middleware with `opts`.
 
- - <kbd><strong>app*</strong></kbd> <em><code><a href="https://github.com/idiocc/idio/wiki/Home#type-application" title="The application with some additions.">!Application</a></code></em>: A Goa application instance.
  - <kbd>opts</kbd> <em><code><a href="#type-sessionconfig" title="Configuration for the session middleware.">!SessionConfig</a></code></em> (optional): The configuration passed to `koa-session`.
 
 The interface is changed from the original package, so that the app is always passed as the first argument.
@@ -287,20 +295,22 @@ app.listen(async function() {
 You have cookies now: { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '21',
   'set-cookie': 
-   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc3MDAxMjcyNTc4LCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Sun, 22 Dec 2019 07:54:32 GMT; httponly' ],
-  date: 'Sat, 21 Dec 2019 07:54:32 GMT',
+   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc3MDY5MDE5NDI3LCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Mon, 23 Dec 2019 02:43:39 GMT; httponly',
+     'koa:sess.sig=enKso6XT5-ygnIAAJMEoKOIs9pc; path=/; expires=Mon, 23 Dec 2019 02:43:39 GMT; httponly' ],
+  date: 'Sun, 22 Dec 2019 02:43:39 GMT',
   connection: 'close' } 
 
 Welcome back: hello { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '19',
-  date: 'Sat, 21 Dec 2019 07:54:32 GMT',
+  date: 'Sun, 22 Dec 2019 02:43:39 GMT',
   connection: 'close' } 
 
 Bye { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '3',
   'set-cookie': 
-   [ 'koa:sess=; path=/; expires=Sun, 22 Dec 2019 07:54:32 GMT; httponly' ],
-  date: 'Sat, 21 Dec 2019 07:54:32 GMT',
+   [ 'koa:sess=; path=/; expires=Mon, 23 Dec 2019 02:43:39 GMT; httponly',
+     'koa:sess.sig=3yWO3XPnQywgv6vMrDmQXJjBAas; path=/; expires=Mon, 23 Dec 2019 02:43:39 GMT; httponly' ],
+  date: 'Sun, 22 Dec 2019 02:43:39 GMT',
   connection: 'close' }
 ```
 
