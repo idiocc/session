@@ -2,42 +2,49 @@
 
 - [ ] Add a new item to the todo list. -->
 
-<!-- ## Typedefs
+## Typedefs
 
-This package is meant to be used as part of the [Idio web server](https://github.com/idiocc/idio). But it also can be used on its own. To enable auto-completions on the method, please install typedefs, and import them in your application entry:
+This package is meant to be used as part of the [Idio web server](https://github.com/idiocc/idio). But it also can be used on its own with _Koa_. To enable auto-completions when configuring the middleware, please install typedefs, and import them in your application entry:
 
 <table>
 <thead>
-<tr><th>Package</th><th>Link</th><th>Import</th></tr>
+  <tr><th>Package & Link</th><th>Import</th></tr>
+</thead>
 <tr><td>
 @typedefs/goa
-</td>
-<td>
 
 %NPM: @typedefs/goa%
 </td>
-<td rowspan="2">
+<td>
 
 ```js
+const sess = session({
+  // you can access ctx as context now
+  valid(ctx, obj) {
+    // force presence of a key in headers too
+    const s = ctx.get('secret-key')
+    return obj['secret-key'] == s
+  }
+})
+// at the bottom of the file
 /**
- * @typedef {import('@typedefs/goa').Application}
- * @typedef {import('@typedefs/idio').Application}
+ * @typedef {import('@typedefs/goa').Context} _goa.Context
  */
 ```
 </td>
-</tr>
-<tr><td>
-@typedefs/idio
+<tr>
+  <td>
+This will add information about required types to _VSCode_. This is required because even though session's configuration object is described with _JSDoc_ in its file, _VSCode_ has a bug that does not allow propagation of imported types so they need to be imported manually like above.
 </td>
+</tr>
+<tr>
 <td>
-
-%NPM: @typedefs/idio%
-</td></tr>
+  <img src="doc/ts.gif" alt="JSDoc">
+</td>
+</tr>
 </table>
 
-This will add information about required types to _VSCode_.
-
-%~% -->
+%~%
 
 ## Copyright & License
 
