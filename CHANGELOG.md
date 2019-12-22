@@ -1,3 +1,11 @@
+## 22 December 2019
+
+### [3.0.0](https://github.com/idiocc/session/compare/v2.1.0...v3.0.0)
+
+- [API] Remove passing of the `app`.
+- [feature] Skip `crc32` validation.
+- [fix] Fix the bug when `sessionOptions` were overridden due to not cloning them.
+
 ## 21 December 2019
 
 ### [2.1.0](https://github.com/idiocc/session/compare/v2.0.0...v2.1.0)

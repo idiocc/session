@@ -407,6 +407,25 @@ export const maxAge = {
       .attribute('koa:sess', 'expires')
       .assert(200)
   },
+  async 'does not override options'({ getApp, startApp }) {
+    const app = getApp({ maxAge: 999999 })
+    app.use((ctx) => {
+      if (ctx.session.user) {
+        ctx.session = null
+      } else if (ctx.path != '/test') {
+        ctx.session.user = 'test'
+        ctx.session.maxAge = 1000000
+      }
+      ctx.body = ctx.sessionOptions.maxAge
+    })
+    await startApp()
+      .session()
+      .get('/')
+      .assert(200, 1000000)
+      .get('/')
+      .get('/test')
+      .assert(200, 999999)
+  },
 }
 
 /** @type {TestSuite} */

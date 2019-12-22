@@ -30,7 +30,7 @@ function p(a) {
     return q(a);
   }
   if ("number" == c && isFinite(a)) {
-    return b.l ? (b = Math.abs(a), a = 864E5 <= b ? r(a, b, 864E5, "day") : 36E5 <= b ? r(a, b, 36E5, "hour") : 6E4 <= b ? r(a, b, 6E4, "minute") : 1000 <= b ? r(a, b, 1000, "second") : a + " ms") : (b = Math.abs(a), a = 864E5 <= b ? Math.round(a / 864E5) + "d" : 36E5 <= b ? Math.round(a / 36E5) + "h" : 6E4 <= b ? Math.round(a / 6E4) + "m" : 1000 <= b ? Math.round(a / 1000) + "s" : a + "ms"), a;
+    return b.j ? (b = Math.abs(a), a = 864E5 <= b ? r(a, b, 864E5, "day") : 36E5 <= b ? r(a, b, 36E5, "hour") : 6E4 <= b ? r(a, b, 6E4, "minute") : 1000 <= b ? r(a, b, 1000, "second") : a + " ms") : (b = Math.abs(a), a = 864E5 <= b ? Math.round(a / 864E5) + "d" : 36E5 <= b ? Math.round(a / 36E5) + "h" : 6E4 <= b ? Math.round(a / 6E4) + "m" : 1000 <= b ? Math.round(a / 1000) + "s" : a + "ms"), a;
   }
   throw Error("val is not a non-empty string or a valid number. val=" + JSON.stringify(a));
 }
@@ -89,15 +89,15 @@ function r(a, b, c, d) {
  Copyright(c) 2015 Jed Watson
  MIT Licensed
 */
-const t = /\B(?=(\d{3})+(?!\d))/g, u = /(?:\.0*|(\.[^0]+)0+)$/, x = {b:1, kb:1024, mb:1048576, gb:1073741824, tb:Math.pow(1024, 4), pb:Math.pow(1024, 5)};
-function y(a, b) {
+const t = /\B(?=(\d{3})+(?!\d))/g, w = /(?:\.0*|(\.[^0]+)0+)$/, x = {b:1, kb:1024, mb:1048576, gb:1073741824, tb:Math.pow(1024, 4), pb:Math.pow(1024, 5)};
+function z(a, b) {
   if (!Number.isFinite(a)) {
     return null;
   }
-  const c = Math.abs(a), d = b && b.m || "", e = b && b.u || "", h = b && void 0 !== b.i ? b.i : 2, f = !(!b || !b.j);
-  (b = b && b.s || "") && x[b.toLowerCase()] || (b = c >= x.pb ? "PB" : c >= x.tb ? "TB" : c >= x.gb ? "GB" : c >= x.mb ? "MB" : c >= x.kb ? "KB" : "B");
+  const c = Math.abs(a), d = b && b.l || "", e = b && b.s || "", h = b && void 0 !== b.h ? b.h : 2, f = !(!b || !b.i);
+  (b = b && b.m || "") && x[b.toLowerCase()] || (b = c >= x.pb ? "PB" : c >= x.tb ? "TB" : c >= x.gb ? "GB" : c >= x.mb ? "MB" : c >= x.kb ? "KB" : "B");
   a = (a / x[b.toLowerCase()]).toFixed(h);
-  f || (a = a.replace(u, "$1"));
+  f || (a = a.replace(w, "$1"));
   d && (a = a.replace(t, d));
   return a + e + b;
 }
@@ -106,22 +106,22 @@ function y(a, b) {
  BSD License
  Copyright (c) 2009-2015, Kevin Decker <kpdecker@gmail.com>
 */
-const z = {black:30, red:31, green:32, yellow:33, blue:34, magenta:35, cyan:36, white:37, grey:90};
+const A = {black:30, red:31, green:32, yellow:33, blue:34, magenta:35, cyan:36, white:37, grey:90};
 function B(a, b) {
-  return (b = z[b]) ? `\x1b[${b}m${a}\x1b[0m` : a;
+  return (b = A[b]) ? `\x1b[${b}m${a}\x1b[0m` : a;
 }
-;var C = {f:y, ["fy"](a) {
-  return B(y(a) || "", "yellow");
+;var C = {f:z, ["fy"](a) {
+  return B(z(a) || "", "yellow");
 }, ["fr"](a) {
-  return B(y(a) || "", "red");
+  return B(z(a) || "", "red");
 }, ["fb"](a) {
-  return B(y(a) || "", "blue");
+  return B(z(a) || "", "blue");
 }, ["fg"](a) {
-  return B(y(a) || "", "green");
+  return B(z(a) || "", "green");
 }, ["fc"](a) {
-  return B(y(a) || "", "cyan");
+  return B(z(a) || "", "cyan");
 }, ["fm"](a) {
-  return B(y(a) || "", "magenta");
+  return B(z(a) || "", "magenta");
 }};
 const D = Object.keys(process.env).filter(a => /^debug_/i.test(a)).reduce((a, b) => {
   const c = b.substring(6).toLowerCase().replace(/_([a-z])/g, (d, e) => e.toUpperCase());
@@ -157,16 +157,16 @@ function F(a) {
       h = b.curr = l;
       f[0] = G(f[0]);
       "string" != typeof f[0] && f.unshift("%O");
-      var v = 0;
-      f[0] = f[0].replace(/%([a-zA-Z%]+)/g, (w, A) => {
-        if ("%%" == w) {
-          return w;
+      var u = 0;
+      f[0] = f[0].replace(/%([a-zA-Z%]+)/g, (v, y) => {
+        if ("%%" == v) {
+          return v;
         }
-        v++;
-        if (A = c[A]) {
-          w = A.call(b, f[v]), f.splice(v, 1), v--;
+        u++;
+        if (y = c[y]) {
+          v = y.call(b, f[u]), f.splice(u, 1), u--;
         }
-        return w;
+        return v;
       });
       d.call(b, f);
       (b.log || e).apply(b, f);
@@ -179,7 +179,7 @@ function F(a) {
 function H(a) {
   const b = F(a);
   "function" == typeof a.init && a.init(b);
-  a.c.push(b);
+  a.a.push(b);
   return b;
 }
 function I(a, b) {
@@ -192,15 +192,15 @@ function I(a, b) {
 function J(a) {
   var b = E.load();
   a.save(b);
+  a.c = [];
   a.g = [];
-  a.h = [];
   let c;
   const d = ("string" == typeof b ? b : "").split(/[\s,]+/), e = d.length;
   for (c = 0; c < e; c++) {
-    d[c] && (b = d[c].replace(/\*/g, ".*?"), "-" == b[0] ? a.h.push(new RegExp("^" + b.substr(1) + "$")) : a.g.push(new RegExp("^" + b + "$")));
+    d[c] && (b = d[c].replace(/\*/g, ".*?"), "-" == b[0] ? a.g.push(new RegExp("^" + b.substr(1) + "$")) : a.c.push(new RegExp("^" + b + "$")));
   }
-  for (c = 0; c < a.c.length; c++) {
-    b = a.c[c], b.enabled = a.enabled(b.namespace);
+  for (c = 0; c < a.a.length; c++) {
+    b = a.a[c], b.enabled = a.enabled(b.namespace);
   }
 }
 class K {
@@ -212,13 +212,13 @@ class K {
     this.save = a.save;
     this.init = a.init;
     this.formatters = a.formatters || {};
+    this.a = [];
     this.c = [];
     this.g = [];
-    this.h = [];
   }
   destroy(a) {
-    a = this.c.indexOf(a);
-    return -1 !== a ? (this.c.splice(a, 1), !0) : !1;
+    a = this.a.indexOf(a);
+    return -1 !== a ? (this.a.splice(a, 1), !0) : !1;
   }
   enabled(a) {
     if ("*" == a[a.length - 1]) {
@@ -226,14 +226,14 @@ class K {
     }
     let b, c;
     b = 0;
-    for (c = this.h.length; b < c; b++) {
-      if (this.h[b].test(a)) {
+    for (c = this.g.length; b < c; b++) {
+      if (this.g[b].test(a)) {
         return !1;
       }
     }
     b = 0;
-    for (c = this.g.length; b < c; b++) {
-      if (this.g[b].test(a)) {
+    for (c = this.c.length; b < c; b++) {
+      if (this.c[b].test(a)) {
         return !0;
       }
     }
@@ -359,11 +359,11 @@ function X(a) {
   const d = c.toJSON();
   return b || Object.keys(d).length ? b !== JSON.stringify(d) ? "changed" : a.a.rolling ? "rolling" : a.a.renew && (a = c._expire, c = c.maxAge, a && c && a - Date.now() < c / 2) ? "renew" : "" : "";
 }
-class aa {
+class Y {
   constructor(a, b = {}) {
     this.ctx = a;
     this.g = a.app;
-    this.a = b;
+    this.a = {...b};
     this.store = b.ContextStore ? new b.ContextStore(a) : b.store;
     this.c = this.externalKey = this.session = void 0;
   }
@@ -461,15 +461,16 @@ class aa {
 
  MIT https://github.com/miguelmota/is-class
 */
-const ba = M("koa-session"), Y = Symbol("context#contextSession"), Z = Symbol("context#_contextSession");
-function ca(a = {}) {
+const Z = M("koa-session"), aa = Symbol("context#contextSession");
+Symbol("context#_contextSession");
+function ba(a = {}) {
   a.key = a.key || "koa:sess";
   a.maxAge = a.maxAge || 864E5;
   null == a.overwrite && (a.overwrite = !0);
   null == a.httpOnly && (a.httpOnly = !0);
   null == a.signed && (a.signed = !0);
   null == a.autoCommit && (a.autoCommit = !0);
-  ba("session options %j", a);
+  Z("session options %j", a);
   "function" != typeof a.encode && (a.encode = U);
   "function" != typeof a.decode && (a.decode = T);
   var b = a.store;
@@ -482,26 +483,23 @@ function ca(a = {}) {
   }
   a.genid || (a.prefix ? a.genid = () => `${a.prefix}${Q()}` : a.genid = Q);
 }
-function da(a, b) {
-  a.hasOwnProperty(Y) || Object.defineProperties(a, {[Y]:{get() {
-    if (this[Z]) {
-      return this[Z];
-    }
-    this[Z] = new aa(this, b);
-    return this[Z];
-  }}, session:{get() {
-    return this[Y].get();
-  }, set(c) {
-    this[Y].set(c);
-  }, configurable:!0}, sessionOptions:{get() {
-    return this[Y].a;
-  }}});
+function ca(a, b) {
+  if (!a.hasOwnProperty(aa)) {
+    Object.defineProperties(a, {session:{get() {
+      return c.get();
+    }, set(d) {
+      c.set(d);
+    }, configurable:!0}, sessionOptions:{get() {
+      return c.a;
+    }}});
+    var c = new Y(a, b);
+    return c;
+  }
 }
 ;module.exports = function(a = {}) {
-  ca(a);
+  ba(a);
   return async function(b, c) {
-    da(b, a);
-    b = b[Y];
+    b = ca(b, a);
     b.store && await W(b);
     try {
       await c();

@@ -18,7 +18,7 @@ export default class ContextSession {
   constructor(ctx, opts = {}) {
     this.ctx = ctx
     this.app = ctx.app
-    this.opts = opts
+    this.opts = { ...opts }
     this.store = opts.ContextStore ? new opts.ContextStore(ctx) : opts.store
     /** @type {Session|undefined} */
     this.session = undefined

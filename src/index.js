@@ -35,13 +35,8 @@ function Session(opts = {}) {
    * @type {!_idio.Middleware}
    */
   async function session(ctx, next) {
-    extendContext(ctx, /** @type {!_idio.SessionConfig} */ (opts))
+    const sess = extendContext(ctx, /** @type {!_idio.SessionConfig} */ (opts))
 
-    /**
-     * @suppress {checkTypes}
-     * @type {ContextSession}
-     */
-    const sess = ctx[CONTEXT_SESSION]
     if (sess.store) await sess.initFromExternal()
     try {
       await next()
@@ -118,31 +113,23 @@ function extendContext(context, opts) {
     return
   }
   Object.defineProperties(context, {
-    [CONTEXT_SESSION]: {
-      get() {
-        if (this[_CONTEXT_SESSION]) return this[_CONTEXT_SESSION]
-        this[_CONTEXT_SESSION] = new ContextSession(this, opts)
-        return this[_CONTEXT_SESSION]
-      },
-    },
     session: {
       get() {
-        return this[CONTEXT_SESSION].get()
+        return sessionContext.get()
       },
       set(val) {
-        this[CONTEXT_SESSION].set(val)
+        sessionContext.set(val)
       },
       configurable: true,
     },
     sessionOptions: {
-      /**
-       * @return {_idio.SessionConfig}
-       */
       get() {
-        return this[CONTEXT_SESSION].opts
+        return sessionContext.opts
       },
     },
   })
+  const sessionContext = new ContextSession(context, opts)
+  return sessionContext
 }
 
 /**
