@@ -1,8 +1,7 @@
 <types ns="_idio">
-  <import from="@typedefs/idio" ns="_idio" name="Middleware" />
+  <import from="@typedefs/goa" ns="_goa" name="Middleware" />
 
-  <method name="session" return="!_idio.Middleware">
-    <arg type="!_idio.Application" name="app">A Goa application instance.</arg>
+  <method name="session" return="!_goa.Middleware">
     <arg type="!_idio.SessionConfig" name="opts" opt>
       The configuration passed to `koa-session`.
     </arg>

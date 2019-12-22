@@ -2,7 +2,6 @@ const _session = require('./session')
 
 /**
  * Initialize the session middleware with `opts`.
- * @param {!_idio.Application} app A Goa application instance.
  * @param {!_idio.SessionConfig} [opts] Configuration for the session middleware.
  * @param {string} [opts.key="koa:sess"] The cookie key. Default `koa:sess`.
  * @param {string|number} [opts.maxAge=86400000] `maxAge` in ms with default of 1 day. Either a number or 'session'. `session` will result in a cookie that expires when session/browser is closed. Warning: If a session cookie is stolen, this cookie will never expire. Default `86400000`.
@@ -21,26 +20,17 @@ const _session = require('./session')
  * @param {(ctx: !_goa.Context) => string} [opts.genid="uuid-v4"] The way of generating external session id. Default `uuid-v4`.
  * @param {(sess: !Object) => string} [opts.encode] Use options.encode and options.decode to customize your own encode/decode methods.
  * @param {(sess: string) => !Object} [opts.decode] Use options.encode and options.decode to customize your own encode/decode methods.
- * @return {!_idio.Middleware}
+ * @return {!_goa.Middleware}
  */
-function $session(app, opts) {
-  return _session(app, opts)
+function $session(opts) {
+  return _session(opts)
 }
 
 module.exports = $session
 
+/* typal types/index.xml ignore:_idio.KoaContextSession namespace */
 /**
- * @typedef {import('@typedefs/goa').Application} _goa.Application
- */
-
-/* typal types/index.xml namespace */
-/**
- * @typedef {import('@typedefs/idio').Application} _idio.Application
- * @typedef {import('@typedefs/idio').Context} _idio.Context
- * @typedef {_idio.KoaContextSession} KoaContextSession `＠interface` The context for the session API. Is actually private, as only accessible from context by a symbol.
- * @typedef {Object} _idio.KoaContextSession `＠interface` The context for the session API. Is actually private, as only accessible from context by a symbol.
- * @prop {!_idio.Context} ctx The context.
- * @prop {() => !Promise} commit Commit the session changes or removal.
+ * @typedef {import('@typedefs/goa').Context} _goa.Context
  * @typedef {_idio.ExternalStore} ExternalStore `＠interface` By implementing this class, the session can be recorded and retrieved from an external store (e.g., a database), instead of cookies.
  * @typedef {Object} _idio.ExternalStore `＠interface` By implementing this class, the session can be recorded and retrieved from an external store (e.g., a database), instead of cookies.
  * @prop {(key: string, maxAge: (number|string), opts: { rolling: boolean }) => !Promise<!Object>} get Get session object by key.
@@ -67,7 +57,7 @@ module.exports = $session
  * @prop {(sess: string) => !Object} [decode] Use options.encode and options.decode to customize your own encode/decode methods.
  */
 
-/* typal types/session.xml namespace */
+/* typal types/session.xml ignore:_idio.KoaSession namespace */
 /**
  * @typedef {_idio.Session} Session `＠record` The session instance accessible via Goa's context.
  * @typedef {Object} _idio.Session `＠record` The session instance accessible via Goa's context.
@@ -76,18 +66,11 @@ module.exports = $session
  * @prop {number|string} maxAge Get/set cookie's maxAge.
  * @prop {() => void} save Save this session no matter whether it is populated.
  * @prop {() => !Promise} manuallyCommit Session headers are auto committed by default. Use this if `autoCommit` is set to false.
- * @typedef {_idio.KoaSession} KoaSession `＠interface` A private session model.
- * @typedef {_idio.Session & _idio.$KoaSession} _idio.KoaSession `＠interface` A private session model.
- * @typedef {Object} _idio.$KoaSession `＠interface` A private session model.
- * @prop {number} _expire Private JSON serialisation.
- * @prop {boolean} _requireSave Private JSON serialisation.
- * @prop {_idio.KoaContextSession} _sessCtx Private JSON serialisation.
- * @prop {_goa.Context} _ctx Private JSON serialisation.
  */
 
 /* typal types/api.xml namespace */
 /**
- * @typedef {import('@typedefs/idio').Middleware} _idio.Middleware
+ * @typedef {import('@typedefs/goa').Middleware} _goa.Middleware
  * @typedef {_idio.session} session Initialize the session middleware with `opts`.
- * @typedef {(app: !_idio.Application, opts?: !_idio.SessionConfig) => !_idio.Middleware} _idio.session Initialize the session middleware with `opts`.
+ * @typedef {(opts?: !_idio.SessionConfig) => !_goa.Middleware} _idio.session Initialize the session middleware with `opts`.
  */

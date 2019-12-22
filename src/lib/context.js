@@ -314,18 +314,6 @@ export default class ContextSession {
 
 /**
  * @suppress {nonStandardJsDocs}
- * @typedef {import('@typedefs/goa').Application} _goa.Application
- */
-/**
- * @suppress {nonStandardJsDocs}
- * @typedef {import('@typedefs/goa').Context} _goa.Context
- */
-/**
- * @suppress {nonStandardJsDocs}
- * @typedef {import('@typedefs/goa').Middleware} _goa.Middleware
- */
-/**
- * @suppress {nonStandardJsDocs}
  * @typedef {import('../..').SessionConfig} _idio.SessionConfig
  */
 /**

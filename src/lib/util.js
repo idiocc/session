@@ -1,4 +1,4 @@
-import crc32 from './crc'
+// import crc32 from './crc'
 
 /**
  * Decode the base64 cookie value to an object.
@@ -20,5 +20,5 @@ export function encode(body) {
 }
 
 export function hash(sess) {
-  return crc32(JSON.stringify(sess))
+  return JSON.stringify(sess)
 }

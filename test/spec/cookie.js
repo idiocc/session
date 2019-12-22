@@ -46,9 +46,6 @@ export const signedFalse = {
 /** @type {TestSuite} */
 const T = {
   context: Context,
-  'throws when app not set'() {
-    throws(session, 'app instance required: `session(opts, app)`')
-  },
   async 'works when session contains a ;'({ startApp, getApp }) {
     const app = getApp({ signed: false })
     app.use((ctx) => {
@@ -65,13 +62,13 @@ const T = {
       .get('/')
       .assert(200, ';')
   },
-  'init multi session middleware'({ makeApp }) {
-    const app = makeApp()
-    const s1 = session(app)
-    const s2 = session(app)
-    ok(s1)
-    ok(s2)
-  },
+  // 'init multi session middleware'({ makeApp }) {
+  //   const app = makeApp()
+  //   const s1 = session()
+  //   const s2 = session()
+  //   ok(s1)
+  //   ok(s2)
+  // },
 }
 
 /** @type {TestSuite} */
@@ -316,21 +313,20 @@ export const streams = {
       .count(2)
       .assert(401)
   },
-  async 'works when getting session before entering middleware'({ makeApp, startApp }) {
+  async 'throws an error when trying to access before used'({ makeApp, startApp }) {
     const app = makeApp()
+    app.silent = true
     app.use(async (ctx, next) => {
       ctx.session.foo = (ctx.session.foo + 1) || 'hi'
       await next()
     })
-    app.use(session(app, { signed: false }))
+    app.use(session({ signed: false }))
     app.use((ctx) => {
       ctx.body = ctx.session
     })
     await startApp()
       .get('/')
-      .name('koa:sess')
-      .get('/')
-      .assert(200, { foo: 'hi1' })
+      .assert(500)
   },
 }
 

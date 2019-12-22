@@ -1,8 +1,7 @@
 <types namespace="_idio">
-  <import from="@typedefs/idio" ns="_idio" name="Application" />
-  <import from="@typedefs/idio" ns="_idio" name="Context" />
+  <import from="@typedefs/goa" ns="_goa" name="Context" />
 
-  <interface name="KoaContextSession" desc="The context for the session API. Is actually private, as only accessible from context by a symbol.">
+  <interface private name="KoaContextSession" desc="The context for the session API. Is actually private, as only accessible from context by a symbol.">
     <prop type="!_idio.Context" name="ctx">
       The context.
     </prop>

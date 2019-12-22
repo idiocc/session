@@ -28,19 +28,15 @@ const isFunction = fn => typeof fn == 'function'
 /**
  * @type {_idio.session}
  */
-function Session(app, opts = {}) {
-  // app required
-  if (!app || typeof app.use != 'function') {
-    throw new TypeError('app instance required: `session(app, opts)`')
-  }
-
-  opts = formatOpts(opts)
-  extendContext(app.context, opts)
+function Session(opts = {}) {
+  formatOpts(opts)
 
   /**
    * @type {!_idio.Middleware}
    */
   async function session(ctx, next) {
+    extendContext(ctx, /** @type {!_idio.SessionConfig} */ (opts))
+
     /**
      * @suppress {checkTypes}
      * @type {ContextSession}
@@ -55,7 +51,7 @@ function Session(app, opts = {}) {
       }
     }
   }
-  return session
+  return /** @type {!_goa.Middleware} */ (session)
 }
 
 export default Session
@@ -110,8 +106,6 @@ function formatOpts(opts = {}) {
     if (opts.prefix) opts.genid = () => `${opts.prefix}${v4()}`
     else opts.genid = v4
   }
-
-  return opts
 }
 
 /**
@@ -151,10 +145,6 @@ function extendContext(context, opts) {
   })
 }
 
-/**
- * @suppress {nonStandardJsDocs}
- * @typedef {import('@typedefs/idio').Application} _idio.Application
- */
 /**
  * @suppress {nonStandardJsDocs}
  * @typedef {import('@typedefs/idio').Context} _idio.Context

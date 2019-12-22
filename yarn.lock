@@ -30,10 +30,10 @@
   resolved "https://registry.yarnpkg.com/@externs/goa/-/goa-1.0.1.tgz#28e21477ee63ab6a9e4a263ef5543fcb2d742f7b"
   integrity sha512-ZRMwQ/TV16Koxhrp2vrrYkbnuYoljc2gloi8THIdZgin+TCxLVpdkvqpzegm2A+xKBYWzMubiH2grVFwdkWnzA==
 
-"@externs/idio@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@externs/idio/-/idio-0.0.2.tgz#408093e235c1e5afc05c422195a697d3583c3461"
-  integrity sha512-APCZTcPxihPcrSQPj1dGrYXlbpwTENTaIDw4CjO9mSD/RJEkpY3ot9UvIwUZywmg8BWlsYNaoynRuoh0sSvo/A==
+"@externs/idio@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@externs/idio/-/idio-0.0.3.tgz#23ad79857d13592caa075ecdc06d8365dbe3b5cd"
+  integrity sha512-eIn+5U0iXR9awW48cJFXEtM2QfQgGgv9FQdZ7YFXjayMkZQML8M5InIcD2OipnZ/ho01eQW7UAz2+kQYM+tcnQ==
 
 "@externs/nodejs@^1.5.0":
   version "1.5.0"
@@ -77,10 +77,10 @@
   resolved "https://registry.yarnpkg.com/@typedefs/goa/-/goa-0.1.5.tgz#d833cb6abc917647d0bf97a2f12055ad7b0daffa"
   integrity sha512-PD5o1zjDID6WVxo16E9sus1dNEAoFcu2gtc6jrn0JHmXMSDt04e9NuOdAg/Inrt+KJnVj3vRhu95AY2Wny9mrg==
 
-"@typedefs/idio@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@typedefs/idio/-/idio-0.0.1.tgz#170866ae8608bfd49f7ce08b3ecd1cbdcc78dc6e"
-  integrity sha512-xqftWfpimaqizX/Msj83A5DoINBsVGmfymjlHqy4bBopq9j6N2V9SZ2g7MutGxAm86TdZC7obJmAZQwjQHExuA==
+"@typedefs/idio@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@typedefs/idio/-/idio-0.0.3.tgz#656a669c420bd4503d96b21e484de0b23597d401"
+  integrity sha512-qZ49xFgcc+/Rqyd2ZbO4PfJ2FysWIgEV2RG1qXkpnPB2i0rs66rcvCZXrcAQF+pX3iItGqyGD2QvrMEFUVZF6A==
 
 "@zoroaster/assert@^1.0.2":
   version "1.0.2"

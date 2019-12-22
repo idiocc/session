@@ -4,6 +4,11 @@ import session from '../../src'
 import ContextStore from './ContextStore'
 import Store from './Store'
 
+const makeGoa = () => {
+  const goa = /** @type {_idio.Application} */ (new Goa())
+  return goa
+}
+
 /**
  * A testing context for the package.
  */
@@ -14,17 +19,17 @@ export default class Context extends Cookie {
     // this._debug = true
   }
   /**
-   * @param {KoaSessionConfig} options
+   * @param {SessionConfig} options
    */
   getApp(options, keys = ['a', 'b']) {
-    const app = new Goa()
+    const app = makeGoa()
     app.keys = keys
-    app.use(session(app, options))
+    app.use(session(options))
     this._app = app
     return app
   }
   makeApp(keys = ['a', 'b']) {
-    const app = new Goa()
+    const app = makeGoa()
     app.keys = keys
     this._app = app
     return app
@@ -48,10 +53,11 @@ export default class Context extends Cookie {
     return app
   }
   /**
-   * @param {KoaSessionConfig} options
+   * Returns an app using options extended with a ContextStore constructor.
+   * @param {SessionConfig} options
    */
   getContextStoreApp(options = {}, keys = ['a', 'b']) {
-    const app = new Goa()
+    const app = makeGoa()
     app.keys = keys
     options.ContextStore = ContextStore
     options.genid = ctx => {
@@ -59,26 +65,28 @@ export default class Context extends Cookie {
       ctx.state.sid = sid
       return sid
     }
-    app.use(session(app, options))
+    app.use(session(options))
     this._app = app
     return app
   }
   /**
-   * @param {KoaSessionConfig} options
+   * Returns an app using options extended with a store.
+   * @param {SessionConfig} options
    */
   getStoreApp(options = {}, keys = ['a', 'b']) {
-    const app = new Goa()
+    const app = makeGoa()
     app.keys = keys
     options.store = Store
-    app.use(session(app, options))
+    app.use(session(options))
     this._app = app
     return app
   }
 }
 
 /**
- * @suppress {nonStandardJsDocs}
- * @typedef {import('../../types').KoaSessionConfig} KoaSessionConfig
+ * @typedef {import('@typedefs/idio').Application} _idio.Application
+ * @typedef {import('../..').SessionConfig} SessionConfig
+ * @typedef {import('../..').Session} _idio.Session
  */
 
 /** @typedef {Object<string, Test & TestSuite4>} TestSuite */

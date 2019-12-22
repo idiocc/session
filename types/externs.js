@@ -205,6 +205,6 @@ _idio.SessionConfig.prototype.decode = function(sess) {}
 /* typal types/api.xml externs */
 /**
  * Initialize the session middleware with `opts`.
- * @typedef {function(!_idio.Application,!_idio.SessionConfig=): !_idio.Middleware}
+ * @typedef {function(!_idio.SessionConfig=): !_goa.Middleware}
  */
 _idio.session
