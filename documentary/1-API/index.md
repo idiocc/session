@@ -27,7 +27,7 @@ If your session store requires data or utilities from context, `opts.ContextStor
 <summary><em>Show an example external store.</em>
 </summary>
 
-%EXAMPLE: test/context/ContextStore%
+%EXAMPLE: test/context/Store%
 </details>
 
 The session object itself (`ctx.session`) has the following methods.
