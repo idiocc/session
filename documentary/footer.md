@@ -2,14 +2,13 @@
 
 - [ ] Add a new item to the todo list. -->
 
-## Typedefs
+<!-- ## Typedefs
 
 This package is meant to be used as part of the [Idio web server](https://github.com/idiocc/idio). But it also can be used on its own. To enable auto-completions on the method, please install typedefs, and import them in your application entry:
 
 <table>
 <thead>
 <tr><th>Package</th><th>Link</th><th>Import</th></tr>
-<!-- block-start -->
 <tr><td>
 @typedefs/goa
 </td>
@@ -38,7 +37,7 @@ This package is meant to be used as part of the [Idio web server](https://github
 
 This will add information about required types to _VSCode_.
 
-%~%
+%~% -->
 
 ## Copyright & License
 

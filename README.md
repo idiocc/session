@@ -26,7 +26,6 @@ This package is a fork of `koa-session` with a number of improvements:
   * [`ExternalStore`](#type-externalstore)
   * [`Session`](#type-session)
   * [<code>KoaSession</code>](#type-koasession)
-- [Typedefs](#typedefs)
 - [Copyright & License](#copyright--license)
 
 <p align="center"><a href="#table-of-contents">
@@ -466,45 +465,6 @@ __<a name="type-session">`Session`</a>__: The session instance accessible via Go
 
 <p align="center"><a href="#table-of-contents">
   <img src="/.documentary/section-breaks/2.svg?sanitize=true">
-</a></p>
-
-## Typedefs
-
-This package is meant to be used as part of the [Idio web server](https://github.com/idiocc/idio). But it also can be used on its own. To enable auto-completions on the method, please install typedefs, and import them in your application entry:
-
-<table>
-<thead>
-<tr><th>Package</th><th>Link</th><th>Import</th></tr>
-<tr><td>
-@typedefs/goa
-</td>
-<td>
-
-[![npm version](https://badge.fury.io/js/%40typedefs%2Fgoa.svg)](https://www.npmjs.com/package/@typedefs/goa)
-</td>
-<td rowspan="2">
-
-```js
-/**
- * @typedef {import('@typedefs/goa').Application}
- * @typedef {import('@typedefs/idio').Application}
- */
-```
-</td>
-</tr>
-<tr><td>
-@typedefs/idio
-</td>
-<td>
-
-[![npm version](https://badge.fury.io/js/%40typedefs%2Fidio.svg)](https://www.npmjs.com/package/@typedefs/idio)
-</td></tr>
-</table>
-
-This will add information about required types to _VSCode_.
-
-<p align="center"><a href="#table-of-contents">
-  <img src="/.documentary/section-breaks/3.svg?sanitize=true">
 </a></p>
 
 ## Copyright & License
