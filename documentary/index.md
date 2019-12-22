@@ -16,6 +16,8 @@ This package is a fork of `koa-session` with a number of improvements:
 1. Remove `crc32` hash checking which was unnecessary. Fixes [161](https://github.com/koajs/session/issues/161) as JSON comparison is enough.
 1. Fix [the bug](https://github.com/koajs/session/pull/175) when initial `maxAge` is not set on the initial session cookie, resulting in a session-only sessions.
 
+%~%
+
 ## Table Of Contents
 
 %TOC%

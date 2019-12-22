@@ -16,6 +16,10 @@ This package is a fork of `koa-session` with a number of improvements:
 1. Remove `crc32` hash checking which was unnecessary. Fixes [161](https://github.com/koajs/session/issues/161) as JSON comparison is enough.
 1. Fix [the bug](https://github.com/koajs/session/pull/175) when initial `maxAge` is not set on the initial session cookie, resulting in a session-only sessions.
 
+<p align="center"><a href="#table-of-contents">
+  <img src="/.documentary/section-breaks/0.svg?sanitize=true">
+</a></p>
+
 ## Table Of Contents
 
 - [Fork Diff](#fork-diff)
@@ -26,10 +30,11 @@ This package is a fork of `koa-session` with a number of improvements:
   * [`ExternalStore`](#type-externalstore)
   * [`Session`](#type-session)
   * [<code>KoaSession</code>](#type-koasession)
+- [Typedefs](#typedefs)
 - [Copyright & License](#copyright--license)
 
 <p align="center"><a href="#table-of-contents">
-  <img src="/.documentary/section-breaks/0.svg?sanitize=true">
+  <img src="/.documentary/section-breaks/1.svg?sanitize=true">
 </a></p>
 
 
@@ -42,7 +47,7 @@ import session from '@goa/session'
 ```
 
 <p align="center"><a href="#table-of-contents">
-  <img src="/.documentary/section-breaks/1.svg?sanitize=true">
+  <img src="/.documentary/section-breaks/2.svg?sanitize=true">
 </a></p>
 
 ## <code><ins>session</ins>(</code><sub><br/>&nbsp;&nbsp;`opts=: !SessionConfig,`<br/></sub><code>): <i>!_goa.Middleware</i></code>
@@ -251,7 +256,8 @@ import session from '@goa/session'
 
 const app = new Goa()
 app.keys = ['g', 'o', 'a']
-app.use(session(app, { signed: false })) // normally, signed should be true
+app.use(session({ signed: false })) // normally, signed should be true
+
 app.use((ctx) => {
   if (ctx.path == '/set') {
     ctx.session.message = 'hello'
@@ -262,6 +268,7 @@ app.use((ctx) => {
   }
   else ctx.body = `Welcome back: ${ctx.session.message}`
 })
+
 app.listen(async function() {
   const { port } = this.address()
   const url = `http://localhost:${port}`
@@ -269,12 +276,12 @@ app.listen(async function() {
   // 1. Acquire cookies
   let { body, headers } = await aqt(`${url}/set`)
   console.log(body, headers, '\n')
-  const cookies = headers['set-cookie']
+  const cookie = headers['set-cookie']
 
   // 2. Exploit cookies
   ;({ body, headers } = await aqt(url, {
     headers: {
-      'Cookie': cookies.join(';'),
+      cookie,
     },
   }))
   console.log(body, headers, '\n')
@@ -282,7 +289,7 @@ app.listen(async function() {
   // 3. Destroy cookies
   ;({ body, headers } = await aqt(`${url}/exit`, {
     headers: {
-      'Cookie': cookies.join(';'),
+      cookie,
     },
   }))
   console.log(body, headers)
@@ -294,22 +301,20 @@ app.listen(async function() {
 You have cookies now: { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '21',
   'set-cookie': 
-   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc3MDY5MDE5NDI3LCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Mon, 23 Dec 2019 02:43:39 GMT; httponly',
-     'koa:sess.sig=enKso6XT5-ygnIAAJMEoKOIs9pc; path=/; expires=Mon, 23 Dec 2019 02:43:39 GMT; httponly' ],
-  date: 'Sun, 22 Dec 2019 02:43:39 GMT',
+   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc3MDcwMjgzMzQ2LCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Mon, 23 Dec 2019 03:04:43 GMT; httponly' ],
+  date: 'Sun, 22 Dec 2019 03:04:43 GMT',
   connection: 'close' } 
 
 Welcome back: hello { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '19',
-  date: 'Sun, 22 Dec 2019 02:43:39 GMT',
+  date: 'Sun, 22 Dec 2019 03:04:43 GMT',
   connection: 'close' } 
 
 Bye { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '3',
   'set-cookie': 
-   [ 'koa:sess=; path=/; expires=Mon, 23 Dec 2019 02:43:39 GMT; httponly',
-     'koa:sess.sig=3yWO3XPnQywgv6vMrDmQXJjBAas; path=/; expires=Mon, 23 Dec 2019 02:43:39 GMT; httponly' ],
-  date: 'Sun, 22 Dec 2019 02:43:39 GMT',
+   [ 'koa:sess=; path=/; expires=Mon, 23 Dec 2019 03:04:43 GMT; httponly' ],
+  date: 'Sun, 22 Dec 2019 03:04:43 GMT',
   connection: 'close' }
 ```
 
@@ -464,7 +469,49 @@ __<a name="type-session">`Session`</a>__: The session instance accessible via Go
 </details>
 
 <p align="center"><a href="#table-of-contents">
-  <img src="/.documentary/section-breaks/2.svg?sanitize=true">
+  <img src="/.documentary/section-breaks/3.svg?sanitize=true">
+</a></p>
+
+## Typedefs
+
+This package is meant to be used as part of the [Idio web server](https://github.com/idiocc/idio). But it also can be used on its own with _Koa_. To enable auto-completions when configuring the middleware, please install typedefs, and import them in your application entry:
+
+<table>
+<tr><th>Package & Link</th><th>Import</th></tr>
+<tr><td>
+@typedefs/goa
+
+[![npm version](https://badge.fury.io/js/%40typedefs%2Fgoa.svg)](https://www.npmjs.com/package/@typedefs/goa)
+</td>
+<td>
+
+```js
+const sess = session({
+  // you can access ctx as context now
+  valid(ctx, obj) {
+    // force presence of a key in headers too
+    const s = ctx.get('secret-key')
+    return obj['secret-key'] == s
+  }
+})
+// at the bottom of the file
+/**
+ * @typedef {import('@typedefs/goa').Context} _goa.Context
+ */
+```
+</td>
+<tr>
+  <td colspan="2">This will add information about required types to <em>VSCode</em>. This is required because even though session's configuration object is described with <em>JSDoc</em> in its file, <em>VSCode</em> has a bug that does not allow propagation of imported types so they need to be imported manually like above.</td>
+</tr>
+<tr>
+<td colspan="2">
+  <img src="doc/ts.gif" alt="JSDoc">
+</td>
+</tr>
+</table>
+
+<p align="center"><a href="#table-of-contents">
+  <img src="/.documentary/section-breaks/4.svg?sanitize=true">
 </a></p>
 
 ## Copyright & License

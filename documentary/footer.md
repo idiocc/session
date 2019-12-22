@@ -7,9 +7,7 @@
 This package is meant to be used as part of the [Idio web server](https://github.com/idiocc/idio). But it also can be used on its own with _Koa_. To enable auto-completions when configuring the middleware, please install typedefs, and import them in your application entry:
 
 <table>
-<thead>
-  <tr><th>Package & Link</th><th>Import</th></tr>
-</thead>
+<tr><th>Package & Link</th><th>Import</th></tr>
 <tr><td>
 @typedefs/goa
 
@@ -33,12 +31,12 @@ const sess = session({
 ```
 </td>
 <tr>
-  <td>
+  <td colspan="2"><md2html>
 This will add information about required types to _VSCode_. This is required because even though session's configuration object is described with _JSDoc_ in its file, _VSCode_ has a bug that does not allow propagation of imported types so they need to be imported manually like above.
-</td>
+</md2html></td>
 </tr>
 <tr>
-<td>
+<td colspan="2">
   <img src="doc/ts.gif" alt="JSDoc">
 </td>
 </tr>
