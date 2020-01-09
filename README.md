@@ -31,6 +31,7 @@ This package is a fork of `koa-session` with a number of improvements:
   * [`Session`](#type-session)
   * [<code>KoaSession</code>](#type-koasession)
 - [Typedefs](#typedefs)
+- [Usage Events](#usage-events)
 - [Copyright & License](#copyright--license)
 
 <p align="center"><a href="#table-of-contents">
@@ -301,20 +302,20 @@ app.listen(async function() {
 You have cookies now: { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '21',
   'set-cookie': 
-   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc3MDc0ODM1MzExLCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Mon, 23 Dec 2019 04:20:35 GMT; httponly' ],
-  date: 'Sun, 22 Dec 2019 04:20:35 GMT',
+   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc4NjE3NjQ4MTE2LCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Fri, 10 Jan 2020 00:54:08 GMT; httponly' ],
+  date: 'Thu, 09 Jan 2020 00:54:08 GMT',
   connection: 'close' } 
 
 Welcome back: hello { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '19',
-  date: 'Sun, 22 Dec 2019 04:20:35 GMT',
+  date: 'Thu, 09 Jan 2020 00:54:08 GMT',
   connection: 'close' } 
 
 Bye { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '3',
   'set-cookie': 
-   [ 'koa:sess=; path=/; expires=Mon, 23 Dec 2019 04:20:35 GMT; httponly' ],
-  date: 'Sun, 22 Dec 2019 04:20:35 GMT',
+   [ 'koa:sess=; path=/; expires=Fri, 10 Jan 2020 00:54:08 GMT; httponly' ],
+  date: 'Thu, 09 Jan 2020 00:54:08 GMT',
   connection: 'close' }
 ```
 
@@ -510,11 +511,28 @@ const sess = session({
   <img src="/.documentary/section-breaks/4.svg?sanitize=true">
 </a></p>
 
+## Usage Events
+
+This middleware integrates with Idio that collects middleware usage statistics to reward package maintainers. It will emit certain events to bill its usage:
+
+1. `save`: When the session is saved via cookies.
+1. `save-external`: When the session is saved via external storage.
+
+In future, more fine-grained usage events might appear.
+
+<p align="center"><a href="#table-of-contents">
+  <img src="/.documentary/section-breaks/5.svg?sanitize=true">
+</a></p>
+
 ## Copyright & License
 
 GNU Affero General Public License v3.0
 
-[Original Work](https://github.com/koajs/session) by dead-horse and contributors under MIT license found.
+Affero GPL means that you're not allowed to use this middleware on the web unless you release the source code for your application. This is a restrictive license which has the purpose of defending Open Source work and its creators.
+
+Please refer to the [Idio license agreement](https://github.com/idiocc/idio#copyright--license) for more info on dual-licensing. You're allowed to use this middleware without disclosing the source code if you sign up on [neoluddite.dev](https://neoluddite.dev) package reward scheme.
+
+[Original Work](https://github.com/koajs/session) by dead-horse and contributors under MIT license.
 
 <table>
   <tr>
@@ -524,7 +542,7 @@ GNU Affero General Public License v3.0
           alt="Art Deco">
       </a>
     </th>
-    <th>© <a href="https://artd.eco">Art Deco</a> for <a href="https://idio.cc">Idio</a> 2019</th>
+    <th>© <a href="https://artd.eco">Art Deco</a> for <a href="https://idio.cc">Idio</a> 2020</th>
     <th>
       <a href="https://idio.cc">
         <img src="https://avatars3.githubusercontent.com/u/40834161?s=100" width="100" alt="Idio">

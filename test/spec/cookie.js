@@ -532,6 +532,24 @@ export const rolling = {
       .assert(200, { foo: 'bar' })
       .count(2)
   },
+  async 'emits use event'({ getApp, startApp }) {
+    const app = getApp()
+    const p = new Promise((r) => {
+      app.on('use', (pck, item) => {
+        r({ package: pck, item })
+      })
+    })
+    app.use((ctx) => {
+      if (ctx.path == '/set') ctx.session = { foo: 'bar' }
+      ctx.body = ctx.session
+    })
+    await startApp()
+      .get('/set')
+      .assert(200, { foo: 'bar' })
+      .count(2)
+    const d = await p
+    return d
+  },
 }
 
 export default T

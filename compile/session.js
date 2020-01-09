@@ -488,6 +488,7 @@ function ca(a, b) {
     Object.defineProperties(a, {session:{get() {
       return c.get();
     }, set(d) {
+      a.app.emit("use", "@goa/session", "set");
       c.set(d);
     }, configurable:!0}, sessionOptions:{get() {
       return c.a;
