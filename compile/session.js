@@ -4,7 +4,7 @@ const assert = require('assert');
 const tty = require('tty');
 const util = require('util');
 const _crypto = require('crypto');
-const http = require('http');             
+const http = require('http');
 const g = _crypto.randomBytes;
 /*
  keygrip
@@ -359,7 +359,10 @@ function X(a) {
   const d = c.toJSON();
   return b || Object.keys(d).length ? b !== JSON.stringify(d) ? "changed" : a.a.rolling ? "rolling" : a.a.renew && (a = c._expire, c = c.maxAge, a && c && a - Date.now() < c / 2) ? "renew" : "" : "";
 }
-class Y {
+function Y(a, b) {
+  a.ctx.neoluddite && a.ctx.neoluddite("@goa/session", b);
+}
+class Z {
   constructor(a, b = {}) {
     this.ctx = a;
     this.g = a.app;
@@ -454,23 +457,23 @@ class Y {
     const {a:{key:b, rolling:c = !1, encode:d, externalKey:e}, externalKey:h} = this;
     let {a:{maxAge:f = 864E5}} = this, l = this.session.toJSON();
     "session" == f ? (this.a.maxAge = void 0, l._session = !0) : (l._expire = f + Date.now(), l._maxAge = f);
-    h ? (V("save %j to external key %s", l, h), "number" == typeof f && (f += 10000), await this.store.set(h, l, f, {changed:a, rolling:c}), this.ctx.app.emit("use", "@goa/session", "save-external"), e ? e.set(this.ctx, h) : this.ctx.cookies.set(b, h, this.a)) : (V("save %j to cookie", l), l = d(l), V("save %s", l), this.ctx.app.emit("use", "@goa/session", "save"), this.ctx.cookies.set(b, l, this.a));
+    h ? (V("save %j to external key %s", l, h), "number" == typeof f && (f += 10000), await this.store.set(h, l, f, {changed:a, rolling:c}), Y(this, "save-external"), e ? e.set(this.ctx, h) : this.ctx.cookies.set(b, h, this.a)) : (V("save %j to cookie", l), l = d(l), V("save %s", l), Y(this, "save"), this.ctx.cookies.set(b, l, this.a));
   }
 }
 ;/*
 
  MIT https://github.com/miguelmota/is-class
 */
-const Z = M("koa-session"), aa = Symbol("context#contextSession");
+const aa = M("koa-session"), ba = Symbol("context#contextSession");
 Symbol("context#_contextSession");
-function ba(a = {}) {
+function ca(a = {}) {
   a.key = a.key || "koa:sess";
   a.maxAge = a.maxAge || 864E5;
   null == a.overwrite && (a.overwrite = !0);
   null == a.httpOnly && (a.httpOnly = !0);
   null == a.signed && (a.signed = !0);
   null == a.autoCommit && (a.autoCommit = !0);
-  Z("session options %j", a);
+  aa("session options %j", a);
   "function" != typeof a.encode && (a.encode = U);
   "function" != typeof a.decode && (a.decode = T);
   var b = a.store;
@@ -483,8 +486,8 @@ function ba(a = {}) {
   }
   a.genid || (a.prefix ? a.genid = () => `${a.prefix}${Q()}` : a.genid = Q);
 }
-function ca(a, b) {
-  if (!a.hasOwnProperty(aa)) {
+function da(a, b) {
+  if (!a.hasOwnProperty(ba)) {
     Object.defineProperties(a, {session:{get() {
       return c.get();
     }, set(d) {
@@ -492,14 +495,14 @@ function ca(a, b) {
     }, configurable:!0}, sessionOptions:{get() {
       return c.a;
     }}});
-    var c = new Y(a, b);
+    var c = new Z(a, b);
     return c;
   }
 }
 ;module.exports = function(a = {}) {
-  ba(a);
+  ca(a);
   return async function(b, c) {
-    b = ca(b, a);
+    b = da(b, a);
     b.store && await W(b);
     try {
       await c();

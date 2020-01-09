@@ -46,12 +46,12 @@ This will add information about required types to _VSCode_. This is required bec
 
 ## Usage Events
 
-This middleware integrates with Idio that collects middleware usage statistics to reward package maintainers. It will emit certain events to bill its usage:
+This middleware integrates with [_Idio_](https://github.com/idiocc/idio) that collects middleware usage statistics to reward package maintainers. It will emit certain events to bill its usage:
 
 1. `save`: When the session is saved via cookies.
 1. `save-external`: When the session is saved via external storage.
 
-In future, more fine-grained usage events might appear.
+The usage is recorded via the `ctx.neoluddite` context property set by a server such as _Idio_. In future, more fine-grained usage events might appear.
 
 %~%
 

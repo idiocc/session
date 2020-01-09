@@ -295,7 +295,7 @@ export default class ContextSession {
         changed,
         rolling,
       })
-      this.ctx.app.emit('use', '@goa/session', 'save-external')
+      this.use('save-external')
       if (optsExternalKey) {
         optsExternalKey.set(this.ctx, externalKey)
       } else {
@@ -309,9 +309,15 @@ export default class ContextSession {
     json = encode(json)
     debug('save %s', json)
 
-    this.ctx.app.emit('use', '@goa/session', 'save')
+    this.use('save')
 
     this.ctx.cookies.set(/** @type {string} */ (key), json, /** @type {!_goa.CookieSetOptions} */ (this.opts))
+  }
+  /**
+   * @param {string} item
+   */
+  use(item) {
+    if (this.ctx['neoluddite']) this.ctx['neoluddite']('@goa/session', item)
   }
 }
 

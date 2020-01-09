@@ -1,4 +1,4 @@
-import { ok, throws, equal, notEqual } from 'assert'
+import { ok, equal, notEqual } from 'assert'
 import Context from '../context'
 import session from '../../src'
 
@@ -532,12 +532,19 @@ export const rolling = {
       .assert(200, { foo: 'bar' })
       .count(2)
   },
-  async 'emits use event'({ getApp, startApp }) {
+}
+
+/** @type {TestSuite} */
+export const neoluddite = {
+  context: Context,
+  async 'records save usage'({ getApp, startApp }) {
     const app = getApp()
-    const p = new Promise((r) => {
-      app.on('use', (pck, item) => {
-        r({ package: pck, item })
-      })
+    let usage = []
+    app.use(async (ctx, next) => {
+      ctx.neoluddite = (p, item) => {
+        usage.push({ package: p, item })
+      }
+      await next()
     })
     app.use((ctx) => {
       if (ctx.path == '/set') ctx.session = { foo: 'bar' }
@@ -547,10 +554,10 @@ export const rolling = {
       .get('/set')
       .assert(200, { foo: 'bar' })
       .count(2)
-    const d = await p
-    return d
+    return usage
   },
 }
+
 
 export default T
 

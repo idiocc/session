@@ -302,20 +302,20 @@ app.listen(async function() {
 You have cookies now: { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '21',
   'set-cookie': 
-   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc4NjE3NjQ4MTE2LCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Fri, 10 Jan 2020 00:54:08 GMT; httponly' ],
-  date: 'Thu, 09 Jan 2020 00:54:08 GMT',
+   [ 'koa:sess=eyJtZXNzYWdlIjoiaGVsbG8iLCJfZXhwaXJlIjoxNTc4NjY2NDgzNjc4LCJfbWF4QWdlIjo4NjQwMDAwMH0=; path=/; expires=Fri, 10 Jan 2020 14:28:03 GMT; httponly' ],
+  date: 'Thu, 09 Jan 2020 14:28:03 GMT',
   connection: 'close' } 
 
 Welcome back: hello { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '19',
-  date: 'Thu, 09 Jan 2020 00:54:08 GMT',
+  date: 'Thu, 09 Jan 2020 14:28:03 GMT',
   connection: 'close' } 
 
 Bye { 'content-type': 'text/plain; charset=utf-8',
   'content-length': '3',
   'set-cookie': 
-   [ 'koa:sess=; path=/; expires=Fri, 10 Jan 2020 00:54:08 GMT; httponly' ],
-  date: 'Thu, 09 Jan 2020 00:54:08 GMT',
+   [ 'koa:sess=; path=/; expires=Fri, 10 Jan 2020 14:28:03 GMT; httponly' ],
+  date: 'Thu, 09 Jan 2020 14:28:03 GMT',
   connection: 'close' }
 ```
 
@@ -513,12 +513,12 @@ const sess = session({
 
 ## Usage Events
 
-This middleware integrates with Idio that collects middleware usage statistics to reward package maintainers. It will emit certain events to bill its usage:
+This middleware integrates with [_Idio_](https://github.com/idiocc/idio) that collects middleware usage statistics to reward package maintainers. It will emit certain events to bill its usage:
 
 1. `save`: When the session is saved via cookies.
 1. `save-external`: When the session is saved via external storage.
 
-In future, more fine-grained usage events might appear.
+The usage is recorded via the `ctx.neoluddite` context property set by a server such as _Idio_. In future, more fine-grained usage events might appear.
 
 <p align="center"><a href="#table-of-contents">
   <img src="/.documentary/section-breaks/5.svg?sanitize=true">
