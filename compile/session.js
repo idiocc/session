@@ -454,7 +454,7 @@ class Y {
     const {a:{key:b, rolling:c = !1, encode:d, externalKey:e}, externalKey:h} = this;
     let {a:{maxAge:f = 864E5}} = this, l = this.session.toJSON();
     "session" == f ? (this.a.maxAge = void 0, l._session = !0) : (l._expire = f + Date.now(), l._maxAge = f);
-    h ? (V("save %j to external key %s", l, h), "number" == typeof f && (f += 10000), await this.store.set(h, l, f, {changed:a, rolling:c}), e ? e.set(this.ctx, h) : this.ctx.cookies.set(b, h, this.a)) : (V("save %j to cookie", l), l = d(l), V("save %s", l), this.ctx.cookies.set(b, l, this.a));
+    h ? (V("save %j to external key %s", l, h), "number" == typeof f && (f += 10000), await this.store.set(h, l, f, {changed:a, rolling:c}), this.ctx.app.emit("use", "@goa/session", "save-external"), e ? e.set(this.ctx, h) : this.ctx.cookies.set(b, h, this.a)) : (V("save %j to cookie", l), l = d(l), V("save %s", l), this.ctx.app.emit("use", "@goa/session", "save"), this.ctx.cookies.set(b, l, this.a));
   }
 }
 ;/*
@@ -488,7 +488,6 @@ function ca(a, b) {
     Object.defineProperties(a, {session:{get() {
       return c.get();
     }, set(d) {
-      a.app.emit("use", "@goa/session", "set");
       c.set(d);
     }, configurable:!0}, sessionOptions:{get() {
       return c.a;

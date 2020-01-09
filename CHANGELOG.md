@@ -1,3 +1,9 @@
+## 9 January 2020
+
+### [3.1.0](https://github.com/idiocc/session/compare/v3.0.0...v3.1.0)
+
+- [license] Add [`neoluddite.dev`](https://neoluddite.dev) usage.
+
 ## 22 December 2019
 
 ### [3.0.0](https://github.com/idiocc/session/compare/v2.1.0...v3.0.0)
